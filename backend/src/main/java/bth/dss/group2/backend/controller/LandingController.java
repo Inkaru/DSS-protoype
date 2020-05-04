@@ -1,4 +1,4 @@
-package bth.dss.group2.backend.controllers;
+package bth.dss.group2.backend.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
