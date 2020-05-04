@@ -105,16 +105,16 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-resources</id>
+						<id>copy-angular-resources</id>
 						<phase>validate</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
+							<outputDirectory>${project.build.directory}/classes/resources/web/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/frontend/dist/np-app/
+									<directory>${project.parent.basedir}/frontend/dist/frontend/
 									</directory>
 								</resource>
 							</resources>
