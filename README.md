@@ -58,3 +58,6 @@ authentification
 ### Additional Info:
 - If you only want to change things in the backend you don't have to let it rebuild Angular everytime (takes a while), so instead, you can use the Spring Boot run configuration that should be created automatically on project import (at least in IntelliJ)
 - If there's any problem with dependencies that are not available, or the Maven run configuration fails for some reason, I recommend adding another Maven run configuration and running it: Put the project root folder as "Working directory" and in the "Command line"-field, put: <code>clean install -X</code>
+
+## Useful Links
+- Tutorial for how to do Spring Security with Angular https://spring.io/guides/tutorials/spring-security-and-angular-js/
