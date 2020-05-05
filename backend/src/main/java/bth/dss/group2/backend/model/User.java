@@ -3,17 +3,24 @@ package bth.dss.group2.backend.model;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+@Entity
+@JsonSerialize
 public class User {
 
 	@Id
 	private String id;
 	private String loginName;
 	private String hashedPassword;
+	@JsonProperty
 	private String firstName;
+	@JsonProperty
 	private String lastName;
 	private String title;
 	private String city;
