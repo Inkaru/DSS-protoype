@@ -11,8 +11,10 @@ export class ApiService {
   // API calls are done with '/api/... '
 
   public getFakeProjects(){
-    // TODO : change proxy to the correct address
-    // return this.httpClient.get('/api/projects')
     return this.httpClient.get('https://my-json-server.typicode.com/inkaru/inkaru.github.io/companies');
+  }
+
+  public getAllProjects(){
+    return this.httpClient.get('api/projects/getAllProjects');
   }
 }
