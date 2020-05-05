@@ -15,6 +15,6 @@ export class ApiService {
   }
 
   public getAllProjects(){
-    return this.httpClient.get('api/projects/getAllProjects');
+    return this.httpClient.get('/api/projects/getAllProjects');
   }
 }
