@@ -5,30 +5,38 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-@Entity
-@JsonSerialize
 public class User {
-
 	@Id
 	private String id;
+	@JsonProperty
 	private String loginName;
 	private String hashedPassword;
 	@JsonProperty
 	private String firstName;
 	@JsonProperty
 	private String lastName;
+	@JsonProperty
 	private String title;
+	@JsonProperty
 	private String city;
+	@JsonProperty
 	private String country;
+	@JsonProperty
 	private String description;
+	@JsonProperty
 	private String emailAddress;
+	@JsonProperty
 	private String phoneNumber;
+	@JsonProperty
 	private String address;
+	@JsonProperty
+
 	@DBRef
 	private List<Project> followedProjects;
 
