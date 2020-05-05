@@ -13,7 +13,7 @@ export class ProjectsComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.apiService.getFakeProjects().subscribe((data) => {
+    this.apiService.getAllProjects().subscribe((data) => {
       console.log(data);
       this.projects = data;
     });
