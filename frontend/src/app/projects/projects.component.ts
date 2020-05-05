@@ -19,4 +19,13 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
+  slideConfig = {
+    "slidesToShow": 1,
+    "slidesToScoll": 1,
+    "nextArrow": "<div class='nav-btn next-slide'></div>",
+    "prevArrow": "<div class='nav-btn prev-slide'></div>",
+    "dots": true,
+    "autoplay": true
+  };
+
 }
