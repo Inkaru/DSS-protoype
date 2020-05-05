@@ -1,6 +1,11 @@
 package bth.dss.group2.backend.model;
 
+import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.Id;
+
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class User {
 
@@ -17,6 +22,8 @@ public class User {
 	private String emailAddress;
 	private String phoneNumber;
 	private String address;
+	@DBRef
+	private List<Project> followedProjects;
 
 	public User loginName(String loginName) {
 		this.loginName = loginName;
@@ -73,11 +80,28 @@ public class User {
 		return this;
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	@Override
 	public String toString() {
 		//TODO: add more
 		return String.format(
 				"User[id=%s, firstName='%s', lastName='%s']",
 				id, firstName, lastName);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return id.equals(user.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 }
