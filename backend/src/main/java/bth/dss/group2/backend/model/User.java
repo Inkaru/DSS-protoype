@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+
 public class User {
 	@Id
 	private String id;
@@ -112,11 +113,15 @@ public class User {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		User user = (User) o;
-		return id.equals(user.id);
+		return loginName.equals(user.loginName);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
+	}
+
+	public String getLoginName() {
+		return loginName;
 	}
 }
