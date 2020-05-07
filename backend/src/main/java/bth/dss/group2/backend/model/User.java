@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import javax.persistence.Id;
 
-import bth.dss.group2.backend.model.dto.Registration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -45,7 +44,6 @@ public class User {
 	@JsonProperty
 	@DBRef
 	private List<Project> likedProjects;
-
 
 	public User loginName(String loginName) {
 		this.loginName = loginName;
@@ -102,12 +100,12 @@ public class User {
 		return this;
 	}
 
-	public User likedProject(List<Project> likedProjects){
+	public User likedProject(List<Project> likedProjects) {
 		this.likedProjects = likedProjects;
 		return this;
 	}
 
-	public User followedProjects(List<Project> followedProjects){
+	public User followedProjects(List<Project> followedProjects) {
 		this.followedProjects = followedProjects;
 		return this;
 	}
@@ -120,8 +118,8 @@ public class User {
 	public String toString() {
 		//TODO: add more
 		return String.format(
-				"User[id=%s, firstName='%s', lastName='%s']",
-				id, firstName, lastName);
+				"User[id=%s, loginName='%s', emailAddress='%s', hashedPassword='%s',firstName='%s', lastName='%s']",
+				id, loginName, emailAddress, hashedPassword, firstName, lastName);
 	}
 
 	@Override
@@ -152,5 +150,4 @@ public class User {
 	public List<Project> getFollowedProjects() {
 		return followedProjects;
 	}
-
 }

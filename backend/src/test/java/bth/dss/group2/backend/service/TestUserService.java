@@ -1,27 +1,23 @@
 package bth.dss.group2.backend.service;
 
-import bth.dss.group2.backend.model.Project;
-import bth.dss.group2.backend.model.User;
-import bth.dss.group2.backend.repository.UserRepository;
-import bth.dss.group2.backend.service.UserService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import bth.dss.group2.backend.model.User;
+import bth.dss.group2.backend.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class TestUserService {
 
     public UserRepository userRepository = Mockito.mock(UserRepository.class);
     public UserService userService;
+    public PasswordEncoder passwordEncoder;
 
     public User timo;
     public User antonin;
@@ -50,7 +46,7 @@ public class TestUserService {
 
         Mockito.when(userRepository.findAll()).thenReturn(userRepositoryContent);
 
-        userService = new UserService(userRepository);
+        userService = new UserService(userRepository, passwordEncoder);
     }
 
     @Test
