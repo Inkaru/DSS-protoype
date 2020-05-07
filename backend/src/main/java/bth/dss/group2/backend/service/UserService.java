@@ -4,7 +4,10 @@ import java.util.List;
 
 import bth.dss.group2.backend.controller.UserController;
 import bth.dss.group2.backend.expections.EmailExistsException;
+import bth.dss.group2.backend.expections.EmailNotFoundException;
 import bth.dss.group2.backend.expections.LoginNameExistsException;
+import bth.dss.group2.backend.expections.LoginNameNotFoundException;
+import bth.dss.group2.backend.expections.UserNotFoundException;
 import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.model.dto.Registration;
 import bth.dss.group2.backend.repository.UserRepository;
@@ -30,7 +33,19 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public User createUser(Registration reg) throws Exception {
+	public User getUserById(String id) throws UserNotFoundException {
+		return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+	}
+
+	public User getUserByLoginName(String loginName) throws LoginNameNotFoundException {
+		return userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
+	}
+
+	public User getUserByEmail(String email) throws EmailNotFoundException {
+		return userRepository.findByEmailAddress(email).orElseThrow(EmailNotFoundException::new);
+	}
+
+	public User createUser(Registration reg) throws EmailExistsException, LoginNameExistsException {
 		if (userRepository.existsByEmailAddress(reg.getEmailAddress())) throw new EmailExistsException();
 		if (userRepository.existsByLoginName(reg.getLoginName())) throw new LoginNameExistsException();
 		User newGuy = new User()
@@ -40,5 +55,29 @@ public class UserService {
 		userRepository.save(newGuy);
 		logger.info("##### USER SAVED: " + newGuy);
 		return newGuy;
+	}
+
+	public void updateUser(User updatedUser) throws UserNotFoundException {
+		if (!userRepository.existsById(updatedUser.getId())) throw new UserNotFoundException();
+		userRepository.save(updatedUser);
+		logger.info("##### USER UPDATED: " + updatedUser);
+	}
+
+	public void deleteUserById(String id) throws UserNotFoundException {
+		User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+		userRepository.delete(user);
+		logger.info("##### USER DELETED: " + id);
+	}
+
+	public void deleteUserByLoginName(String loginName) throws LoginNameNotFoundException {
+		User user = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
+		userRepository.delete(user);
+		logger.info("##### USER DELETED: " + loginName);
+	}
+
+	public void deleteUserByEmail(String email) throws EmailNotFoundException {
+		User user = userRepository.findByEmailAddress(email).orElseThrow(EmailNotFoundException::new);
+		userRepository.delete(user);
+		logger.info("##### USER DELETED: " + email);
 	}
 }
