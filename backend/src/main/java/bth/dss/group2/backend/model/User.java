@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+
 public class User {
 	@Id
 	private String id;
@@ -36,9 +37,12 @@ public class User {
 	@JsonProperty
 	private String address;
 	@JsonProperty
-
 	@DBRef
 	private List<Project> followedProjects;
+	@JsonProperty
+	@DBRef
+	private List<Project> likedProjects;
+
 
 	public User loginName(String loginName) {
 		this.loginName = loginName;
@@ -95,6 +99,16 @@ public class User {
 		return this;
 	}
 
+	public User likedProject(List<Project> likedProjects){
+		this.likedProjects = likedProjects;
+		return this;
+	}
+
+	public User followedProjects(List<Project> followedProjects){
+		this.followedProjects = followedProjects;
+		return this;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -112,11 +126,28 @@ public class User {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		User user = (User) o;
-		return id.equals(user.id);
+		return loginName.equals(user.loginName);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public List<Project> getFollowedProjects() {
+		return followedProjects;
+	}
+
 }

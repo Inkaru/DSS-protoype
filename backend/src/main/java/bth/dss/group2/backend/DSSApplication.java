@@ -70,5 +70,9 @@ public class DSSApplication implements CommandLineRunner {
 			System.out.println(project);
 		}
 
+		System.out.println("Unmatch query response with findby():");
+		System.out.println("--------------------------------");
+		System.out.println(userRepository.findByLoginName("pute"));
+
 	}
 }
