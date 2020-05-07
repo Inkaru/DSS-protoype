@@ -3,11 +3,11 @@ package bth.dss.group2.backend.service;
 import java.util.List;
 
 import bth.dss.group2.backend.controller.UserController;
-import bth.dss.group2.backend.expections.EmailExistsException;
-import bth.dss.group2.backend.expections.EmailNotFoundException;
-import bth.dss.group2.backend.expections.LoginNameExistsException;
-import bth.dss.group2.backend.expections.LoginNameNotFoundException;
-import bth.dss.group2.backend.expections.UserNotFoundException;
+import bth.dss.group2.backend.exception.EmailExistsException;
+import bth.dss.group2.backend.exception.EmailNotFoundException;
+import bth.dss.group2.backend.exception.LoginNameExistsException;
+import bth.dss.group2.backend.exception.LoginNameNotFoundException;
+import bth.dss.group2.backend.exception.UserNotFoundException;
 import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.model.dto.Registration;
 import bth.dss.group2.backend.repository.UserRepository;

@@ -1,4 +1,4 @@
-package bth.dss.group2.backend.expections;
+package bth.dss.group2.backend.exception;
 
 public class EmailExistsException extends Exception {
 	public EmailExistsException() {
