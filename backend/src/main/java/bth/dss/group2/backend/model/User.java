@@ -124,4 +124,16 @@ public class User {
 	public String getLoginName() {
 		return loginName;
 	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public List<Project> getFollowedProjects() {
+		return followedProjects;
+	}
 }

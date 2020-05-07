@@ -16,8 +16,10 @@ public class Project {
 	private String name;
 	@JsonProperty
 	private String description;
+	@JsonProperty
 	@DBRef
 	private List<User> creators;
+	@JsonProperty
 	@DBRef
 	private List<User> likes;
 
@@ -63,5 +65,21 @@ public class Project {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public List<User> getCreators() {
+		return creators;
+	}
+
+	public List<User> getLikes() {
+		return likes;
 	}
 }
