@@ -2,6 +2,8 @@ package bth.dss.group2.backend.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import bth.dss.group2.backend.controller.UserController;
 import bth.dss.group2.backend.exception.EmailExistsException;
 import bth.dss.group2.backend.exception.EmailNotFoundException;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class UserService {
 	private final UserRepository userRepository;
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
