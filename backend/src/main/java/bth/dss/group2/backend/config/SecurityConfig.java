@@ -9,6 +9,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+				.csrf().disable() // required for post method testing, remove this in production
 				.httpBasic()
 				.and()
 				.authorizeRequests()
