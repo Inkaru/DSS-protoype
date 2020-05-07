@@ -37,9 +37,12 @@ public class User {
 	@JsonProperty
 	private String address;
 	@JsonProperty
-
 	@DBRef
 	private List<Project> followedProjects;
+	@JsonProperty
+	@DBRef
+	private List<Project> likedProjects;
+
 
 	public User loginName(String loginName) {
 		this.loginName = loginName;
@@ -96,6 +99,16 @@ public class User {
 		return this;
 	}
 
+	public User likedProject(List<Project> likedProjects){
+		this.likedProjects = likedProjects;
+		return this;
+	}
+
+	public User followedProjects(List<Project> followedProjects){
+		this.followedProjects = followedProjects;
+		return this;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -136,4 +149,5 @@ public class User {
 	public List<Project> getFollowedProjects() {
 		return followedProjects;
 	}
+
 }

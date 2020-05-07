@@ -19,10 +19,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @SpringBootApplication
 public class DSSApplication implements CommandLineRunner {
-/*	@Autowired
+	@Autowired
 	UserRepository userRepository;
 	@Autowired
-	ProjectRepository projectRepository;*/
+	ProjectRepository projectRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DSSApplication.class, args);
@@ -31,7 +31,7 @@ public class DSSApplication implements CommandLineRunner {
 	@Transactional
 	@Override
 	public void run(String... args) throws Exception {
-		/*userRepository.deleteAll();
+		userRepository.deleteAll();
 		projectRepository.deleteAll();
 
 		// save a couple of customers
@@ -69,6 +69,10 @@ public class DSSApplication implements CommandLineRunner {
 		for (Project project : projectRepository.findAll()) {
 			System.out.println(project);
 		}
-*/
+
+		System.out.println("Unmatch query response with findby():");
+		System.out.println("--------------------------------");
+		System.out.println(userRepository.findByLoginName("pute"));
+
 	}
 }

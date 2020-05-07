@@ -21,7 +21,7 @@ public class Project {
 	private List<User> creators;
 	@JsonProperty
 	@DBRef
-	private List<User> likes;
+	private List<User> participants;
 
 	public Project name(String name) {
 		this.name = name;
@@ -39,7 +39,7 @@ public class Project {
 	}
 
 	public Project likes(List<User> likes) {
-		this.likes = likes;
+		this.participants = likes;
 		return this;
 	}
 
@@ -50,7 +50,7 @@ public class Project {
 				", name='" + name + '\'' +
 				", description='" + description + '\'' +
 				", creators=" + creators +
-				", likes=" + likes +
+				", likes=" + participants +
 				'}';
 	}
 
@@ -79,7 +79,7 @@ public class Project {
 		return creators;
 	}
 
-	public List<User> getLikes() {
-		return likes;
+	public List<User> getParticipants() {
+		return participants;
 	}
 }
