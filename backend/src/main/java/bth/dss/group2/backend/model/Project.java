@@ -6,12 +6,14 @@ import java.util.Objects;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Project {
 
 	@Id
 	private String id;
+	@Indexed(unique=true)
 	@JsonProperty
 	private String name;
 	@JsonProperty

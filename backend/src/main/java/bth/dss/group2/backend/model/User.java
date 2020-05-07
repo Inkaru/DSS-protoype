@@ -3,20 +3,22 @@ package bth.dss.group2.backend.model;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
+import bth.dss.group2.backend.model.dto.Registration;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-
+@Document
 public class User {
 	@Id
 	private String id;
 	@JsonProperty
+	@Indexed(unique = true)
 	private String loginName;
+	@JsonProperty
 	private String hashedPassword;
 	@JsonProperty
 	private String firstName;
@@ -31,6 +33,7 @@ public class User {
 	@JsonProperty
 	private String description;
 	@JsonProperty
+	@Indexed(unique = true)
 	private String emailAddress;
 	@JsonProperty
 	private String phoneNumber;
