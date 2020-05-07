@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(UserController.class)
-public class testUserController {
+public class TestUserController {
 
     User timo;
     User antonin;

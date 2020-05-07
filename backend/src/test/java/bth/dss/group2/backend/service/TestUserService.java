@@ -18,7 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 
-public class testUserService {
+public class TestUserService {
 
     public UserRepository userRepository = Mockito.mock(UserRepository.class);
     public UserService userService;
