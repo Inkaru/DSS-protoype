@@ -20,10 +20,19 @@ authentification
 - password
 
 
+
 #### Methods :
 
 - login
 - CRUDS (Create, Read, Update, Delete, Search)
+
+Currently implemented REST Calls
+
+- New registration:         POST api/users/registerUser (form attributes: loginName, email, password, passwordRepeat)
+- Get all user objects:     GET api/users/getAllUsers
+- Get user object:          GET api/users/getUser?id={id} || api/users/getUser?loginName={loginName} || api/users/getUser?email={email}
+- Update user(bugged atm):  POST api/users/updateUser (form attributes: loginName, email, password, firstName, lastName and many more)      
+- Delete user:              DELETE api/users/deleteUser?id={id} || api/users/deleteUser?loginName={loginName} || api/users/deleteUser?email={email}
 
 ### Projects
 
