@@ -63,7 +63,7 @@ public class UserController {
 	}
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-	@GetMapping(value = { "/getUser?={id}", "/getUser?={loginName}", "/getUser?={email}" })
+	@GetMapping(value = { "/getUser?id={id}", "/getUser?loginName={loginName}", "/getUser?email={email}" })
 	public User getUser(@PathVariable Optional<String> id, @PathVariable Optional<String> loginName, @PathVariable Optional<String> email, final HttpServletRequest httpServletRequest) {
 		try {
 			User user;
@@ -110,7 +110,7 @@ public class UserController {
 	}
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-	@DeleteMapping(value = { "/deleteUser?={id}", "/deleteUser?={loginName}", "/deleteUser?={email}" })
+	@DeleteMapping(value = { "/deleteUser?id={id}", "/deleteUser?loginName={loginName}", "/deleteUser?email={email}" })
 	public ResponseEntity<Void> deleteUser(@PathVariable Optional<String> id, @PathVariable Optional<String> loginName, @PathVariable Optional<String> email, final HttpServletRequest httpServletRequest) {
 		try {
 			String str = "";
