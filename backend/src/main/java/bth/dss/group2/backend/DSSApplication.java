@@ -31,8 +31,8 @@ public class DSSApplication implements CommandLineRunner {
 		projectRepository.deleteAll();
 
 		// save a couple of customers
-		User timo = new User().firstName("Timo").lastName("Dittus");
-		User antonin = new User().firstName("Antonin").lastName("Fleury");
+		User timo = new User().firstName("Timo").lastName("Dittus").loginName("timo").emailAddress("timo@timo.timo");
+		User antonin = new User().firstName("Antonin").lastName("Fleury").loginName("antonin").emailAddress("antonin@antonin.antonin");
 		userRepository.save(timo);
 		userRepository.save(antonin);
 
