@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../api.service";
+
 import {Project} from "../project";
 
 @Component({
@@ -18,6 +19,8 @@ export class ProjectsComponent implements OnInit {
       console.log(data);
       this.projects = data;
     });
+    // this.apiService.getUserByEmail("timo@timo.timo").subscribe((data) => console.log(data));
+
   }
 
   slideConfig = {
