@@ -22,11 +22,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -63,8 +63,8 @@ public class UserController {
 	}
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-	@GetMapping(value = { "/getUser?id={id}", "/getUser?loginName={loginName}", "/getUser?email={email}" })
-	public User getUser(@PathVariable Optional<String> id, @PathVariable Optional<String> loginName, @PathVariable Optional<String> email, final HttpServletRequest httpServletRequest) {
+	@GetMapping(value = "/getUser")
+	public User getUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email, final HttpServletRequest httpServletRequest) {
 		try {
 			User user;
 			if (id.isPresent()) {
@@ -86,7 +86,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = { "/getAllUsers" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
 	public List<User> getAllUsers() {
 		return userService.getAllUsers();
 	}
@@ -110,8 +110,8 @@ public class UserController {
 	}
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-	@DeleteMapping(value = { "/deleteUser?id={id}", "/deleteUser?loginName={loginName}", "/deleteUser?email={email}" })
-	public ResponseEntity<Void> deleteUser(@PathVariable Optional<String> id, @PathVariable Optional<String> loginName, @PathVariable Optional<String> email, final HttpServletRequest httpServletRequest) {
+	@DeleteMapping(value = "/deleteUser")
+	public ResponseEntity<Void> deleteUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email, final HttpServletRequest httpServletRequest) {
 		try {
 			String str = "";
 			if (id.isPresent()) {
