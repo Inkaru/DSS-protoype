@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Project} from "./project";
+import {User} from "./user";
 
 @Injectable({
   providedIn: 'root'
@@ -18,4 +19,37 @@ export class ApiService {
   public getAllProjects(){
     return this.httpClient.get<Project[]>('/api/projects/getAllProjects');
   }
+
+  public getAllUsers(){
+    return this.httpClient.get<Project[]>('/api/users/getAllUsers');
+  }
+
+
+  // TODO : make getUser methods work
+  public getUserById(id: number){
+    let params = new HttpParams().set('id',String(id));
+    return this.httpClient.get<User>('/api/users/getUser', {params: params});
+  }
+
+  public getUserByLogin(login: string){
+    let params = new HttpParams().set('loginName',login);
+    return this.httpClient.get<User>('/api/users/getUser', {params: params});
+  }
+
+  public getUserByEmail(email: string){
+    let params = new HttpParams().set('email',email);
+    return this.httpClient.get<User>('/api/users/getUser', {params: params});
+  }
+
+  public registerUser(user: User){
+    return this.httpClient.post('/api/users/registerUser',JSON.stringify(user));
+  }
+
+  public updateUser(user: User){
+    return this.httpClient.post('/api/users/updateUser', JSON.stringify(user));
+  }
+
+  // TODO : add delete method
+
+
 }
