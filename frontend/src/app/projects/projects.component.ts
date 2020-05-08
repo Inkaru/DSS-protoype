@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../api.service";
+import {Project} from "../project";
 
 @Component({
   selector: 'app-projects',
@@ -8,7 +9,7 @@ import { ApiService } from "../api.service";
 })
 export class ProjectsComponent implements OnInit {
 
-  projects;
+  projects: Project[];
 
   constructor(private apiService: ApiService) { }
 
