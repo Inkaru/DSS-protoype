@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Project} from "./project";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,6 @@ export class ApiService {
   }
 
   public getAllProjects(){
-    return this.httpClient.get('/api/projects/getAllProjects');
+    return this.httpClient.get<Project[]>('/api/projects/getAllProjects');
   }
 }
