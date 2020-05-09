@@ -1,6 +1,6 @@
 package bth.dss.group2.backend.exception;
 
-public class EmailExistsException extends Exception {
+public class EmailExistsException extends RuntimeException {
 	public EmailExistsException() {
 		this("Email address exists already");
 	}

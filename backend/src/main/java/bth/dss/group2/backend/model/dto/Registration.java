@@ -12,10 +12,10 @@ public class Registration {
 	@NotNull
 	private String loginName;
 	@NotNull
-	@ValidEmail
+	@ValidEmail(message = "The email adress is invalid")
 	private String emailAddress;
 	@NotNull
-	@ValidPassword
+	@ValidPassword(message = "The password should have at least 1 Uppercase letter, 1 lowercase letter, 1 digit and 1 symbol")
 	private String password;
 	@NotNull
 	private String passwordRepeat;
