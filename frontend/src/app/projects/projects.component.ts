@@ -19,8 +19,6 @@ export class ProjectsComponent implements OnInit {
       console.log(data);
       this.projects = data;
     });
-    // this.apiService.getUserByEmail("timo@timo.timo").subscribe((data) => console.log(data));
-
   }
 
   slideConfig = {
