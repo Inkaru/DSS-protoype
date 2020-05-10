@@ -6,6 +6,7 @@ import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.c
 import {ProjectsComponent} from "./projects/projects.component";
 
 const routes: Routes = [
+  {path: '', pathMatch: 'full', redirectTo: 'home'},
   {path: 'home', component: HomeComponent},
   {path: 'admin/dashboard', component: AdminDashboardComponent},
   {path: 'projects', component: ProjectsComponent}
