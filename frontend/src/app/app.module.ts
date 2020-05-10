@@ -12,6 +12,8 @@ import { AdminDashboardComponent } from './components/admin/admin-dashboard/admi
 import { ProjectsComponent } from './components/projects/projects.component';
 
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { LoginComponent } from './components/login/login.component';
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -20,13 +22,16 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     HeaderComponent,
     HomeComponent,
     AdminDashboardComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
