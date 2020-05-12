@@ -5,7 +5,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" *ngIf="isLoggedIn()">
           <li class="nav-item" px-2>
             <a [routerLink]="['/home']" class="nav-link ">Home</a>
           </li>
@@ -20,11 +20,11 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn()">
           <li class="nav-item dropdown mr-3">
             <a  class="nav-link dropdown-toggle" data-toggle="dropdown">
               <i class="fas fa-user"></i>
-              Welcome Brad
+              Welcome {{currentUser.loginName}}
             </a>
             <div class="dropdown-menu">
               <a [routerLink]="['/admin', 'dashboard']" class="dropdown-item">
@@ -38,9 +38,16 @@
             </div>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">Log out</a>
+            <a href="" class="nav-link" (click)="logout()">Log out</a>
           </li>
         </ul>
+
+        <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn()">
+          <li class="nav-item">
+            <a [routerLink]="['/login']" class="nav-link">Log in</a>
+          </li>
+        </ul>
+
       </div>
     </div>
   </nav>

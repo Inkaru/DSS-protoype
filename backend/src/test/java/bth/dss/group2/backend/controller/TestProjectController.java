@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,22 +31,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ProjectController.class)
 public class TestProjectController {
 
-/*    User timo = Mockito.mock(User.class);
-    User antonin = Mockito.mock(User.class);*/
-
     User timo, antonin;
-
-    @MockBean
-    UserService userService;
 
     @MockBean
     UserRepository userRepository;
 
     @MockBean
-    ProjectService projectService;
+    UserService userService;
 
     @MockBean
     ProjectRepository projectRepository;
+
+    @MockBean
+    ProjectService projectService;
 
     Project timosProject, antoninsProject;
 
@@ -57,19 +55,10 @@ public class TestProjectController {
 
     @BeforeEach
     void setUp() {
-        /* Enter Mockito.when function User here. If they are modify during test should be move in BeforeEach hook*/
-       /* Mockito.when(timo.getFirstName()).thenReturn("Timo");
-        Mockito.when(timo.getLastName()).thenReturn("Dittus");
-        Mockito.when(timo.getLoginName()).thenReturn("TDittus");
-
-        Mockito.when(antonin.getFirstName()).thenReturn("Antonin");
-        Mockito.when(antonin.getLastName()).thenReturn("Fleury");
-        Mockito.when(antonin.getLoginName()).thenReturn("AFleury");*/
-
        timo = new User();
        antonin = new User();
-       /*timo.loginName("TDittus").firstName("Timo").lastName("Dittus");
-       antonin.loginName("AFleury").firstName("Antonin").lastName("Fleury");*/
+       timo.loginName("TDittus").firstName("Timo").lastName("Dittus");
+       antonin.loginName("AFleury").firstName("Antonin").lastName("Fleury");
 
         timosProjectCreators = new ArrayList<User>();
         timosProjectCreators.add(timo);
@@ -97,12 +86,18 @@ public class TestProjectController {
         this.mockMvc.perform(MockMvcRequestBuilders
                 .get("http://localhost:8080/api/projects/getAllProjects")
                 .accept(MediaType.APPLICATION_JSON))
-                .andDo(print());
-                /*.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].loginName").value(timo.getLoginName()))
-                .andExpect(jsonPath("$[1].loginName").value(antonin.getLoginName()));
-*/
+                .andExpect(jsonPath("$[0].name").value(timosProject.getName()))
+                .andExpect(jsonPath("$[1].name").value(antoninsProject.getName()))
+                .andExpect(jsonPath("$[0].description").value(timosProject.getDescription()))
+                .andExpect(jsonPath("$[1].description").value(antoninsProject.getDescription()))
+                .andExpect(jsonPath("$[0].creators[0].loginName").value(timosProject.getCreators().get(0).getLoginName()))
+                .andExpect(jsonPath("$[1].creators[0].loginName").value(antoninsProject.getCreators().get(0).getLoginName()))
+        ;
+        Mockito.verify(projectService, Mockito.times(1)).getAllProjects();
+
     }
 
 

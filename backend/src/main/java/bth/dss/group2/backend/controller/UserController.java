@@ -49,16 +49,18 @@ public class UserController {
 		try {
 			User user = userService.createUser(registration);
 			HttpHeaders headers = new HttpHeaders();
+			System.out.println(user);
 			headers.setLocation(
 					ServletUriComponentsBuilder
 							.fromContextPath(httpServletRequest)
 							.path("/api/users/registerUser")
-							.buildAndExpand(user.getId()).toUri()
+							.buildAndExpand(user.getId())
+							.toUri()
 			);
 			return new ResponseEntity<>(headers, HttpStatus.CREATED);
 		}
 		catch (EmailExistsException | LoginNameExistsException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating profile", e);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating profile : "+ e.getMessage(),e);
 		}
 	}
 

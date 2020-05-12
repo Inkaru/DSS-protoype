@@ -21,7 +21,12 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
 	@Override
 	public boolean isValid(final String username, final ConstraintValidatorContext context) {
-		return (validateEmail(username));
+		boolean isValid = validateEmail(username);
+		if(!isValid){
+			context.disableDefaultConstraintViolation();
+			context.buildConstraintViolationWithTemplate("Email is not well formatted").addConstraintViolation();
+		}
+		return isValid;
 	}
 
 	private boolean validateEmail(final String email) {

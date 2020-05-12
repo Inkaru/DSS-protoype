@@ -150,4 +150,9 @@ public class User {
 	public List<Project> getFollowedProjects() {
 		return followedProjects;
 	}
+
+
+	public void setID(String id) {
+		this.id = id;
+	}
 }
