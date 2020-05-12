@@ -84,8 +84,8 @@
     </div>
 
 
-    <div class="container col-9">
-      <div class="card-columns">
+    
+      <!-- <div class="card-columns">
 
         <ng-container *ngFor="let project of projects">
           <div class="card project-card">
@@ -99,7 +99,50 @@
           </div>
         </ng-container>
 
+      </div> -->
+      
+        <div class="container col-9">
+          <div class="rounded shadow bg-white p-5">  
+            <h2 class="font-weight-light">Project</h2>
+            <button class="btn btn-primary m1-auto pull-right" data-toggle="modal" data-target="#projectsForm">SUbmit your project</button>
+            <hr class="mt-1 mb-5 bg-dark">
+            <div class="row"></div>
+          </div>
+
+
+        </div>
+  </div>
+</section>
+
+
+<!-- Modal -->
+<div class="modal fade" id="projectsForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+     <form>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edition d'un projet</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input type="text" placeholder="name of the project" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="text" placeholder="Associated companies / users" class="form-control">
+        </div>
+        <div class="form-group">
+         <textarea  placeholder="description" rows="4" class="form-control w-100"></textarea>
+        </div>
+
+      </div>
+     </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary">Enregistrer</button>
       </div>
     </div>
   </div>
-</section>
+</div>
