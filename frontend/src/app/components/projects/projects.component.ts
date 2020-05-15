@@ -70,7 +70,7 @@ export class ProjectsComponent implements OnInit {
     }else{
       this.projectsService.createProject(newProject);
     }
-    $('#projectsFormModal').modal('hide');
+    $('#projectsForm').modal('hide');
   }
 
   ngOnDestroy() {
@@ -90,7 +90,7 @@ export class ProjectsComponent implements OnInit {
 
   onEditProject(project){
     this.editMode = true;
-    $('#projectsFormModal').modal('show');
+    $('#projectsForm').modal('show');
     this.projectsForm.get('title').setValue(project.title);
     this.projectsForm.get('users').setValue(project.users);
     this.projectsForm.get('description').setValue(project.description);
