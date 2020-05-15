@@ -13,7 +13,7 @@ public class Project {
 
 	@Id
 	private String id;
-	@Indexed(unique=true)
+	@Indexed(unique = true)
 	@JsonProperty
 	private String name;
 	@JsonProperty
@@ -28,6 +28,10 @@ public class Project {
 	public Project name(String name) {
 		this.name = name;
 		return this;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public Project description(String description) {

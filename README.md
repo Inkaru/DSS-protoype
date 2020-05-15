@@ -46,6 +46,14 @@ Currently implemented REST Calls
 
 - CRUDS
 
+Currently implemented REST Calls
+
+- Create project:           POST api/projects/createProject (form attributes: name, description)
+- Get all projects:         GET api/projects/getAllProjects
+- Get project:              GET api/projects/getProject?id={id} || api/projects/getProject?name={name}
+- Update project:           POST api/projects/updateProject (form attributes: id(required, has to match the project that should be updated), name, description)      
+- Delete project:           DELETE api/projects/deleteProject?id={id} || api/projects/deleteProject?name={name}
+
 ### Communication
 
 #### Methods :
