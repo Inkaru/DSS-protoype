@@ -6,6 +6,8 @@ import {Project} from "../../model/project";
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -63,6 +65,7 @@ export class ProjectsComponent implements OnInit {
     const newProject = this.projectsForm.value;
     this.projectsService.creatProject(newProject);
     console.log(this.projectsService.projects)
+    $('#projectsFormModal').modal('hide');
   }
 
   ngOnDestroy() {
@@ -71,6 +74,14 @@ export class ProjectsComponent implements OnInit {
 
   resetForm(){
     this.projectsForm.reset();
+  }
+
+  onDeleteProperty(index){
+    if (confirm("Are you sure you want delete this project?")){
+      this.projectsService.deleteProjects(index);
+    } 
+    
+
   }
 
 }
