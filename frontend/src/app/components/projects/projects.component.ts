@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../services/api.service";
 
+import{ProjectsService} from 'src/app/services/projects.service';
 import {Project} from "../../model/project";
+import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-projects',
@@ -11,14 +16,34 @@ import {Project} from "../../model/project";
 export class ProjectsComponent implements OnInit {
 
   projects: Project[];
+  projectsForm: FormGroup;
+  projectsSubscription: Subscription;
+  
+  indexToUpdate;
+  editMode = false;
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private apiService: ApiService,
+    private formBuilder :FormBuilder,
+    private projectsService : ProjectsService
+    ) { }
 
   ngOnInit(): void {
-    this.apiService.getAllProjects().subscribe((data) => {
-      console.log(data);
-      this.projects = data;
-    });
+    this.initProjectsForm();
+    this.projectsService.emitProjects();
+    // console.log(this.projects)
+    // this.apiService.getAllProjects().subscribe((data) => {
+    //   console.log(data);
+    //   this.projects = data;
+    // });
+    this.projectsSubscription = this.projectsService.projectsSubject.subscribe(
+      (data: any) => {
+        this.projects = data;
+      }
+    );
+    this.projectsService.getProjects();
+    this.projectsService.emitProjects();
+    
   }
 
   slideConfig = {
@@ -29,5 +54,55 @@ export class ProjectsComponent implements OnInit {
     "dots": true,
     "autoplay": true
   };
+
+   initProjectsForm() {
+    this.projectsForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      users: ['', Validators.required],
+      description: ''
+    });
+  }
+
+  onSubmitProjectsForm(){
+    const newProject = this.projectsForm.value;
+    if (this.editMode){
+      this.projectsService.updateProjects(newProject, this.indexToUpdate);
+    }else{
+      this.projectsService.createProject(newProject);
+    }
+    $('#projectsFormModal').modal('hide');
+  }
+
+  ngOnDestroy() {
+    this.projectsSubscription.unsubscribe();
+  }
+
+  resetForm(){
+    this.editMode = false;
+    this.projectsForm.reset();
+  }
+
+  onDeleteProject(index){
+    if (confirm("Are you sure you want delete this project?")){
+      this.projectsService.deleteProjects(index);
+    } 
+  }
+
+  onEditProject(project){
+    this.editMode = true;
+    $('#projectsFormModal').modal('show');
+    this.projectsForm.get('title').setValue(project.title);
+    this.projectsForm.get('users').setValue(project.users);
+    this.projectsForm.get('description').setValue(project.description);
+    const index = this.projects.findIndex(
+      (projectEl)=>{
+        if (projectEl === project){
+          return true;
+        }
+      }
+    );
+    this.indexToUpdate = index;
+    
+  }
 
 }

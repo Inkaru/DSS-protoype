@@ -12,7 +12,7 @@
   </div>
 </section>
 
-<section>
+<!-- <section>
   <div class="row py-4">
     <div class="col offset-2">
       <h4>Project suggestions for you :</h4>
@@ -41,7 +41,7 @@
       </div>
     </ngx-slick-carousel>
   </div>
-</section>
+</section> -->
 
 <hr>
 
@@ -104,9 +104,20 @@
         <div class="container col-9">
           <div class="rounded shadow bg-white p-5">  
             <h2 class="font-weight-light">Project</h2>
-            <button class="btn btn-primary m1-auto pull-right" data-toggle="modal" data-target="#projectsForm">SUbmit your project</button>
+            <button class="btn btn-primary m1-auto pull-right" data-toggle="modal" data-target="#projectsForm" (click)="resetForm">Submit your project</button>
             <hr class="mt-1 mb-5 bg-dark">
-            <div class="row"></div>
+            <div class="row">
+              <div *ngFor="let project of projects; let i = index" class="col-12 shadow-sm p-4 mb-3 bg-light">
+                <div class="d-flex">
+                  <h3 class="font-weight-normal">{{project.title}}</h3>
+                    <div class="m1-auto">
+                      <button class="btn btn-primary m-1" type="button"  (click)="onEditProject(i)"><i class="fas fa-edit"></i></button>
+                      <button class="btn btn-secondary m-1" type="button" (click)="onDeleteProject(i)"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+                <p><span *ngIf="project.description && project.description !==''">{{project.description}}</span></p>
+              </div>
+            </div>
           </div>
 
 
@@ -119,7 +130,7 @@
 <div class="modal fade" id="projectsForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-     <form>
+     <form  [formGroup]="projectsForm" (ngSubmit)="onSubmitProjectsForm()">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Edition d'un projet</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -128,21 +139,24 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <input type="text" placeholder="name of the project" class="form-control">
+          <input type="text" placeholder="name of the project" class="form-control" formControlName="title" >
         </div>
         <div class="form-group">
-          <input type="text" placeholder="Associated companies / users" class="form-control">
+          <input type="text" placeholder="Associated companies / users" class="form-control" formControlName="users" >
         </div>
         <div class="form-group">
-         <textarea  placeholder="description" rows="4" class="form-control w-100"></textarea>
+         <textarea  placeholder="description" rows="4" class="form-control w-100" formControlName="description" ></textarea>
         </div>
 
       </div>
-     </form>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary">Enregistrer</button>
+        <button type="button" class="btn btn-primary" type="submit">Enregistrer</button>
       </div>
+     </form> 
     </div>
   </div>
 </div>
+
+
+
