@@ -32,13 +32,18 @@ export class ProjectsService {
     this.projectsSubject.next(this.projects);
   }
 
-  creatProject(project){
+  createProject(project){
     this.projects.push(project);
   }
   getProjects() {}
 
   deleteProjects(index){
     this.projects.splice(index, 1);
+    this.emitProjects();
+  }
+
+  updateProjects(project, index){
+    this.projects[index] = project;
     this.emitProjects();
   }
 }

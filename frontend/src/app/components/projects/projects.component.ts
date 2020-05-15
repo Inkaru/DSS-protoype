@@ -19,6 +19,8 @@ export class ProjectsComponent implements OnInit {
   projectsForm: FormGroup;
   projectsSubscription: Subscription;
   
+  indexToUpdate;
+  editMode = false;
 
   constructor(
     private apiService: ApiService,
@@ -63,8 +65,11 @@ export class ProjectsComponent implements OnInit {
 
   onSubmitProjectsForm(){
     const newProject = this.projectsForm.value;
-    this.projectsService.creatProject(newProject);
-    console.log(this.projectsService.projects)
+    if (this.editMode){
+      this.projectsService.updateProjects(newProject, this.indexToUpdate);
+    }else{
+      this.projectsService.createProject(newProject);
+    }
     $('#projectsFormModal').modal('hide');
   }
 
@@ -73,15 +78,31 @@ export class ProjectsComponent implements OnInit {
   }
 
   resetForm(){
+    this.editMode = false;
     this.projectsForm.reset();
   }
 
-  onDeleteProperty(index){
+  onDeleteProject(index){
     if (confirm("Are you sure you want delete this project?")){
       this.projectsService.deleteProjects(index);
     } 
-    
+  }
 
+  onEditProject(project){
+    this.editMode = true;
+    $('#projectsFormModal').modal('show');
+    this.projectsForm.get('title').setValue(project.title);
+    this.projectsForm.get('users').setValue(project.users);
+    this.projectsForm.get('description').setValue(project.description);
+    const index = this.projects.findIndex(
+      (projectEl)=>{
+        if (projectEl === project){
+          return true;
+        }
+      }
+    );
+    this.indexToUpdate = index;
+    
   }
 
 }

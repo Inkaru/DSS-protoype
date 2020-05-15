@@ -111,8 +111,8 @@
                 <div class="d-flex">
                   <h3 class="font-weight-normal">{{project.title}}</h3>
                     <div class="m1-auto">
-                      <button class="btn btn-primary m-1" type="button" ><i class="fas fa-edit"></i></button>
-                      <button class="btn btn-secondary m-1" type="button" (click)="onDeleteProperty(i)"><i class="fas fa-trash-alt"></i></button>
+                      <button class="btn btn-primary m-1" type="button"  (click)="onEditProject(i)"><i class="fas fa-edit"></i></button>
+                      <button class="btn btn-secondary m-1" type="button" (click)="onDeleteProject(i)"><i class="fas fa-trash-alt"></i></button>
                     </div>
                 </div>
                 <p><span *ngIf="project.description && project.description !==''">{{project.description}}</span></p>
