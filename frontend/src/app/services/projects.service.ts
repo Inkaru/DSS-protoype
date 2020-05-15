@@ -5,6 +5,9 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ProjectsService {
+  getProperties() {
+    throw new Error("Method not implemented.");
+  }
 
 
   projects =[

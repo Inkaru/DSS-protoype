@@ -4,6 +4,7 @@ import { ApiService } from "../../services/api.service";
 import{ProjectsService} from 'src/app/services/projects.service';
 import {Project} from "../../model/project";
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-projects',
@@ -14,6 +15,8 @@ export class ProjectsComponent implements OnInit {
 
   projects: Project[];
   projectsForm: FormGroup;
+  projectsSubscription: Subscription;
+  
 
   constructor(
     private apiService: ApiService,
@@ -23,10 +26,19 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initProjectsForm();
-    this.apiService.getAllProjects().subscribe((data) => {
-      console.log(data);
-      this.projects = data;
-    });
+    this.projectsService.emitProjects();
+    // console.log(this.projects)
+    // this.apiService.getAllProjects().subscribe((data) => {
+    //   console.log(data);
+    //   this.projects = data;
+    // });
+    this.projectsSubscription = this.projectsService.projectsSubject.subscribe(
+      (data: any) => {
+        this.projects = data;
+      }
+    );
+    this.projectsService.getProjects();
+    this.projectsService.emitProjects();
     
   }
 
@@ -51,6 +63,14 @@ export class ProjectsComponent implements OnInit {
     const newProject = this.projectsForm.value;
     this.projectsService.creatProject(newProject);
     console.log(this.projectsService.projects)
+  }
+
+  ngOnDestroy() {
+    this.projectsSubscription.unsubscribe();
+  }
+
+  resetForm(){
+    this.projectsForm.reset();
   }
 
 }
