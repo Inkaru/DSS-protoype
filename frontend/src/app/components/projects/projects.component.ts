@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../services/api.service";
 
+import{ProjectsService} from 'src/app/services/projects.service';
 import {Project} from "../../model/project";
+import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-projects',
@@ -11,14 +13,21 @@ import {Project} from "../../model/project";
 export class ProjectsComponent implements OnInit {
 
   projects: Project[];
+  projectsForm: FormGroup;
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private apiService: ApiService,
+    private formBuilder :FormBuilder,
+    private projectsService : ProjectsService
+    ) { }
 
   ngOnInit(): void {
+    this.initProjectsForm();
     this.apiService.getAllProjects().subscribe((data) => {
       console.log(data);
       this.projects = data;
     });
+    
   }
 
   slideConfig = {
@@ -29,5 +38,19 @@ export class ProjectsComponent implements OnInit {
     "dots": true,
     "autoplay": true
   };
+
+   initProjectsForm() {
+    this.projectsForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      users: ['', Validators.required],
+      description: ''
+    });
+  }
+
+  onSubmitProjectsForm(){
+    const newProject = this.projectsForm.value;
+    this.projectsService.creatProject(newProject);
+    console.log(this.projectsService.projects)
+  }
 
 }
