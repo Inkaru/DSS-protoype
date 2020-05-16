@@ -6,7 +6,8 @@ import {Project} from "../../model/project";
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import * as $ from 'jquery';
+import * as bootstrap from 'bootstrap';
+import * as $AB from 'jquery';
 
 @Component({
   selector: 'app-projects',
@@ -57,9 +58,8 @@ export class ProjectsComponent implements OnInit {
 
    initProjectsForm() {
     this.projectsForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      users: ['', Validators.required],
-      description: ''
+      name: ['', Validators.required],
+      description: ['', Validators.required]
     });
   }
 
@@ -70,7 +70,7 @@ export class ProjectsComponent implements OnInit {
     }else{
       this.projectsService.createProject(newProject);
     }
-    $('#projectsForm').modal('hide');
+    $('#projectsFormModal').modal('hide');
   }
 
   ngOnDestroy() {
@@ -90,18 +90,19 @@ export class ProjectsComponent implements OnInit {
 
   onEditProject(project){
     this.editMode = true;
-    $('#projectsForm').modal('show');
-    this.projectsForm.get('title').setValue(project.title);
-    this.projectsForm.get('users').setValue(project.users);
+    $('#projectsFormModal').modal('show');
+    
+    this.projectsForm.get('name').setValue(project.name);
     this.projectsForm.get('description').setValue(project.description);
     const index = this.projects.findIndex(
-      (projectEl)=>{
-        if (projectEl === project){
+      (projectEl) => {
+        if (projectEl === project) {
           return true;
         }
       }
     );
     this.indexToUpdate = index;
+    
     
   }
 

@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ProjectsService {
+
   getProperties() {
     throw new Error("Method not implemented.");
   }
@@ -12,13 +13,11 @@ export class ProjectsService {
 
   projects =[
     {
-      title : 'mon super projet',
-      users : 'Florian neve',
+      name : 'mon super projet',
       description : 'un petit projet sympas'
     },
     {
-      title : 'my super projcet',
-      users : 'Florian neve',
+      name : 'my super project',
       description : 'un small funny project'
     },
   ];
@@ -35,6 +34,7 @@ export class ProjectsService {
   createProject(project){
     this.projects.push(project);
   }
+  
   getProjects() {}
 
   deleteProjects(index){

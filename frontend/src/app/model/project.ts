@@ -1,10 +1,13 @@
 import {User} from "./user";
 
 export class Project {
-  id: string;
+  
   name: string;
   description: string;
-  creators: User[];
-  participants: User[];
+
+  // TO DO
+  // id: string;
+  // creators: User[];
+  // participants: User[];
 
 }
