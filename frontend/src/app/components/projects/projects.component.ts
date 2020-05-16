@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../services/api.service";
 
-import{ProjectsService} from 'src/app/services/projects.service';
+// import{ProjectsService} from 'src/app/services/projects.service';
 import {Project} from "../../model/project";
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -26,24 +26,23 @@ export class ProjectsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private formBuilder :FormBuilder,
-    private projectsService : ProjectsService
+    // private projectsService : ProjectsService
     ) { }
 
   ngOnInit(): void {
     this.initProjectsForm();
-    this.projectsService.emitProjects();
     // console.log(this.projects)
     // this.apiService.getAllProjects().subscribe((data) => {
     //   console.log(data);
     //   this.projects = data;
     // });
-    this.projectsSubscription = this.projectsService.projectsSubject.subscribe(
+    this.projectsSubscription = this.apiService.projectsSubject.subscribe(
       (data: any) => {
         this.projects = data;
       }
     );
-    this.projectsService.getProjects();
-    this.projectsService.emitProjects();
+    this.apiService.getFakeProjects();
+    this.apiService.emitProjects();
     
   }
 
@@ -66,9 +65,9 @@ export class ProjectsComponent implements OnInit {
   onSubmitProjectsForm(){
     const newProject = this.projectsForm.value;
     if (this.editMode){
-      this.projectsService.updateProjects(newProject, this.indexToUpdate);
+      this.apiService.updateProjects(newProject, this.indexToUpdate);
     }else{
-      this.projectsService.createProject(newProject);
+      this.apiService.createProject(newProject);
     }
     $('#projectsFormModal').modal('hide');
   }
@@ -84,7 +83,7 @@ export class ProjectsComponent implements OnInit {
 
   onDeleteProject(index){
     if (confirm("Are you sure you want delete this project?")){
-      this.projectsService.deleteProjects(index);
+      this.apiService.deleteProjects(index);
     } 
   }
 
