@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Project} from "../model/project";
 import {User} from "../model/user";
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +11,57 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
+  //Project Methods
+
   // API calls are done with '/api/... '
 
-  public getFakeProjects(){
-    return this.httpClient.get('https://my-json-server.typicode.com/inkaru/inkaru.github.io/companies');
-  }
+  projects: Project[] = [];
+
+
+  public getFakeProjects() {
+    this.httpClient
+      .get<any[]>('https://my-json-server.typicode.com/inkaru/inkaru.github.io/companies')
+      .subscribe(
+        (response) => {
+          this.projects = response;
+          this.emitProjects();
+        },
+        (error) => {
+          console.log('Erreur ! ');
+        }
+      );
+}
 
   public getAllProjects(){
     return this.httpClient.get<Project[]>('/api/projects/getAllProjects');
   }
+
+  projectsSubject = new Subject<any[]>();
+
+  
+  
+
+  emitProjects(){
+    this.projectsSubject.next(this.projects);
+  }
+
+  createProject(project){
+    this.projects.push(project);
+  }
+  
+  getProjects() {}
+
+  deleteProjects(index){
+    this.projects.splice(index, 1);
+    this.emitProjects();
+  }
+
+  updateProjects(project, index){
+    this.projects[index] = project;
+    this.emitProjects();
+  }
+
+
 
   // User methods
 
