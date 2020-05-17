@@ -15,6 +15,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
     HomeComponent,
     AdminDashboardComponent,
     ProjectsComponent,
-    LoginComponent
+    LoginComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
