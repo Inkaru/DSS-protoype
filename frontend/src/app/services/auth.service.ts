@@ -33,8 +33,11 @@ export class AuthService {
 
   // Fake login - temporary
   fakeLogin(){
-    let user = new User();
-    user.loginName = "Inkaru";
+    const user = new User();
+    user.loginName = 'Inkaru';
+    user.firstName = 'Pierre-Antoine';
+    user.lastName = 'Cabaret';
+    user.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum vulputate ornare. Ut mollis dolor ut sem fringilla semper. Maecenas mattis hendrerit magna ac iaculis.';
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     return user;
