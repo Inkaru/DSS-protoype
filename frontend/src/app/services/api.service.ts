@@ -85,15 +85,6 @@ export class ApiService {
   }
 
   // TODO : test if it works
-  public registerUser(loginName: string, email: string, password: string, passwordRepeat: string){
-    let params = new HttpParams().set('loginName',loginName);
-    params.set('email',email);
-    params.set('password',password);
-    params.set('passwordRepeat',passwordRepeat);
-    return this.httpClient.post('/api/users/registerUser',{params: params});
-  }
-
-  // TODO : test if it works
   public updateUser(user: User){
     return this.httpClient.post('/api/users/updateUser', JSON.stringify(user));
   }

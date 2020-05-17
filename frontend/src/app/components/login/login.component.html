@@ -1,29 +1,98 @@
-<div class="col-6 offset-md-3 mt-5">
+<div class="col-4 offset-md-4 py-5">
   <div class="card">
     <h4 class="card-header">Welcome ! Please log in</h4>
     <div class="card-body">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input id="username" type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-          <div *ngIf="f.username.errors.required">Username is required</div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmitLoginForm()">
+        <div class="form-group">
+          <div *ngIf="message" class="alert alert-success">{{message}}</div>
+          <label for="username">Username</label>
+          <input id="username" type="text" formControlName="username" class="form-control"
+                 [ngClass]="{ 'is-invalid': logsubmitted && logform.username.errors }"/>
+          <div *ngIf="logsubmitted && logform.username.errors" class="invalid-feedback">
+            <div *ngIf="logform.username.errors.required">Username is required</div>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Password is required</div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" formControlName="password" class="form-control"
+                 [ngClass]="{ 'is-invalid': logsubmitted && logform.password.errors }"/>
+          <div *ngIf="logsubmitted && logform.password.errors" class="invalid-feedback">
+            <div *ngIf="logform.password.errors.required">Password is required</div>
+          </div>
         </div>
-      </div>
-      <button [disabled]="loading" class="btn btn-primary">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        Login
-      </button>
-      <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-    </form>
+        <button type="submit" [disabled]="logloading" class="btn btn-block btn-success mr-1">
+          <span *ngIf="logloading" class="spinner-border spinner-border-sm mr-1"></span>
+          Login
+        </button>
+        <div *ngIf="loginError" class="alert alert-danger mt-3 mb-0">{{loginError}}</div>
+      </form>
+      <a class="btn" data-toggle="modal" data-target="#registerModal" (click)="resetRegisterForm()">
+        Register
+      </a>
+    </div>
   </div>
-</div>
 
-<button (click)="tempLogin()">TemporaryLogin</button>
+  <button (click)="tempLogin()">TemporaryLogin</button>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmitRegisterForm()">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" placeholder="Username" class="form-control" formControlName="loginName"
+                     formControlName="loginName" [ngClass]="{ 'is-invalid': regsubmitted && regform.loginName.errors }">
+              <div *ngIf="regsubmitted && regform.loginName.errors" class="invalid-feedback">
+                <div *ngIf="regform.loginName.errors.required">Username is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Email" class="form-control" formControlName="email"
+                     formControlName="email" [ngClass]="{ 'is-invalid': regsubmitted && regform.email.errors }">
+              <div *ngIf="regsubmitted && regform.email.errors" class="invalid-feedback">
+                <div *ngIf="regform.email.errors.required">Email is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control" formControlName="password"
+                     formControlName="password" [ngClass]="{ 'is-invalid': regsubmitted && regform.password.errors }">
+              <div *ngIf="regsubmitted && regform.password.errors" class="invalid-feedback">
+                <div *ngIf="regform.password.errors.required">Password is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password confirmation" class="form-control"
+                     formControlName="passwordConfirm"
+                     [ngClass]="{ 'is-invalid': regsubmitted && regform.passwordConfirm.errors }">
+              <div *ngIf="regsubmitted && regform.passwordConfirm.errors" class="invalid-feedback">
+                <div *ngIf="regform.passwordConfirm.errors.required">Password confirmation is required</div>
+              </div>
+            </div>
+
+            <div *ngFor="let err of registerError" class="alert alert-danger mt-3 mb-0">
+              {{err}}
+            </div>
+          </div>
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetRegisterForm()">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-primary" type="submit">
+              <span *ngIf="regloading" class="spinner-border spinner-border-sm mr-1"></span>
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

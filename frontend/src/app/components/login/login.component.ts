@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../services/auth.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { first } from "rxjs/operators";
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../../services/auth.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {first} from 'rxjs/operators';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +12,19 @@ import { first } from "rxjs/operators";
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
-  loading = false;
-  submitted = false;
   returnUrl: string;
-  error = '';
+
+  message: string;
+
+  loginForm: FormGroup;
+  loginError = '';
+  logloading = false;
+  logsubmitted = false;
+
+  registerForm: FormGroup;
+  registerError;
+  regloading = false;
+  regsubmitted = false;
 
   constructor(
     private authService: AuthService,
@@ -34,39 +43,85 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
+    this.registerForm = this.formBuilder.group({
+      loginName: ['', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+      passwordConfirm: ['', Validators.required]
+    });
+
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
+  get logform() {
+    return this.loginForm.controls;
+  }
 
-  onSubmit() {
-    this.submitted = true;
+  get regform() {
+    return this.registerForm.controls;
+  }
+
+  onSubmitLoginForm() {
+    this.logsubmitted = true;
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
 
-    this.loading = true;
-    this.authService.login(this.f.username.value, this.f.password.value)
+    this.logloading = true;
+    this.authService.login(this.logform.username.value, this.logform.password.value)
       .pipe(first())
       .subscribe(
         data => {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.error = error.statusText;
+          this.loginError = error.message;
           console.log(error);
-          this.loading = false;
+          this.logloading = false;
         }
-      )
+      );
 
 
   }
 
-  tempLogin(){
+  onSubmitRegisterForm() {
+    this.regsubmitted = true;
+
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    this.regloading = true;
+    this.authService.registerUser(
+      this.regform.loginName.value,
+      this.regform.email.value,
+      this.regform.password.value,
+      this.regform.passwordConfirm.value
+    ).pipe(first())
+      .subscribe(
+        data => {
+          this.message = 'Registration sucessful, please login';
+          $('#registerModal').modal('hide');
+          this.resetRegisterForm();
+        },
+        error => {
+          console.log(error);
+          this.registerError = error.error.errors.map(err => err.defaultMessage);
+          this.regloading = false;
+        }
+      );
+  }
+
+  resetRegisterForm() {
+    this.registerForm.reset();
+    this.regsubmitted = false;
+  }
+
+  tempLogin() {
     this.authService.fakeLogin();
     this.router.navigate([this.returnUrl]);
   }
