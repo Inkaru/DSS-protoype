@@ -12,17 +12,17 @@ public class Registration {
 	@NotNull
 	private String loginName;
 	@NotNull
-	@ValidEmail(message = "The email adress is invalid")
-	private String emailAddress;
+	@ValidEmail(message = "The email address is invalid")
+	private String email;
 	@NotNull
 	@ValidPassword(message = "The password should have at least 1 Uppercase letter, 1 lowercase letter, 1 digit and 1 symbol")
 	private String password;
 	@NotNull
 	private String passwordRepeat;
 
-	public Registration(String loginName, String emailAddress, String password, String passwordRepeat) {
+	public Registration(String loginName, String email, String password, String passwordRepeat) {
 		this.loginName = loginName;
-		this.emailAddress = emailAddress;
+		this.email = email;
 		this.password = password;
 		this.passwordRepeat = passwordRepeat;
 	}
@@ -35,12 +35,12 @@ public class Registration {
 		this.loginName = loginName;
 	}
 
-	public String getEmailAddress() {
-		return emailAddress;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -62,7 +62,7 @@ public class Registration {
 	@Override
 	public String toString() {
 		return String.format(
-				"Registration[loginName=%s, emailAddress='%s',password='%s', passwordRepeat='%s']",
-				loginName, emailAddress, password, passwordRepeat);
+				"Registration[loginName=%s, email='%s',password='%s', passwordRepeat='%s']",
+				loginName, email, password, passwordRepeat);
 	}
 }
