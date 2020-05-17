@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../services/auth.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { first } from "rxjs/operators";
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../../services/auth.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {first} from 'rxjs/operators';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -13,13 +14,15 @@ export class LoginComponent implements OnInit {
 
   returnUrl: string;
 
+  message: string;
+
   loginForm: FormGroup;
   loginError = '';
   logloading = false;
   logsubmitted = false;
 
   registerForm: FormGroup;
-  registerError = '';
+  registerError;
   regloading = false;
   regsubmitted = false;
 
@@ -48,12 +51,17 @@ export class LoginComponent implements OnInit {
     });
 
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   // convenience getter for easy access to form fields
-  get logform() { return this.loginForm.controls; }
-  get regform() { return this.registerForm.controls; }
+  get logform() {
+    return this.loginForm.controls;
+  }
+
+  get regform() {
+    return this.registerForm.controls;
+  }
 
   onSubmitLoginForm() {
     this.logsubmitted = true;
@@ -71,16 +79,16 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.loginError = error.statusText;
+          this.loginError = error.message;
           console.log(error);
           this.logloading = false;
         }
-      )
+      );
 
 
   }
 
-  onSubmitRegisterForm(){
+  onSubmitRegisterForm() {
     this.regsubmitted = true;
 
     if (this.registerForm.invalid) {
@@ -93,25 +101,27 @@ export class LoginComponent implements OnInit {
       this.regform.email.value,
       this.regform.password.value,
       this.regform.passwordConfirm.value
-      ).pipe(first())
+    ).pipe(first())
       .subscribe(
         data => {
-          this.router.navigate(['login']);
+          this.message = 'Registration sucessful, please login';
+          $('#registerModal').modal('hide');
+          this.resetRegisterForm();
         },
         error => {
-          this.registerError = error.statusText;
           console.log(error);
+          this.registerError = error.error.errors.map(err => err.defaultMessage);
           this.regloading = false;
         }
-      )
+      );
   }
 
-  resetRegisterForm(){
+  resetRegisterForm() {
     this.registerForm.reset();
     this.regsubmitted = false;
   }
 
-  tempLogin(){
+  tempLogin() {
     this.authService.fakeLogin();
     this.router.navigate([this.returnUrl]);
   }
