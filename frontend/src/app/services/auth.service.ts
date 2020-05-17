@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {User} from "../model/user";
 import {map} from "rxjs/operators";
@@ -44,5 +44,14 @@ export class AuthService {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+  }
+
+  // TODO : test if it works
+  public registerUser(loginName: string, email: string, password: string, passwordRepeat: string){
+    let params = new HttpParams().set('loginName',loginName);
+    params.set('email',email);
+    params.set('password',password);
+    params.set('passwordRepeat',passwordRepeat);
+    return this.http.post('/api/users/registerUser',{params: params});
   }
 }
