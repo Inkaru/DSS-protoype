@@ -49,11 +49,11 @@ public class UserService {
 	}
 
 	public User createUser(Registration reg) throws EmailExistsException, LoginNameExistsException {
-		if (userRepository.existsByEmailAddress(reg.getEmailAddress())) throw new EmailExistsException();
+		if (userRepository.existsByEmailAddress(reg.getEmail())) throw new EmailExistsException();
 		if (userRepository.existsByLoginName(reg.getLoginName())) throw new LoginNameExistsException();
 		User newGuy = new User()
 				.loginName(reg.getLoginName())
-				.emailAddress(reg.getEmailAddress())
+				.emailAddress(reg.getEmail())
 				.hashedPassword(passwordEncoder.encode(reg.getPassword()));
 		userRepository.save(newGuy);
 		logger.info("##### USER SAVED: " + newGuy);
