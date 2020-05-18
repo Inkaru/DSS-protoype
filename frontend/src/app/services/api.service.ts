@@ -17,10 +17,11 @@ export class ApiService {
 
   projects: Project[] = [];
 
+  projectsSubject = new Subject<any[]>();
 
-  public getFakeProjects() {
+  public getAllProjects() {
     this.httpClient
-      .get<any[]>('https://my-json-server.typicode.com/inkaru/inkaru.github.io/companies')
+      .get<any[]>('/api/projects/getAllProjects')
       .subscribe(
         (response) => {
           this.projects = response;
@@ -32,23 +33,38 @@ export class ApiService {
       );
 }
 
-  public getAllProjects(){
-    return this.httpClient.get<Project[]>('/api/projects/getAllProjects');
-  }
+//https://my-json-server.typicode.com/inkaru/inkaru.github.io/companies
 
-  projectsSubject = new Subject<any[]>();
-
-  
-  
+  // public getAllProjects(){
+  //   return this.httpClient.get<Project[]>('/api/projects/getAllProjects');
+  // }
 
   emitProjects(){
     this.projectsSubject.next(this.projects);
   }
 
-  createProject(project){
+//   createProject (project : Project) {
+//     let params = new HttpParams().set('name',project.name);
+//     params.set('description',project.description);
+//     return this.http.post('api/projects/createProject', {params : params} );
+//  }
+
+
+
+  // add a new project in local
+  /**createProject(project){
     this.projects.push(project);
-  }
-  
+  }**/
+
+  /** POST: add a new project to the database **/
+  createProject (project : Project) {
+    let params = new HttpParams().set('name',project.name);
+    params.set('description',project.description);
+    return this.httpClient.post('api/projects/createProject', {params : params} );
+ }
+
+
+
   getProjects() {}
 
   deleteProjects(index){

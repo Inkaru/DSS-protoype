@@ -19,7 +19,7 @@ export class ProjectsComponent implements OnInit {
   projects: Project[];
   projectsForm: FormGroup;
   projectsSubscription: Subscription;
-  
+
   indexToUpdate;
   editMode = false;
 
@@ -41,9 +41,9 @@ export class ProjectsComponent implements OnInit {
         this.projects = data;
       }
     );
-    this.apiService.getFakeProjects();
+    this.apiService.getAllProjects();
     this.apiService.emitProjects();
-    
+
   }
 
   slideConfig = {
@@ -84,13 +84,13 @@ export class ProjectsComponent implements OnInit {
   onDeleteProject(index){
     if (confirm("Are you sure you want delete this project?")){
       this.apiService.deleteProjects(index);
-    } 
+    }
   }
 
   onEditProject(project){
     this.editMode = true;
     $('#projectsFormModal').modal('show');
-    
+
     this.projectsForm.get('name').setValue(project.name);
     this.projectsForm.get('description').setValue(project.description);
     const index = this.projects.findIndex(
@@ -101,8 +101,8 @@ export class ProjectsComponent implements OnInit {
       }
     );
     this.indexToUpdate = index;
-    
-    
+
+
   }
 
 }
