@@ -35,23 +35,33 @@ export class ApiService {
 
 //https://my-json-server.typicode.com/inkaru/inkaru.github.io/companies
 
+  // public getAllProjects(){
+  //   return this.httpClient.get<Project[]>('/api/projects/getAllProjects');
+  // }
 
   emitProjects(){
     this.projectsSubject.next(this.projects);
   }
 
+//   createProject (project : Project) {
+//     let params = new HttpParams().set('name',project.name);
+//     params.set('description',project.description);
+//     return this.http.post('api/projects/createProject', {params : params} );
+//  }
 
-  //create project in local
+
+
+  // add a new project in local
   /**createProject(project){
     this.projects.push(project);
   }**/
 
-  /** post project doesn't work for now  **/
+  /** POST: add a new project to the database **/
   createProject (project : Project) {
-     let params = new HttpParams().set('name',project.name);
-     params.set('description',project.description);
-     return this.httpClient.post('api/projects/createProject', {params : params} );
-  }
+    let params = new HttpParams().set('name',project.name);
+    params.set('description',project.description);
+    return this.httpClient.post('api/projects/createProject', {params : params} );
+ }
 
 
 
