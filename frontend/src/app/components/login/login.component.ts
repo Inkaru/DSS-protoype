@@ -3,7 +3,6 @@ import {AuthService} from '../../services/auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -105,6 +104,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           this.message = 'Registration sucessful, please login';
+          // @ts-ignore
           $('#registerModal').modal('hide');
           this.resetRegisterForm();
         },
