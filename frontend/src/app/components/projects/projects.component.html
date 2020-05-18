@@ -146,6 +146,9 @@
         </div>
 
       </div>
+       <div *ngIf="error" class="alert alert-danger mb-0">
+         {{error}}
+       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
         <button type="button" class="btn btn-primary" type="submit">Enregistrer</button>

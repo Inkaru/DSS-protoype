@@ -1,13 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from "../../services/api.service";
-
-// import{ProjectsService} from 'src/app/services/projects.service';
-import {Project} from "../../model/project";
-import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-
-import * as bootstrap from 'bootstrap';
-import * as $AB from 'jquery';
+import {Component, OnInit} from '@angular/core';
+import {ApiService} from '../../services/api.service';
+import {Project} from '../../model/project';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-projects',
@@ -23,72 +18,77 @@ export class ProjectsComponent implements OnInit {
   indexToUpdate;
   editMode = false;
 
+  error: string;
+
   constructor(
     private apiService: ApiService,
-    private formBuilder :FormBuilder,
-    // private projectsService : ProjectsService
-    ) { }
+    private formBuilder: FormBuilder
+  ) {
+  }
 
   ngOnInit(): void {
     this.initProjectsForm();
-    // console.log(this.projects)
-    // this.apiService.getAllProjects().subscribe((data) => {
-    //   console.log(data);
-    //   this.projects = data;
-    // });
     this.projectsSubscription = this.apiService.projectsSubject.subscribe(
       (data: any) => {
         this.projects = data;
       }
     );
     this.apiService.getAllProjects();
-    this.apiService.emitProjects();
-
   }
 
   slideConfig = {
-    "slidesToShow": 1,
-    "slidesToScoll": 1,
-    "nextArrow": "<div class='nav-btn next-slide'></div>",
-    "prevArrow": "<div class='nav-btn prev-slide'></div>",
-    "dots": true,
-    "autoplay": true
+    'slidesToShow': 1,
+    'slidesToScoll': 1,
+    'nextArrow': '<div class=\'nav-btn next-slide\'></div>',
+    'prevArrow': '<div class=\'nav-btn prev-slide\'></div>',
+    'dots': true,
+    'autoplay': true
   };
 
-   initProjectsForm() {
+  initProjectsForm() {
     this.projectsForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required]
     });
   }
 
-  onSubmitProjectsForm(){
+  onSubmitProjectsForm() {
     const newProject = this.projectsForm.value;
-    if (this.editMode){
+    if (this.editMode) {
       this.apiService.updateProjects(newProject, this.indexToUpdate);
-    }else{
-      this.apiService.createProject(newProject);
+    } else {
+      this.apiService.createProject(newProject).subscribe(data => {
+          console.log('success');
+          console.log(data);
+          this.apiService.getAllProjects();
+          // @ts-ignore
+          $('#projectsFormModal').modal('hide');
+        },
+        error => {
+          console.log(error);
+          this.error = error.error.message;
+        });
     }
-    $('#projectsFormModal').modal('hide');
   }
 
   ngOnDestroy() {
     this.projectsSubscription.unsubscribe();
   }
 
-  resetForm(){
+  resetForm() {
     this.editMode = false;
     this.projectsForm.reset();
   }
 
-  onDeleteProject(index){
-    if (confirm("Are you sure you want delete this project?")){
+  onDeleteProject(index) {
+    if (confirm('Are you sure you want delete this project?')) {
       this.apiService.deleteProjects(index);
     }
   }
 
-  onEditProject(project){
+  onEditProject(project) {
     this.editMode = true;
+    // @ts-ignore
     $('#projectsFormModal').modal('show');
 
     this.projectsForm.get('name').setValue(project.name);
