@@ -20,10 +20,10 @@ public class Project {
 	private String description;
 	@JsonProperty
 	@DBRef
-	private List<User> creators;
+	private List<AbstractUser> creators;
 	@JsonProperty
 	@DBRef
-	private List<User> participants;
+	private List<AbstractUser> participants;
 
 	public Project name(String name) {
 		this.name = name;
@@ -39,12 +39,12 @@ public class Project {
 		return this;
 	}
 
-	public Project creators(List<User> creators) {
+	public Project creators(List<AbstractUser> creators) {
 		this.creators = creators;
 		return this;
 	}
 
-	public Project likes(List<User> likes) {
+	public Project likes(List<AbstractUser> likes) {
 		this.participants = likes;
 		return this;
 	}
@@ -81,11 +81,11 @@ public class Project {
 		return description;
 	}
 
-	public List<User> getCreators() {
+	public List<AbstractUser> getCreators() {
 		return creators;
 	}
 
-	public List<User> getParticipants() {
+	public List<AbstractUser> getParticipants() {
 		return participants;
 	}
 }
