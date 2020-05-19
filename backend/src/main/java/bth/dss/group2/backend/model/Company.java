@@ -1,6 +1,8 @@
 package bth.dss.group2.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class Company extends AbstractUser {
     @JsonProperty
     private List<String> cities;
     @JsonProperty
+    @DBRef
     private List<User> employees;
 
     public Company(){
@@ -28,6 +31,48 @@ public class Company extends AbstractUser {
 
     public Company employees(List<User> employees){
         this.employees = employees;
+        return this;
+    }
+
+    @Override
+    public Company loginName(String loginName) {
+        this.loginName = loginName;
+        return this;
+    }
+
+    @Override
+    public Company hashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
+        return this;
+    }
+
+    @Override
+    public Company description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    @Override
+    public Company emailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+        return this;
+    }
+
+    @Override
+    public Company phoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    @Override
+    public Company likedProject(List<Project> likedProjects) {
+        this.likedProjects = likedProjects;
+        return this;
+    }
+
+    @Override
+    public Company followedProjects(List<Project> followedProjects) {
+        this.followedProjects = followedProjects;
         return this;
     }
 

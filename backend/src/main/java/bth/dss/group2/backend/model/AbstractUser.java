@@ -3,11 +3,13 @@ package bth.dss.group2.backend.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 import java.util.List;
 import java.util.Objects;
 
+@Document(collection = "User")
 public abstract class AbstractUser {
     @Id
     protected String id;
@@ -30,40 +32,19 @@ public abstract class AbstractUser {
     @DBRef
     protected List<Project> likedProjects;
 
-    public AbstractUser loginName(String loginName) {
-        this.loginName = loginName;
-        return this;
-    }
+    public abstract AbstractUser loginName(String loginName);
 
-    public AbstractUser hashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-        return this;
-    }
+    public abstract AbstractUser hashedPassword(String hashedPassword);
 
-    public AbstractUser description(String description) {
-        this.description = description;
-        return this;
-    }
+    public abstract AbstractUser description(String description);
 
-    public AbstractUser emailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-        return this;
-    }
+    public abstract AbstractUser emailAddress(String emailAddress);
 
-    public AbstractUser phoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
+    public abstract AbstractUser phoneNumber(String phoneNumber);
 
-    public AbstractUser likedProject(List<Project> likedProjects) {
-        this.likedProjects = likedProjects;
-        return this;
-    }
+    public abstract AbstractUser likedProject(List<Project> likedProjects);
 
-    public AbstractUser followedProjects(List<Project> followedProjects) {
-        this.followedProjects = followedProjects;
-        return this;
-    }
+    public abstract AbstractUser followedProjects(List<Project> followedProjects);
 
     public String getId() {
         return id;

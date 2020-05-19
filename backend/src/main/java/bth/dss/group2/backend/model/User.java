@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
 public class User extends AbstractUser {
 
 	@JsonProperty
@@ -53,6 +52,48 @@ public class User extends AbstractUser {
 
 	public User address(String address) {
 		this.address = address;
+		return this;
+	}
+
+	@Override
+	public User loginName(String loginName) {
+		this.loginName = loginName;
+		return this;
+	}
+
+	@Override
+	public User hashedPassword(String hashedPassword) {
+		this.hashedPassword = hashedPassword;
+		return this;
+	}
+
+	@Override
+	public User description(String description) {
+		this.description = description;
+		return this;
+	}
+
+	@Override
+	public User emailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+		return this;
+	}
+
+	@Override
+	public User phoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+		return this;
+	}
+
+	@Override
+	public User likedProject(List<Project> likedProjects) {
+		this.likedProjects = likedProjects;
+		return this;
+	}
+
+	@Override
+	public User followedProjects(List<Project> followedProjects) {
+		this.followedProjects = followedProjects;
 		return this;
 	}
 

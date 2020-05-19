@@ -1,6 +1,8 @@
 package bth.dss.group2.backend;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -47,10 +49,23 @@ public class DSSApplication implements CommandLineRunner {
 		abstractUserRepository.save(antonin);
 		abstractUserRepository.save(ey);
 
-		projectRepository.save(new Project().name("TestProject1").description("Description of text project 1").creators(Collections
-				.singletonList(timo)));
-		projectRepository.save(new Project().name("TestProject2").description("Description of text project 2").creators(Collections
-				.singletonList(ey)));
+		List<AbstractUser> testProject1Creators = new ArrayList<AbstractUser>();
+		testProject1Creators.add((User)timo);
+
+		List<AbstractUser> testProject2Creators = new ArrayList<AbstractUser>();
+		testProject2Creators.add((User)antonin);
+		testProject2Creators.add((Company)ey);
+
+		Project project1 = new Project().name("TestProject1").description("Description of text project 1").creators(testProject1Creators);
+		Project project2 = new Project().name("TestProject2").description("Description of text project 2").creators(testProject2Creators);
+		System.out.println("------- Project before database --------");
+		System.out.println(project1);
+		System.out.println(project2);
+		System.out.println("-----------------");
+
+
+		projectRepository.save(project1);
+		projectRepository.save(project2);
 
 		// fetch all customers
 		System.out.println("Customers found with findAll():");
