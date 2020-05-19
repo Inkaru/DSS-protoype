@@ -11,14 +11,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class User {
-	@Id
-	private String id;
-	@JsonProperty
-	@Indexed(unique = true)
-	private String loginName;
-	@JsonProperty
-	private String hashedPassword;
+public class User extends AbstractUser {
+
 	@JsonProperty
 	private String firstName;
 	@JsonProperty
@@ -30,30 +24,7 @@ public class User {
 	@JsonProperty
 	private String country;
 	@JsonProperty
-	private String description;
-	@JsonProperty
-	@Indexed(unique = true)
-	private String emailAddress;
-	@JsonProperty
-	private String phoneNumber;
-	@JsonProperty
 	private String address;
-	@JsonProperty
-	@DBRef
-	private List<Project> followedProjects;
-	@JsonProperty
-	@DBRef
-	private List<Project> likedProjects;
-
-	public User loginName(String loginName) {
-		this.loginName = loginName;
-		return this;
-	}
-
-	public User hashedPassword(String hashedPassword) {
-		this.hashedPassword = hashedPassword;
-		return this;
-	}
 
 	public User firstName(String firstName) {
 		this.firstName = firstName;
@@ -80,64 +51,32 @@ public class User {
 		return this;
 	}
 
-	public User description(String description) {
-		this.description = description;
-		return this;
-	}
-
-	public User emailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-		return this;
-	}
-
-	public User phoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-		return this;
-	}
-
 	public User address(String address) {
 		this.address = address;
 		return this;
-	}
-
-	public User likedProject(List<Project> likedProjects) {
-		this.likedProjects = likedProjects;
-		return this;
-	}
-
-	public User followedProjects(List<Project> followedProjects) {
-		this.followedProjects = followedProjects;
-		return this;
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	@Override
 	public String toString() {
 		//TODO: add more
 		return String.format(
-				"User[id=%s, loginName='%s', emailAddress='%s', hashedPassword='%s',firstName='%s', lastName='%s']",
+				"User[id='%s', loginName='%s', emailAddress='%s', hashedPassword='%s',firstName='%s', lastName='%s']",
 				id, loginName, emailAddress, hashedPassword, firstName, lastName);
 	}
 
-	@Override
+	/*@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		User user = (User) o;
 		return loginName.equals(user.loginName);
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public int hashCode() {
 		return Objects.hash(id);
-	}
+	}*/
 
-	public String getLoginName() {
-		return loginName;
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -152,7 +91,4 @@ public class User {
 	}
 
 
-	public void setID(String id) {
-		this.id = id;
-	}
 }
