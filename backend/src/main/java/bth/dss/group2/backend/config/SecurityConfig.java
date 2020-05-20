@@ -35,8 +35,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.httpBasic()
 				.and()
 				.authorizeRequests()
-				.antMatchers("/api/projects/*", "/api/users/*").authenticated()
-				.antMatchers("*.bundle.*", "/index*", "/*", "/api/login/*", "/backendLogin").permitAll()
+				.antMatchers("/api/projects/*", "/api/users/*", "/api/login/user").authenticated()
+				.antMatchers("*.bundle.*", "/index*", "/*", "/api/login/authenticate").permitAll();
+
+	/*
 				.and()
 				.formLogin()
 				.loginPage("/login")
@@ -46,7 +48,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authenticationDetailsSource(webAuthenticationDetailsSource())
 				.permitAll();
 
-			/*	.and()
+				.and()
 				.sessionManagement()
 				.invalidSessionUrl("/invalidSession.html")
 				.maximumSessions(1).sessionRegistry(sessionRegistry()).and()
