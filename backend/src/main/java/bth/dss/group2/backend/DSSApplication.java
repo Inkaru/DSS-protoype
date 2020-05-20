@@ -1,19 +1,17 @@
 package bth.dss.group2.backend;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import javax.transaction.Transactional;
 
-import bth.dss.group2.backend.model.AbstractUser;
 import bth.dss.group2.backend.model.Company;
+import bth.dss.group2.backend.model.Person;
 import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.User;
-import bth.dss.group2.backend.model.dto.Registration;
-import bth.dss.group2.backend.repository.AbstractUserRepository;
+import bth.dss.group2.backend.model.dto.RegistrationForm;
 import bth.dss.group2.backend.repository.ProjectRepository;
-import bth.dss.group2.backend.service.AbstractUserService;
+import bth.dss.group2.backend.repository.UserRepository;
+import bth.dss.group2.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,16 +24,16 @@ public class DSSApplication implements CommandLineRunner {
 	ProjectRepository projectRepository;
 
 	@Autowired
-	AbstractUserRepository<Company> companyRepository;
+	UserRepository<Company> companyRepository;
 
 	@Autowired
-	AbstractUserRepository<User> userRepository;
+	UserRepository<Person> personRepository;
 
 	@Autowired
-	AbstractUserRepository<AbstractUser> abstractUserRepository;
+	UserRepository<User> userRepository;
 
 	@Autowired
-	AbstractUserService abstractUserService;
+	UserService userService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DSSApplication.class, args);
@@ -46,26 +44,25 @@ public class DSSApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		projectRepository.deleteAll();
 		//Same behavior as userRepository or CompanyRepository
-		abstractUserRepository.deleteAll();
-
+		userRepository.deleteAll();
 
 		// save a couple of customers
-		AbstractUser timo = new User().firstName("Timo")
+		User timo = new Person().firstName("Timo")
 				.lastName("Dittus")
 				.loginName("timo")
-				.emailAddress("timo@timo.timo");
-		AbstractUser antonin = new User().firstName("Antonin")
+				.email("timo@timo.timo");
+		User antonin = new Person().firstName("Antonin")
 				.lastName("Fleury")
 				.loginName("antonin")
-				.emailAddress("antonin@antonin.antonin");
-		AbstractUser ey = new Company().name("EY")
-				.employees(Collections.singletonList((User) timo))
+				.email("antonin@antonin.antonin");
+		User ey = new Company().name("EY")
+				.employees(Collections.singletonList((Person) timo))
 				.cities(Collections.singletonList("Los Angeles"))
 				.loginName("EYTheWorst")
-				.emailAddress("eytheworst@ey.ey");
-		abstractUserRepository.save(timo);
-		abstractUserRepository.save(antonin);
-		abstractUserRepository.save(ey);
+				.email("eytheworst@ey.ey");
+		userRepository.save(timo);
+		userRepository.save(antonin);
+		userRepository.save(ey);
 
 		projectRepository.save(new Project().name("TestProject1")
 				.description("Description of text project 1")
@@ -79,7 +76,7 @@ public class DSSApplication implements CommandLineRunner {
 		// fetch all customers
 		System.out.println("Customers found with findAll():");
 		System.out.println("-------------------------------");
-		for (AbstractUser user : userRepository.findAll()) {
+		for (User user : userRepository.findAll()) {
 			System.out.println(user);
 		}
 		System.out.println();
@@ -94,7 +91,7 @@ public class DSSApplication implements CommandLineRunner {
 		System.out.println("--------------------------------");
 		System.out.println(userRepository.findByLoginName("pute"));
 
-		abstractUserService.createUser(new Registration("frenchie", "test@test.test", "Encule69!", "Encule69!"));
+		userService.createUser(new RegistrationForm("frenchie", "test@test.test", "Encule69!", "Encule69!"));
 		System.out.println(userRepository.findByLoginName("frenchie"));
 	}
 }

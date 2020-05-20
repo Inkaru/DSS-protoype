@@ -5,8 +5,8 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 
 import bth.dss.group2.backend.exception.LoginNameNotFoundException;
-import bth.dss.group2.backend.model.AbstractUser;
-import bth.dss.group2.backend.service.AbstractUserService;
+import bth.dss.group2.backend.model.User;
+import bth.dss.group2.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

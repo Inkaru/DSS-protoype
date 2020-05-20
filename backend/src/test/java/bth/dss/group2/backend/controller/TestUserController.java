@@ -77,7 +77,7 @@
 //    public void testRegisterUser() throws Exception {
 //        Registration registration = new Registration("NewGuyFamous","newguysFamous@gmail.com","Agoogd.Password052","Agoogd.Password052");
 //        User registrationResult = new User();
-//        registrationResult.loginName("NewGuyFamous").emailAddress("newguysFamous@gmail.com").hashedPassword("$2a$10$6T7zEb/OFWpz..XyqPGqheCt20WceruDH3H1ENuC1uokZlPxt0Sma").setID("unexpectedIDOnlyForTestingPurposes");
+//        registrationResult.loginName("NewGuyFamous").email("newguysFamous@gmail.com").hashedPassword("$2a$10$6T7zEb/OFWpz..XyqPGqheCt20WceruDH3H1ENuC1uokZlPxt0Sma").setID("unexpectedIDOnlyForTestingPurposes");
 //
 //        Mockito.when(userService.createUser(Mockito.any(Registration.class))).thenReturn(registrationResult);
 //
@@ -107,7 +107,7 @@
 //    public void testRegisterUserWithExistingEmail() throws Exception {
 //        Registration registration = new Registration("NewGuyFamous","newguysFamous@gmail.com","Agoogd.Password052","Agoogd.Password052");
 //        User registrationResult = new User();
-//        registrationResult.loginName("NewGuyFamous").emailAddress("newguysFamous@gmail.com").hashedPassword("$2a$10$6T7zEb/OFWpz..XyqPGqheCt20WceruDH3H1ENuC1uokZlPxt0Sma").setID("unexpectedIDOnlyForTestingPurposes");
+//        registrationResult.loginName("NewGuyFamous").email("newguysFamous@gmail.com").hashedPassword("$2a$10$6T7zEb/OFWpz..XyqPGqheCt20WceruDH3H1ENuC1uokZlPxt0Sma").setID("unexpectedIDOnlyForTestingPurposes");
 //
 //        Mockito.when(userService.createUser(Mockito.any(Registration.class))).thenThrow(new EmailExistsException());
 //
@@ -126,7 +126,7 @@
 //    public void testRegisterUserWithExistingLogin() throws Exception {
 //        Registration registration = new Registration("NewGuyFamous","newguysFamous@gmail.com","Agoogd.Password052","Agoogd.Password052");
 //        User registrationResult = new User();
-//        registrationResult.loginName("NewGuyFamous").emailAddress("newguysFamous@gmail.com").hashedPassword("$2a$10$6T7zEb/OFWpz..XyqPGqheCt20WceruDH3H1ENuC1uokZlPxt0Sma").setID("unexpectedIDOnlyForTestingPurposes");
+//        registrationResult.loginName("NewGuyFamous").email("newguysFamous@gmail.com").hashedPassword("$2a$10$6T7zEb/OFWpz..XyqPGqheCt20WceruDH3H1ENuC1uokZlPxt0Sma").setID("unexpectedIDOnlyForTestingPurposes");
 //
 //        Mockito.when(userService.createUser(Mockito.any(Registration.class))).thenThrow(new LoginNameExistsException());
 //

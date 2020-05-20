@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import bth.dss.group2.backend.model.AbstractUser;
-import bth.dss.group2.backend.repository.AbstractUserRepository;
+import bth.dss.group2.backend.model.User;
+import bth.dss.group2.backend.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,11 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
 
-	private final AbstractUserRepository<? extends AbstractUser> userRepository;
+	private final UserRepository<? extends User> userRepository;
 
 	private final HttpServletRequest request;
 
-	public CustomUserDetailsService(AbstractUserRepository<? extends AbstractUser> userRepository, HttpServletRequest request) {
+	public CustomUserDetailsService(UserRepository<? extends User> userRepository, HttpServletRequest request) {
 		super();
 		this.userRepository = userRepository;
 		this.request = request;
@@ -36,11 +36,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (loginAttemptService.isBlocked(ip)) {
 			throw new RuntimeException("blocked");
 		}*/
-		AbstractUser user = userRepository.findByLoginName(loginName)
+		User user = userRepository.findByLoginName(loginName)
 				.orElseThrow(() -> new UsernameNotFoundException("User name not found: " + loginName));
 		return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getHashedPassword(), true, true, true, true, Collections
 				.emptyList());
-		//return new org.springframework.security.core.userdetails.User(user.getEmailAddress(), user.getHashedPassword(), true, true, true, true, getAuthorities(user.getRoles()));
+		//return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getHashedPassword(), true, true, true, true, getAuthorities(user.getRoles()));
 	}
 
 	/*private final Collection<? extends GrantedAuthority> getAuthorities(final Collection<Role> roles) {

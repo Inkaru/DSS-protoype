@@ -1,42 +1,54 @@
 package bth.dss.group2.backend.controller;
 
-import bth.dss.group2.backend.exception.*;
-import bth.dss.group2.backend.model.AbstractUser;
+import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import bth.dss.group2.backend.exception.EmailExistsException;
+import bth.dss.group2.backend.exception.EmailNotFoundException;
+import bth.dss.group2.backend.exception.LoginNameExistsException;
+import bth.dss.group2.backend.exception.LoginNameNotFoundException;
+import bth.dss.group2.backend.exception.UserNotFoundException;
+import bth.dss.group2.backend.model.Person;
 import bth.dss.group2.backend.model.User;
-import bth.dss.group2.backend.model.dto.Registration;
-import bth.dss.group2.backend.service.AbstractUserService;
+import bth.dss.group2.backend.model.dto.RegistrationForm;
+import bth.dss.group2.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping(path = "/api/users")
-public class AbstractUserController {
+public class UserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AbstractUserController.class);
-    private final AbstractUserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final UserService userService;
 
     @Autowired
-    public AbstractUserController(AbstractUserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping(value = "/registerUser")
-    public ResponseEntity<Void> registerUser(@RequestBody @Valid final Registration registration, final HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Void> registerUser(@RequestBody @Valid final RegistrationForm registration, final HttpServletRequest httpServletRequest) {
         logger.info("##### REGISTRATION RECEIVED: " + registration);
         try {
-            AbstractUser user = userService.createUser(registration);
+            User user = userService.createUser(registration);
             HttpHeaders headers = new HttpHeaders();
             System.out.println(user);
             headers.setLocation(
@@ -55,9 +67,9 @@ public class AbstractUserController {
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @GetMapping(value = "/getUser")
-    public AbstractUser getUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email, final HttpServletRequest httpServletRequest) {
+    public User getUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email, final HttpServletRequest httpServletRequest) {
         try {
-            AbstractUser user;
+            User user;
             if (id.isPresent()) {
                 user = userService.getUserById(id.get());
             }
@@ -78,12 +90,12 @@ public class AbstractUserController {
     }
 
     @RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
-    public List<AbstractUser> getAllUsers() {
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping(value = "/updateUser")
-    public ResponseEntity<Void> updateUser(@RequestBody final User user, final HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Void> updateUser(@RequestBody final Person user, final HttpServletRequest httpServletRequest) {
         try {
             userService.updateUser(user);
             HttpHeaders headers = new HttpHeaders();
