@@ -8,7 +8,9 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "Project")
 public class Project {
 
 	@Id
@@ -19,11 +21,11 @@ public class Project {
 	@JsonProperty
 	private String description;
 	@JsonProperty
-	@DBRef
-	private List<AbstractUser> creators;
+	@DBRef/*(db = "User")*/
+	private List<User> creators;
 	@JsonProperty
-	@DBRef
-	private List<AbstractUser> participants;
+	@DBRef/*(db = "User")*/
+	private List<User> participants;
 
 	public Project name(String name) {
 		this.name = name;
@@ -39,12 +41,12 @@ public class Project {
 		return this;
 	}
 
-	public Project creators(List<AbstractUser> creators) {
+	public Project creators(List<User> creators) {
 		this.creators = creators;
 		return this;
 	}
 
-	public Project likes(List<AbstractUser> likes) {
+	public Project likes(List<User> likes) {
 		this.participants = likes;
 		return this;
 	}
@@ -81,11 +83,11 @@ public class Project {
 		return description;
 	}
 
-	public List<AbstractUser> getCreators() {
+	public List<User> getCreators() {
 		return creators;
 	}
 
-	public List<AbstractUser> getParticipants() {
+	public List<User> getParticipants() {
 		return participants;
 	}
 }

@@ -8,7 +8,7 @@ import bth.dss.group2.backend.controller.ProjectController;
 import bth.dss.group2.backend.exception.ProjectNameExistsException;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.model.Project;
-import bth.dss.group2.backend.model.dto.ProjectDto;
+import bth.dss.group2.backend.model.dto.ProjectForm;
 import bth.dss.group2.backend.repository.ProjectRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,18 +38,18 @@ public class ProjectService {
 		return projectRepository.findByName(name).orElseThrow(ProjectNotFoundException::new);
 	}
 
-	public Project createProject(ProjectDto projectDto) throws ProjectNameExistsException {
-		if (projectRepository.existsByName(projectDto.getName())) throw new ProjectNameExistsException();
-		Project project = projectRepository.save((new Project()).name(projectDto.getName())
-				.description(projectDto.getDescription()));
+	public Project createProject(ProjectForm projectForm) throws ProjectNameExistsException {
+		if (projectRepository.existsByName(projectForm.getName())) throw new ProjectNameExistsException();
+		Project project = projectRepository.save((new Project()).name(projectForm.getName())
+				.description(projectForm.getDescription()));
 		logger.info("##### PROJECT SAVED: " + project);
 		return project;
 	}
 
-	public Project updateProject(ProjectDto updatedProjectDto) throws ProjectNotFoundException {
-		Project project = projectRepository.findById(updatedProjectDto.getId())
+	public Project updateProject(ProjectForm updatedProjectForm) throws ProjectNotFoundException {
+		Project project = projectRepository.findById(updatedProjectForm.getId())
 				.orElseThrow(ProjectNotFoundException::new);
-		project.name(updatedProjectDto.getName()).description(updatedProjectDto.getDescription());
+		project.name(updatedProjectForm.getName()).description(updatedProjectForm.getDescription());
 		projectRepository.save(project);
 		logger.info("##### PROJECT UPDATED: " + project);
 		return project;

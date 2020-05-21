@@ -7,7 +7,7 @@ import bth.dss.group2.backend.validation.ValidEmail;
 import bth.dss.group2.backend.validation.ValidPassword;
 
 @PasswordMatches
-public class Registration {
+public class RegistrationForm {
 
 	@NotNull
 	private String loginName;
@@ -20,7 +20,7 @@ public class Registration {
 	@NotNull
 	private String passwordRepeat;
 
-	public Registration(String loginName, String email, String password, String passwordRepeat) {
+	public RegistrationForm(String loginName, String email, String password, String passwordRepeat) {
 		this.loginName = loginName;
 		this.email = email;
 		this.password = password;

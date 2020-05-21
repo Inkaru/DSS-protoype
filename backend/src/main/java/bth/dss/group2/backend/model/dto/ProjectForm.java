@@ -1,6 +1,6 @@
 package bth.dss.group2.backend.model.dto;
 
-public class ProjectDto {
+public class ProjectForm {
 	private String id;
 	private String name;
 	private String description;
@@ -29,12 +29,12 @@ public class ProjectDto {
 		this.description = description;
 	}
 
-	public ProjectDto name(String name) {
+	public ProjectForm name(String name) {
 		this.name = name;
 		return this;
 	}
 
-	public ProjectDto description(String description) {
+	public ProjectForm description(String description) {
 		this.description = description;
 		return this;
 	}

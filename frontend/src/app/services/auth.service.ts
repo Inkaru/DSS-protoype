@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from '../model/user';
-import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +20,27 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string) {
-    return this.http.post<any>(`/api/users/authenticate`, {username, password}).pipe(map(user => {
-      // store user details in local storage to keep logged in with refreshes
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      // notify other components of the change
-      this.currentUserSubject.next(user);
-      return user;
-    }));
+  login(username, password, callback) {
+
+    const token = this.createBasicAuthToken(username, password);
+    console.log(token);
+
+    this.http.post<Observable<boolean>>('/api/login/authenticate', {},
+      { headers: { authorization: token
+        }}).subscribe(isValid => {
+      if (isValid){
+        console.log('valid');
+        sessionStorage.setItem('token', token);
+        this.getCurrentUser();
+        return callback && callback();
+      } else {
+        console.log('invalid');
+      }
+    });
+  }
+
+  private createBasicAuthToken(username, password) {
+    return 'Basic ' + window.btoa(username + ':' + password);
   }
 
   // Fake login - temporary
@@ -38,18 +50,22 @@ export class AuthService {
     user.firstName = 'Pierre-Antoine';
     user.lastName = 'Cabaret';
     user.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum vulputate ornare. Ut mollis dolor ut sem fringilla semper. Maecenas mattis hendrerit magna ac iaculis.';
-    localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     return user;
   }
 
+  getCurrentUser(){
+    this.http.get<User>('/api/login/user').subscribe(user => {
+      console.log(user);
+      this.currentUserSubject.next(user);
+    });
+  }
+
   logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    this.http.post('/logout', {});
     this.currentUserSubject.next(null);
   }
 
-  // TODO : test if it works
   public registerUser(loginName: string, email: string, password: string, passwordRepeat: string){
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify({loginName, email, password, passwordRepeat});

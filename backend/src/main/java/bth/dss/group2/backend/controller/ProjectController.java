@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import bth.dss.group2.backend.exception.ProjectNameExistsException;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.model.Project;
-import bth.dss.group2.backend.model.dto.ProjectDto;
+import bth.dss.group2.backend.model.dto.ProjectForm;
 import bth.dss.group2.backend.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,10 +41,10 @@ public class ProjectController {
 	}
 
 	@PostMapping(value = "/createProject")
-	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectDto projectDto, final HttpServletRequest httpServletRequest) {
+	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectForm projectForm, final HttpServletRequest httpServletRequest) {
 
 		try {
-			Project project = projectService.createProject(projectDto);
+			Project project = projectService.createProject(projectForm);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setLocation(
 					ServletUriComponentsBuilder
@@ -88,9 +88,9 @@ public class ProjectController {
 	}
 
 	@PostMapping(value = "/updateProject")
-	public ResponseEntity<Void> updateProject(@RequestBody final ProjectDto projectDto, final HttpServletRequest httpServletRequest) {
+	public ResponseEntity<Void> updateProject(@RequestBody final ProjectForm projectForm, final HttpServletRequest httpServletRequest) {
 		try {
-			Project project = projectService.updateProject(projectDto);
+			Project project = projectService.updateProject(projectForm);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setLocation(
 					ServletUriComponentsBuilder

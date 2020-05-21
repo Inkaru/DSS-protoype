@@ -10,7 +10,7 @@ export class User {
   city: string;
   country: string;
   description: string;
-  emailAddress: string;
+  email: string;
   phoneNumber: string;
   address: string;
   followedProjects: Project[];

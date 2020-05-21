@@ -5,90 +5,102 @@ import java.util.Objects;
 
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
-public class User extends AbstractUser {
-
+@Document(collection = "User")
+public abstract class User {
+	@Id
+	protected String id;
 	@JsonProperty
-	private String firstName;
+	@Indexed(unique = true)
+	protected String loginName;
+	@JsonIgnore
+	String hashedPassword;
 	@JsonProperty
-	private String lastName;
+	String description;
 	@JsonProperty
-	private String title;
+	@Indexed(unique = true)
+	String email;
 	@JsonProperty
-	private String city;
+	String phoneNumber;
 	@JsonProperty
-	private String country;
+	@DBRef
+	List<Project> followedProjects;
 	@JsonProperty
-	private String address;
+	@DBRef
+	List<Project> likedProjects;
 
-	public User firstName(String firstName) {
-		this.firstName = firstName;
-		return this;
-	}
+	public abstract User loginName(String loginName);
 
-	public User lastName(String lastName) {
-		this.lastName = lastName;
-		return this;
-	}
+	public abstract User hashedPassword(String hashedPassword);
 
-	public User title(String title) {
-		this.title = title;
-		return this;
-	}
+	public abstract User description(String description);
 
-	public User city(String city) {
-		this.city = city;
-		return this;
-	}
+	public abstract User email(String email);
 
-	public User country(String country) {
-		this.country = country;
-		return this;
-	}
+	public abstract User phoneNumber(String phoneNumber);
 
-	public User address(String address) {
-		this.address = address;
-		return this;
+	public abstract User likedProject(List<Project> likedProjects);
+
+	public abstract User followedProjects(List<Project> followedProjects);
+
+	public String getId() {
+		return id;
 	}
 
 	@Override
-	public String toString() {
-		//TODO: add more
-		return String.format(
-				"User[id='%s', loginName='%s', emailAddress='%s', hashedPassword='%s',firstName='%s', lastName='%s']",
-				id, loginName, emailAddress, hashedPassword, firstName, lastName);
-	}
-
-	/*@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		User user = (User) o;
 		return loginName.equals(user.loginName);
-	}*/
-
-	/*@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}*/
-
-
-	public String getFirstName() {
-		return firstName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public String getHashedPassword() {
+		return hashedPassword;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
 	public List<Project> getFollowedProjects() {
 		return followedProjects;
 	}
 
+	public List<Project> getLikedProjects() {
+		return likedProjects;
+	}
 
+	//Only for testing purposes
+	public void setID(String id) {
+		this.id = id;
+	}
+
+
+    /* If a print method have to be common for user and company !
+    public String toString(){
+        return "";
+    };*/
 }
