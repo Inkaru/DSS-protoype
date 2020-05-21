@@ -3,6 +3,8 @@ import {AuthService} from '../../services/auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +31,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private http: HttpClient
   ) {
     if (this.authService.currentUserValue) {
       this.router.navigate(['/']);
@@ -48,6 +51,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
       passwordConfirm: ['', Validators.required]
     });
+
+    sessionStorage.setItem('token', '');
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
@@ -71,20 +76,16 @@ export class LoginComponent implements OnInit {
     }
 
     this.logloading = true;
-    this.authService.login(this.logform.username.value, this.logform.password.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.loginError = error.message;
-          console.log(error);
-          this.logloading = false;
-        }
-      );
 
+    this.authService.login(
+      this.logform.username.value,
+      this.logform.password.value,
+      () => {
+        this.router.navigate([this.returnUrl]);
+      }
+    );
 
+    this.logloading = false;
   }
 
   onSubmitRegisterForm() {
