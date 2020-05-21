@@ -7,8 +7,10 @@ import bth.dss.group2.backend.exception.EmailExistsException;
 import bth.dss.group2.backend.exception.EmailNotFoundException;
 import bth.dss.group2.backend.exception.LoginNameExistsException;
 import bth.dss.group2.backend.exception.LoginNameNotFoundException;
+import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.exception.UserNotFoundException;
 import bth.dss.group2.backend.model.Person;
+import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.model.dto.RegistrationForm;
 import bth.dss.group2.backend.repository.UserRepository;
@@ -25,11 +27,13 @@ public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserRepository<User> userRepository;
+    private final ProjectService projectService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository<User> userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository<User> userRepository, ProjectService projectService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.projectService = projectService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -83,5 +87,37 @@ public class UserService {
         User user = userRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new);
         userRepository.delete(user);
         logger.info("##### USER DELETED: " + email);
+    }
+
+    public void addLike(String loginName, String projectId) throws ProjectNotFoundException, LoginNameNotFoundException {
+        User user = getUserByLoginName(loginName);
+        Project project = projectService.getProjectById(projectId);
+        user.getLikedProjects().add(project);
+        userRepository.save(user);
+        logger.info("##### Like added, user: " + user + ", project: " + project);
+    }
+
+    public void removeLike(String loginName, String projectId) throws ProjectNotFoundException, LoginNameNotFoundException {
+        User user = getUserByLoginName(loginName);
+        Project project = projectService.getProjectById(projectId);
+        user.getLikedProjects().remove(project);
+        userRepository.save(user);
+        logger.info("##### Like removed, user: " + user + ", project: " + project);
+    }
+
+    public void addFollow(String loginName, String projectId) throws ProjectNotFoundException, LoginNameNotFoundException {
+        User user = getUserByLoginName(loginName);
+        Project project = projectService.getProjectById(projectId);
+        user.getFollowedProjects().add(project);
+        userRepository.save(user);
+        logger.info("##### Follow added, user: " + user + ", project: " + project);
+    }
+
+    public void removeFollow(String loginName, String projectId) throws ProjectNotFoundException, LoginNameNotFoundException {
+        User user = getUserByLoginName(loginName);
+        Project project = projectService.getProjectById(projectId);
+        user.getFollowedProjects().remove(project);
+        userRepository.save(user);
+        logger.info("##### Follow removed, user: " + user + ", project: " + project);
     }
 }
