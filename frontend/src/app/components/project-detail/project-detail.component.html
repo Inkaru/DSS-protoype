@@ -1,4 +1,35 @@
-<div>Project page</div>
 <div *ngIf="project">
-  <h2>{{project.name}}</h2>
+  <section id="project-header" class="mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center py-5">
+          <h1 class="display-4">{{project.name}}</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!--  TODO : iterate on lists of users-->
+  <row class="col-md-8 offset-md-2 d-flex justify-content-around">
+    <div class="">
+      <span class="mr-1">Created by :</span>
+      <button class="btn btn-circle">A</button>
+      <button class="btn btn-circle">B</button>
+    </div>
+
+    <div class="">
+      <span class="mr-1">Followers :</span>
+      <button class="btn btn-circle">C</button>
+      <button class="btn btn-circle">D</button>
+    </div>
+  </row>
+
+  <hr>
+
+  <section id="project-description" class="col-md-8 offset-md-2">
+    <p class="lead">
+      {{project.description}}
+    </p>
+  </section>
+
 </div>
