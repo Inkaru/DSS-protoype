@@ -22,6 +22,20 @@
       <button class="btn btn-circle">C</button>
       <button class="btn btn-circle">D</button>
     </div>
+
+    <a (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-secondary">
+      Like
+    </a>
+    <a (click)="unlikeProject(project.id)" [hidden]="!liked" class="btn btn-danger">
+      Unlike
+    </a>
+
+    <a (click)="followProject(project.id)" [hidden]="followed" class="btn btn-secondary">
+      Follow
+    </a>
+    <a (click)="unfollowProject(project.id)" [hidden]="!followed" class="btn btn-danger">
+      Unfollow
+    </a>
   </row>
 
   <hr>
