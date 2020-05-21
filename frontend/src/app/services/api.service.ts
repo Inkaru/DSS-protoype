@@ -61,7 +61,7 @@ export class ApiService {
     return this.httpClient.get<Project[]>('/api/users/getAllUsers');
   }
 
-  public getUserById(id: number){
+  public getUserById(id){
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get<User>('/api/users/getUser', {params});
   }
@@ -81,7 +81,7 @@ export class ApiService {
     return this.httpClient.post('/api/users/updateUser', JSON.stringify(user));
   }
 
-  public deleteUserById(id: number){
+  public deleteUserById(id){
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
@@ -96,5 +96,9 @@ export class ApiService {
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
 
-
+// TODO
+  getProjectById(id) {
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get<Project>('/api/projects/getProject', {params});
+  }
 }
