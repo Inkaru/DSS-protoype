@@ -49,7 +49,6 @@ export class AuthService {
     this.currentUserSubject.next(null);
   }
 
-  // TODO : test if it works
   public registerUser(loginName: string, email: string, password: string, passwordRepeat: string){
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify({loginName, email, password, passwordRepeat});
