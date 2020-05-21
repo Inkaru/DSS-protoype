@@ -34,9 +34,9 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient
   ) {
-    // if (this.authService.currentUserValue) {
-    //   this.router.navigate(['/']);
-    // }
+    if (this.authService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
   }
 
   ngOnInit(): void {
@@ -76,36 +76,19 @@ export class LoginComponent implements OnInit {
     }
 
     this.logloading = true;
-    // this.authService.login(this.logform.username.value, this.logform.password.value)
-    //   .pipe(first())
-    //   .subscribe(
-    //     data => {
-    //       this.router.navigate([this.returnUrl]);
-    //     },
-    //     error => {
-    //       this.loginError = error.message;
-    //       console.log(error);
-    //       this.logloading = false;
-    //     }
-    //   );
-    const token = this.createBasicAuthToken(this.logform.username.value, this.logform.password.value);
-    console.log(token);
 
-    this.http.post<Observable<boolean>>('/api/login/authenticate', {},
-      { headers: { authorization: token
-      }}).subscribe(isValid => {
-        if (isValid){
-          console.log('valid');
-          sessionStorage.setItem('token', token);
-        } else {
-          console.log('invalid');
-        }
-      });
+    this.authService.login(
+      this.logform.username.value,
+      this.logform.password.value,
+      () => {
+        this.router.navigate([this.returnUrl]);
+      }
+    );
 
     this.logloading = false;
   }
 
-onSubmitRegisterForm() {
+  onSubmitRegisterForm() {
     this.regsubmitted = true;
 
     if (this.registerForm.invalid) {
@@ -134,17 +117,14 @@ onSubmitRegisterForm() {
       );
   }
 
-resetRegisterForm() {
+  resetRegisterForm() {
     this.registerForm.reset();
     this.regsubmitted = false;
   }
 
-tempLogin() {
+  tempLogin() {
     this.authService.fakeLogin();
     this.router.navigate([this.returnUrl]);
   }
 
-  private createBasicAuthToken(username, password) {
-    return 'Basic ' + window.btoa(username + ':' + password);
-  }
 }
