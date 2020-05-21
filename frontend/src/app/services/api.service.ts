@@ -96,9 +96,28 @@ export class ApiService {
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
 
-// TODO
   getProjectById(id) {
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get<Project>('/api/projects/getProject', {params});
+  }
+
+  likeProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/likeProject', {params});
+  }
+
+  unlikeProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/unlikeProject', {params});
+  }
+
+ followProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/followProject', {params});
+  }
+
+  unfollowProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/unfollowProject', {params});
   }
 }
