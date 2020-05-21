@@ -1,5 +1,6 @@
 package bth.dss.group2.backend.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import bth.dss.group2.backend.exception.EmailExistsException;
 import bth.dss.group2.backend.exception.EmailNotFoundException;
 import bth.dss.group2.backend.exception.LoginNameExistsException;
 import bth.dss.group2.backend.exception.LoginNameNotFoundException;
+import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.exception.UserNotFoundException;
 import bth.dss.group2.backend.model.Person;
 import bth.dss.group2.backend.model.User;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -136,6 +139,83 @@ public class UserController {
         }
         catch (UserNotFoundException | LoginNameNotFoundException | EmailNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+        }
+    }
+
+    @GetMapping(value = "/likeProject")
+    public ResponseEntity<Void> likeProject(@RequestParam String id, Principal principal, final HttpServletRequest httpServletRequest) {
+        try {
+            String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
+            userService.addLike(loginName, id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(
+                    ServletUriComponentsBuilder
+                            .fromContextPath(httpServletRequest)
+                            .path("/api/projects/likeProject")
+                            .buildAndExpand(id).toUri()
+            );
+            return new ResponseEntity<>(headers, HttpStatus.OK);
+        }
+        catch (ProjectNotFoundException | LoginNameNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error updating user", e);
+        }
+    }
+
+    @GetMapping(value = "/unlikeProject")
+    public ResponseEntity<Void> unlikeProject(@RequestParam String id, Principal principal, final HttpServletRequest httpServletRequest) {
+        try {
+            String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
+            userService.removeLike(loginName, id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(
+                    ServletUriComponentsBuilder
+                            .fromContextPath(httpServletRequest)
+                            .path("/api/projects/unlikeProject")
+                            .buildAndExpand(id).toUri()
+            );
+            return new ResponseEntity<>(headers, HttpStatus.OK);
+        }
+        catch (ProjectNotFoundException | LoginNameNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error updating user", e);
+        }
+    }
+
+    @GetMapping(value = "/followProject")
+    public ResponseEntity<Void> followProject(@RequestParam String id, Principal principal, final HttpServletRequest httpServletRequest) {
+        try {
+            String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
+            String loginName1 = loginName;
+            userService.addFollow(loginName1, id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(
+                    ServletUriComponentsBuilder
+                            .fromContextPath(httpServletRequest)
+                            .path("/api/projects/followProject")
+                            .buildAndExpand(id).toUri()
+            );
+            return new ResponseEntity<>(headers, HttpStatus.OK);
+        }
+        catch (ProjectNotFoundException | LoginNameNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error updating user", e);
+        }
+    }
+
+    @GetMapping(value = "/unfollowProject")
+    public ResponseEntity<Void> unfollowProject(@RequestParam String id, Principal principal, final HttpServletRequest httpServletRequest) {
+        try {
+            String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
+            userService.removeFollow(loginName, id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(
+                    ServletUriComponentsBuilder
+                            .fromContextPath(httpServletRequest)
+                            .path("/api/projects/unfollowProject")
+                            .buildAndExpand(id).toUri()
+            );
+            return new ResponseEntity<>(headers, HttpStatus.OK);
+        }
+        catch (ProjectNotFoundException | LoginNameNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error updating user", e);
         }
     }
 }
