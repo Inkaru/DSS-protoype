@@ -78,7 +78,9 @@ export class ApiService {
 
   // TODO : test if it works
   public updateUser(user: User){
-    return this.httpClient.post('/api/users/updateUser', JSON.stringify(user));
+    const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    const data = JSON.stringify(user);
+    return this.httpClient.post('/api/users/updateUser', data, {headers: header} );
   }
 
   public deleteUserById(id){
