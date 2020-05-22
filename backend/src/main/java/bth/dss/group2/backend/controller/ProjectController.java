@@ -1,11 +1,13 @@
 package bth.dss.group2.backend.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import bth.dss.group2.backend.exception.LoginNameNotFoundException;
 import bth.dss.group2.backend.exception.ProjectNameExistsException;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.model.Project;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,10 +44,10 @@ public class ProjectController {
 	}
 
 	@PostMapping(value = "/createProject")
-	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectForm projectForm, final HttpServletRequest httpServletRequest) {
-
+	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectForm projectForm, final Principal principal, final HttpServletRequest httpServletRequest) {
 		try {
-			Project project = projectService.createProject(projectForm);
+			String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
+			Project project = projectService.createProject(projectForm, loginName);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setLocation(
 					ServletUriComponentsBuilder
@@ -56,7 +59,7 @@ public class ProjectController {
 			logger.info("##### Created project: " + project);
 			return new ResponseEntity<>(headers, HttpStatus.CREATED);
 		}
-		catch (ProjectNameExistsException e) {
+		catch (ProjectNameExistsException | LoginNameNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating project : " + e.getMessage(), e);
 		}
 	}

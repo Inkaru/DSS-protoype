@@ -52,6 +52,11 @@ public class Project {
 		return this;
 	}
 
+	public Project addCreator(User creator) {
+		this.creators.add(creator);
+		return this;
+	}
+
 	public Project likes(Set<User> likes) {
 		this.participants = likes;
 		return this;
