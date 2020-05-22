@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ApiService} from '../../services/api.service';
 import {Location} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
+import {User} from '../../model/user';
 
 @Component({
   selector: 'app-project-detail',
@@ -16,6 +17,8 @@ export class ProjectDetailComponent implements OnInit {
   liked = false;
   followed = false;
 
+  currentUser: User;
+
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
@@ -25,8 +28,11 @@ export class ProjectDetailComponent implements OnInit {
   ngOnInit(): void {
     console.log('init');
     this.getProject();
-    this.liked = this.authService.currentUserValue.likedProjects.includes(this.project);
-    this.followed = this.authService.currentUserValue.followedProjects.includes(this.project);
+    this.authService.currentUser.subscribe(x => {
+      this.currentUser = x;
+      this.liked = this.currentUser.likedProjects.includes(this.project);
+      this.followed = this.currentUser.followedProjects.includes(this.project);
+    });
   }
 
   getProject() {
@@ -41,31 +47,25 @@ export class ProjectDetailComponent implements OnInit {
 
   likeProject(id) {
     this.apiService.likeProject(id).subscribe(response => {
-      this.liked = true;
-      this.authService.currentUserValue.likedProjects.push(this.project);
+      this.authService.getCurrentUser();
     });
   }
 
   unlikeProject(id) {
     this.apiService.unlikeProject(id).subscribe(response => {
-      this.liked = false;
-      const index = this.authService.currentUserValue.likedProjects.indexOf(this.project);
-      this.authService.currentUserValue.likedProjects.slice(index, 1);
+      this.authService.getCurrentUser();
     });
   }
 
   followProject(id) {
     this.apiService.followProject(id).subscribe(response => {
-      this.followed = true;
-      this.authService.currentUserValue.followedProjects.push(this.project);
+      this.authService.getCurrentUser();
     });
   }
 
   unfollowProject(id) {
     this.apiService.unfollowProject(id).subscribe(response => {
-      this.followed = false;
-      const index = this.authService.currentUserValue.followedProjects.indexOf(this.project);
-      this.authService.currentUserValue.followedProjects.slice(index, 1);
+      this.authService.getCurrentUser();
     });
   }
 }
