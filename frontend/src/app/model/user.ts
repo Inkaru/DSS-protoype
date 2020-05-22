@@ -13,6 +13,6 @@ export class User {
   email: string;
   phoneNumber: string;
   address: string;
-  followedProjects: Set<Project>;
-  likedProjects: Set<Project>;
+  followedProjects: Project[];
+  likedProjects: Project[];
 }

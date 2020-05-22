@@ -26,13 +26,17 @@ export class ProjectDetailComponent implements OnInit {
     private authService: AuthService) {}
 
   ngOnInit(): void {
-    console.log('init');
-    this.getProject();
-    this.authService.currentUser.subscribe(x => {
-      this.currentUser = x;
-      this.liked = this.currentUser.likedProjects.includes(this.project);
-      this.followed = this.currentUser.followedProjects.includes(this.project);
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    this.apiService.getProjectById(id)
+      .subscribe(project => {
+        this.project = project;
+        this.authService.currentUser.subscribe(x => {
+          this.currentUser = x;
+          this.followed = this.currentUser.followedProjects.map(p => p.id).includes(this.project.id);
+          this.liked = this.currentUser.likedProjects.map(p => p.id).includes(this.project.id);
+        });
+      }, error => this.goBack());
+
   }
 
   getProject() {
