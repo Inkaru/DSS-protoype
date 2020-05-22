@@ -1,7 +1,8 @@
 package bth.dss.group2.backend.model;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Id;
 
@@ -29,10 +30,15 @@ public abstract class User {
 	String phoneNumber;
 	@JsonProperty
 	@DBRef
-	List<Project> followedProjects;
+	Set<Project> followedProjects;
 	@JsonProperty
 	@DBRef
-	List<Project> likedProjects;
+	Set<Project> likedProjects;
+
+	public User() {
+		followedProjects = new HashSet<>();
+		likedProjects = new HashSet<>();
+	}
 
 	public abstract User loginName(String loginName);
 
@@ -44,9 +50,9 @@ public abstract class User {
 
 	public abstract User phoneNumber(String phoneNumber);
 
-	public abstract User likedProject(List<Project> likedProjects);
+	public abstract User likedProject(Set<Project> likedProjects);
 
-	public abstract User followedProjects(List<Project> followedProjects);
+	public abstract User followedProjects(Set<Project> followedProjects);
 
 	public String getId() {
 		return id;
@@ -85,11 +91,11 @@ public abstract class User {
 		return phoneNumber;
 	}
 
-	public List<Project> getFollowedProjects() {
+	public Set<Project> getFollowedProjects() {
 		return followedProjects;
 	}
 
-	public List<Project> getLikedProjects() {
+	public Set<Project> getLikedProjects() {
 		return likedProjects;
 	}
 

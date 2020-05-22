@@ -1,6 +1,7 @@
 package bth.dss.group2.backend.model;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -80,13 +81,13 @@ public class Person extends User {
 	}
 
 	@Override
-	public Person likedProject(List<Project> likedProjects) {
+	public Person likedProject(Set<Project> likedProjects) {
 		this.likedProjects = likedProjects;
 		return this;
 	}
 
 	@Override
-	public Person followedProjects(List<Project> followedProjects) {
+	public Person followedProjects(Set<Project> followedProjects) {
 		this.followedProjects = followedProjects;
 		return this;
 	}
@@ -95,8 +96,10 @@ public class Person extends User {
 	public String toString() {
 		//TODO: add more
 		return String.format(
-				"User[id='%s', loginName='%s', email='%s', hashedPassword='%s',firstName='%s', lastName='%s']",
-				id, loginName, email, hashedPassword, firstName, lastName);
+				"User[id='%s', loginName='%s', email='%s', hashedPassword='%s',firstName='%s', lastName='%s', likedProjects='%s', followedProjects='%s']",
+				id, loginName, email, hashedPassword, firstName, lastName,
+				likedProjects.stream().map(Project::getName).collect(Collectors.toSet()),
+				followedProjects.stream().map(Project::getName).collect(Collectors.toSet()));
 	}
 
 	/*@Override
@@ -121,7 +124,7 @@ public class Person extends User {
 	}
 
 	@Override
-	public List<Project> getFollowedProjects() {
+	public Set<Project> getFollowedProjects() {
 		return followedProjects;
 	}
 }

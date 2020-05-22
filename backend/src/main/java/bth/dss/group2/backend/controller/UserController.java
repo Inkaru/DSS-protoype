@@ -184,8 +184,7 @@ public class UserController {
     public ResponseEntity<Void> followProject(@RequestParam String id, Principal principal, final HttpServletRequest httpServletRequest) {
         try {
             String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
-            String loginName1 = loginName;
-            userService.addFollow(loginName1, id);
+            userService.addFollow(loginName, id);
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(
                     ServletUriComponentsBuilder
