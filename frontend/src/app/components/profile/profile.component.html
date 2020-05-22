@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="display-5 mt-3 ">Profile</h1>
   <div class="row mt-5">
-    <div class="col-sm-12 col-md-6 col-lg-4" >
+    <div class="col-sm-12 col-md-6 col-lg-4">
       <div class="card h-100" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">{{currentUser.firstName}} {{currentUser.lastName}}</h5>
@@ -15,9 +15,79 @@
             price €
           </p>
           <p>
-            <span >Texte description</span>
+            <span>Texte description</span>
           </p>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileFormModal">
+  Edit
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="profileFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+
+          <div class="form-row mb-4">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentUser.firstName" placeholder="Firstname">
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentUser.lastName" placeholder="Lastname">
+            </div>
+          </div>
+
+          <label>Contact</label>
+          <div class="form-row mb-4">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentUser.email" placeholder="Email">
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentUser.phoneNumber" placeholder="Phone number">
+            </div>
+          </div>
+
+          <label>Address</label>
+          <div class="form-row mb-1">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentUser.address" placeholder="Address">
+            </div>
+          </div>
+          <div class="form-row mb-4">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentUser.city" placeholder="City">
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentUser.country" placeholder="Country">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" [(ngModel)]="currentUser.description" class="form-control"></textarea>
+          </div>
+
+        </form>
+      </div>
+      <div *ngIf="error" class="alert alert-danger mb-0">
+        {{error}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateProfile()">Save changes</button>
       </div>
     </div>
   </div>

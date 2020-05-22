@@ -1,7 +1,8 @@
 package bth.dss.group2.backend.model;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Id;
 
@@ -22,10 +23,15 @@ public class Project {
 	private String description;
 	@JsonProperty
 	@DBRef/*(db = "User")*/
-	private List<User> creators;
+	private Set<User> creators;
 	@JsonProperty
 	@DBRef/*(db = "User")*/
-	private List<User> participants;
+	private Set<User> participants;
+
+	public Project() {
+		creators = new HashSet<>();
+		participants = new HashSet<>();
+	}
 
 	public Project name(String name) {
 		this.name = name;
@@ -41,12 +47,17 @@ public class Project {
 		return this;
 	}
 
-	public Project creators(List<User> creators) {
+	public Project creators(Set<User> creators) {
 		this.creators = creators;
 		return this;
 	}
 
-	public Project likes(List<User> likes) {
+	public Project addCreator(User creator) {
+		this.creators.add(creator);
+		return this;
+	}
+
+	public Project likes(Set<User> likes) {
 		this.participants = likes;
 		return this;
 	}
@@ -83,11 +94,11 @@ public class Project {
 		return description;
 	}
 
-	public List<User> getCreators() {
+	public Set<User> getCreators() {
 		return creators;
 	}
 
-	public List<User> getParticipants() {
+	public Set<User> getParticipants() {
 		return participants;
 	}
 }

@@ -16,6 +16,9 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { ResourcesComponent } from './components/resources/resources.component';
+import { PartnersComponent } from './components/partners/partners.component';
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { ProfileComponent } from './components/profile/profile.component';
     AdminDashboardComponent,
     ProjectsComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProjectDetailComponent,
+    ResourcesComponent,
+    PartnersComponent
   ],
   imports: [
     BrowserModule,

@@ -61,7 +61,7 @@ export class ApiService {
     return this.httpClient.get<Project[]>('/api/users/getAllUsers');
   }
 
-  public getUserById(id: number){
+  public getUserById(id){
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get<User>('/api/users/getUser', {params});
   }
@@ -78,10 +78,12 @@ export class ApiService {
 
   // TODO : test if it works
   public updateUser(user: User){
-    return this.httpClient.post('/api/users/updateUser', JSON.stringify(user));
+    const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    const data = JSON.stringify(user);
+    return this.httpClient.post('/api/users/updateUser', data, {headers: header} );
   }
 
-  public deleteUserById(id: number){
+  public deleteUserById(id){
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
@@ -96,5 +98,28 @@ export class ApiService {
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
 
+  getProjectById(id) {
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get<Project>('/api/projects/getProject', {params});
+  }
 
+  likeProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/likeProject', {params});
+  }
+
+  unlikeProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/unlikeProject', {params});
+  }
+
+ followProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/followProject', {params});
+  }
+
+  unfollowProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/unfollowProject', {params});
+  }
 }

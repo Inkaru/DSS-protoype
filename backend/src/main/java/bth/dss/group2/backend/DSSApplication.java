@@ -67,11 +67,11 @@ public class DSSApplication implements CommandLineRunner {
 		projectRepository.save(new Project().name("TestProject1")
 				.description("Description of text project 1")
 				.creators(Collections
-						.singletonList(timo)));
+						.singleton(timo)));
 		projectRepository.save(new Project().name("TestProject2")
 				.description("Description of text project 2")
 				.creators(Collections
-						.singletonList(ey)));
+						.singleton(ey)));
 
 		// fetch all customers
 		System.out.println("Customers found with findAll():");

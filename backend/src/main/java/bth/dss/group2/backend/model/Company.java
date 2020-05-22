@@ -1,6 +1,7 @@
 package bth.dss.group2.backend.model;
 
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -64,13 +65,13 @@ public class Company extends User {
 	}
 
 	@Override
-	public Company likedProject(List<Project> likedProjects) {
+	public Company likedProject(Set<Project> likedProjects) {
 		this.likedProjects = likedProjects;
 		return this;
 	}
 
 	@Override
-	public Company followedProjects(List<Project> followedProjects) {
+	public Company followedProjects(Set<Project> followedProjects) {
 		this.followedProjects = followedProjects;
 		return this;
 	}

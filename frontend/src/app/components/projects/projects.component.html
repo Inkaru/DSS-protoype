@@ -111,6 +111,7 @@
                 <div class="d-flex">
                   <h3 class="font-weight-normal">{{project.name}}</h3>
                     <div class="m1-auto">
+                      <a routerLink="/project/{{project.id}}">link</a>
                       <button class="btn btn-primary m-1" type="button"  (click)="onEditProject(project)"><i class="fas fa-edit"></i></button>
                       <button class="btn btn-secondary m-1" type="button" (click)="onDeleteProject(i)"><i class="fas fa-trash-alt"></i></button>
                     </div>
