@@ -7,7 +7,7 @@ export class Project {
 
   // TO DO
   id: string;
-  creators: User[];
-  participants: User[];
+  creators: Project[];
+  participants: Project[];
 
 }
