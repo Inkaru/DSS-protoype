@@ -39,15 +39,20 @@ export class ApiService {
   }
 
   /* POST: add a new project to the database */
+
   createProject(project: Project) {
+    // this.projects.push(project);
+    // this.emitProjects();
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(project);
     return this.httpClient.post('/api/projects/createProject', data, {headers: header} );
  }
 
   deleteProjects(index){
-    this.projects.splice(index, 1);
-    this.emitProjects();
+    //this.projects.splice(index, 1);
+    //this.emitProjects();
+    const params = new HttpParams().set('name', this.projects[index].name);
+    return this.httpClient.delete('api/projects/deleteProject', {params});
   }
 
   updateProjects(project, index){
