@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import bth.dss.group2.backend.exception.UserNotFoundException;
@@ -12,11 +11,11 @@ import bth.dss.group2.backend.model.Person;
 import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.model.dto.RegistrationForm;
 import bth.dss.group2.backend.service.UserService;
+import bth.dss.group2.backend.util.ControllerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +46,7 @@ public class UserController {
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	@GetMapping(value = "/getUser")
-	public User getUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email, final HttpServletRequest httpServletRequest) {
+	public User getUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email) {
 		if (id.isPresent()) {
 			return userService.getUserById(id.get());
 		}
@@ -68,14 +67,14 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/updateUser")
-	public ResponseEntity<Void> updateUser(@RequestBody final Person user, final HttpServletRequest httpServletRequest) {
+	public ResponseEntity<Void> updateUser(@RequestBody final Person user) {
 		userService.updateUser(user);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	@DeleteMapping(value = "/deleteUser")
-	public ResponseEntity<Void> deleteUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email, final HttpServletRequest httpServletRequest) {
+	public ResponseEntity<Void> deleteUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email) {
 		if (id.isPresent()) {
 			userService.deleteUserById(id.get());
 		}
@@ -93,29 +92,25 @@ public class UserController {
 
 	@GetMapping(value = "/likeProject")
 	public ResponseEntity<Void> likeProject(@RequestParam String id, Principal principal) {
-		String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
-		userService.addLike(loginName, id);
+		userService.addLike(ControllerUtil.getLoginName(principal), id);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@GetMapping(value = "/unlikeProject")
 	public ResponseEntity<Void> unlikeProject(@RequestParam String id, Principal principal) {
-		String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
-		userService.removeLike(loginName, id);
+		userService.removeLike(ControllerUtil.getLoginName(principal), id);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@GetMapping(value = "/followProject")
 	public ResponseEntity<Void> followProject(@RequestParam String id, Principal principal) {
-		String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
-		userService.addFollow(loginName, id);
+		userService.addFollow(ControllerUtil.getLoginName(principal), id);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@GetMapping(value = "/unfollowProject")
 	public ResponseEntity<Void> unfollowProject(@RequestParam String id, Principal principal) {
-		String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
-		userService.removeFollow(loginName, id);
+		userService.removeFollow(ControllerUtil.getLoginName(principal), id);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 }

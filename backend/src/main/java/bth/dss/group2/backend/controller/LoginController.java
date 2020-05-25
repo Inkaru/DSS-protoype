@@ -2,17 +2,15 @@ package bth.dss.group2.backend.controller;
 
 import java.security.Principal;
 
-import javax.servlet.http.HttpServletRequest;
-
 import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.service.UserService;
+import bth.dss.group2.backend.util.ControllerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,8 +35,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/user")
-	public User getLoggedInUser(Principal principal, final HttpServletRequest httpServletRequest) {
-		String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
-		return userService.getUserByLoginName(loginName);
+	public User getLoggedInUser(Principal principal) {
+		return userService.getUserByLoginName(ControllerUtil.getLoginName(principal));
 	}
 }

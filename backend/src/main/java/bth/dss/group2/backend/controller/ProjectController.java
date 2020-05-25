@@ -10,11 +10,11 @@ import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.dto.ProjectForm;
 import bth.dss.group2.backend.service.ProjectService;
+import bth.dss.group2.backend.util.ControllerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,8 +39,7 @@ public class ProjectController {
 
 	@PostMapping(value = "/createProject")
 	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectForm projectForm, final Principal principal) {
-		String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
-		projectService.createProject(projectForm, loginName);
+		projectService.createProject(projectForm, ControllerUtil.getLoginName(principal));
 		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
