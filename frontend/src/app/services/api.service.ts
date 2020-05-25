@@ -48,13 +48,6 @@ export class ApiService {
     return this.httpClient.post('/api/projects/createProject', data, {headers: header} );
  }
 
-  deleteProjects(index){
-    //this.projects.splice(index, 1);
-    //this.emitProjects();
-    const params = new HttpParams().set('name', this.projects[index].name);
-    return this.httpClient.delete('api/projects/deleteProject', {params});
-  }
-
   updateProjects(project, index){
     this.projects[index] = project;
     this.emitProjects();
@@ -88,17 +81,17 @@ export class ApiService {
     return this.httpClient.post('/api/users/updateUser', data, {headers: header} );
   }
 
-  public deleteUserById(id){
+  deleteUserById(id){
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
 
-  public deleteUserByLogin(login: string){
+  deleteUserByLogin(login: string){
     const params = new HttpParams().set('loginName', login);
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
 
-  public deleteUserByEmail(email: string){
+  deleteUserByEmail(email: string){
     const params = new HttpParams().set('email', email);
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
@@ -126,5 +119,10 @@ export class ApiService {
   unfollowProject(id){
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get('/api/users/unfollowProject', {params});
+  }
+
+  deleteProjectById(id) {
+    const params = new HttpParams().set('id', id);
+    return this.httpClient.delete('api/projects/deleteProject', {params});
   }
 }
