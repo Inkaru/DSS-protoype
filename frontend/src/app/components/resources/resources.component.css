@@ -1,0 +1,19 @@
+#resource-header {
+  background-color: #4adfff;
+  color: black;
+}
+
+.resource-img {
+  background: white;
+}
+
+.resource-title {
+  color: #2d2d2d;
+  font-weight: bold;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #4adfff;
+  width: 70%;
+}
