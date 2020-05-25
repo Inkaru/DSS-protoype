@@ -11,13 +11,30 @@ import {Subscription} from 'rxjs';
 })
 export class ProjectsComponent implements OnInit {
 
+  constructor(
+    private apiService: ApiService,
+    private formBuilder: FormBuilder
+  ) {
+    this.projectsForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required]
+    });
+  }
+
   error: string;
 
   projects: Project[];
 
-  constructor(
-    private apiService: ApiService
-  ) { }
+  projectsForm: FormGroup;
+
+  slideConfig = {
+    slidesToShow: 1,
+    slidesToScoll: 1,
+    nextArrow: '<div class=\'nav-btn next-slide\'></div>',
+    prevArrow: '<div class=\'nav-btn prev-slide\'></div>',
+    dots: true,
+    autoplay: true
+  };
 
   ngOnInit() {
     this.apiService.projectsSubject.subscribe(
@@ -30,13 +47,17 @@ export class ProjectsComponent implements OnInit {
     this.apiService.emitProjects();
   }
 
-  slideConfig = {
-    'slidesToShow': 1,
-    'slidesToScoll': 1,
-    'nextArrow': '<div class=\'nav-btn next-slide\'></div>',
-    'prevArrow': '<div class=\'nav-btn prev-slide\'></div>',
-    'dots': true,
-    'autoplay': true
-  };
-
+  onSubmitProjectsForm() {
+    this.apiService.createProject(this.projectsForm.value).subscribe(
+      response => {
+        console.log(response);
+        this.apiService.getAllProjects();
+        // @ts-ignore
+        $('#projectsFormModal').modal('hide');
+      }, error => {
+        console.log(error);
+        this.error = error.message;
+      }
+    );
+  }
 }
