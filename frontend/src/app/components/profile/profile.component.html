@@ -5,19 +5,29 @@
       <div class="card h-100" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">{{currentUser.firstName}} {{currentUser.lastName}}</h5>
-          <h6 class="card-subtitle mb-2">Engineer</h6>
-          <h class="card-text">
+          <h6 class="card-subtitle mb-2 text-muted">{{currentUser.email}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{currentUser.phoneNumber}}</h6>
+          <div class="card-text">
             <p class="text-muted">
               {{currentUser.description}}
             </p>
-          </h>
-          <p>
-            price €
-          </p>
-          <p>
-            <span>Texte description</span>
-          </p>
+          </div>
+          <div class="">
+            <span class="mr-1">Liked Projects</span>
+            <button class="circle">A</button>
+            <button class="circle">B</button>
+          </div>
+
+          <div class="">
+            <span class="mr-1">Followed Projects :</span>
+            <button class="circle">C</button>
+            <button class="circle">D</button>
+          </div>
         </div>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileFormModal">
+          Edit Profile
+        </button>
       </div>
     </div>
 
@@ -25,133 +35,142 @@
 
     <div class="container col-sm-12 col-md-6 col-lg-8">
       <div class="rounded shadow bg-white p-5">
-        <h2 class="font-weight-light">My Project</h2>
-        <button class="btn btn-primary m1-auto pull-right" data-toggle="modal" data-target="#projectsFormModal" (click)="resetForm()">Submit a new project</button>
-        <hr class="mt-1 mb-5 bg-dark">
         <div class="row">
-          <div *ngFor="let project of projects; let i = index" class="col-12 shadow-sm p-4 mb-3 bg-light">
-            <div class="d-flex">
-              <h3 class="font-weight-normal">{{project.name}}</h3>
-              <div class="m1-auto">
-                <a routerLink="/project/{{project.id}}">link</a>
-                <button class="btn btn-primary m-1" type="button"  (click)="onEditProject(project)"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-secondary m-1" type="button" (click)="onDeleteProject(i)"><i class="fas fa-trash-alt"></i></button>
+          <div class="col">
+            <h3 class="font-weight-light align-self-center">My Projects</h3>
+          </div>
+          <div class="col text-right">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#projectsFormModal"
+                    (click)="resetForm()">Submit a new project
+            </button>
+          </div>
+        </div>
+        <hr class="mt-1 mb-5 bg-dark">
+        <div class="card mb-2" *ngFor="let project of projects">
+          <div class="card-body">
+            <div class="col-10">
+              <div class="card-title">
+                <a routerLink="/project/{{project.id}}">
+                <span class="heading-5 mr-2">
+                  <i class="fas fa-caret-right"></i>
+                  {{project.name}}
+                </span>
+                </a>
+                <button class="btn btn-sm btn-primary mr-1" type="button" (click)="onEditProject(project)"><i
+                  class="fas fa-edit"></i></button>
+                <button class="btn btn-sm btn-secondary" type="button" (click)="onDeleteProject(project.id)"><i
+                  class="fas fa-trash-alt"></i></button>
               </div>
+              <p class="card-text">{{project.description}}</p>
             </div>
-            <p><span *ngIf="project.description && project.description !==''">{{project.description}}</span></p>
           </div>
         </div>
       </div>
-    
-
-
-    </div>
-</div>
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileFormModal">
-  Edit2
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="profileFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Profile</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-
-          <div class="form-row mb-4">
-            <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentUser.firstName" placeholder="Firstname">
-            </div>
-            <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentUser.lastName" placeholder="Lastname">
-            </div>
-          </div>
-
-          <label>Contact</label>
-          <div class="form-row mb-4">
-            <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentUser.email" placeholder="Email">
-            </div>
-            <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentUser.phoneNumber" placeholder="Phone number">
-            </div>
-          </div>
-
-          <label>Address</label>
-          <div class="form-row mb-1">
-            <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentUser.address" placeholder="Address">
-            </div>
-          </div>
-          <div class="form-row mb-4">
-            <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentUser.city" placeholder="City">
-            </div>
-            <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentUser.country" placeholder="Country">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" [(ngModel)]="currentUser.description" class="form-control"></textarea>
-          </div>
-
-        </form>
-      </div>
-      <div *ngIf="error" class="alert alert-danger mb-0">
-        {{error}}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="updateProfile()">Save changes</button>
-      </div>
     </div>
   </div>
-</div>
 
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="projectsFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <form  [formGroup]="projectsForm" (ngSubmit)="onSubmitProjectsForm()">
+  <!-- Modal -->
+  <div class="modal fade" id="profileFormModal" tabindex="-1" role="dialog"
+       aria-labelledby="exampleModalScrollableTitle"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Edition d'un projet</h5>
+          <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Profile</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group">
-            <input type="text" placeholder="name of the project" class="form-control" formControlName="name" >
-          </div>
-          <div class="form-group">
-            <textarea  placeholder="description" rows="4" class="form-control w-100" formControlName="description" ></textarea>
-          </div>
+          <form>
 
+            <div class="form-row mb-4">
+              <div class="col">
+                <input class="form-control" type="text" [(ngModel)]="currentUser.firstName" placeholder="Firstname">
+              </div>
+              <div class="col">
+                <input class="form-control" type="text" [(ngModel)]="currentUser.lastName" placeholder="Lastname">
+              </div>
+            </div>
+
+            <label>Contact</label>
+            <div class="form-row mb-4">
+              <div class="col">
+                <input class="form-control" type="text" [(ngModel)]="currentUser.email" placeholder="Email">
+              </div>
+              <div class="col">
+                <input class="form-control" type="text" [(ngModel)]="currentUser.phoneNumber"
+                       placeholder="Phone number">
+              </div>
+            </div>
+
+            <label>Address</label>
+            <div class="form-row mb-1">
+              <div class="col">
+                <input class="form-control" type="text" [(ngModel)]="currentUser.address" placeholder="Address">
+              </div>
+            </div>
+            <div class="form-row mb-4">
+              <div class="col">
+                <input class="form-control" type="text" [(ngModel)]="currentUser.city" placeholder="City">
+              </div>
+              <div class="col">
+                <input class="form-control" type="text" [(ngModel)]="currentUser.country" placeholder="Country">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" [(ngModel)]="currentUser.description" class="form-control"></textarea>
+            </div>
+
+          </form>
         </div>
         <div *ngIf="error" class="alert alert-danger mb-0">
           {{error}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-primary" type="submit">Enregistrer</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="updateProfile()">Save changes</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
-</div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="projectsFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form [formGroup]="projectsForm" (ngSubmit)="onSubmitProjectsForm()">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Edition d'un projet</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" placeholder="name of the project" class="form-control" formControlName="name">
+            </div>
+            <div class="form-group">
+              <textarea placeholder="description" rows="4" class="form-control w-100"
+                        formControlName="description"></textarea>
+            </div>
+
+          </div>
+          <div *ngIf="error" class="alert alert-danger mb-0">
+            {{error}}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            <button type="button" class="btn btn-primary" type="submit">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 
 

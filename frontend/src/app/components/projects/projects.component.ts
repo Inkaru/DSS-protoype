@@ -11,32 +11,23 @@ import {Subscription} from 'rxjs';
 })
 export class ProjectsComponent implements OnInit {
 
-
-  
-
   error: string;
 
-  projects = [];
-  projectsSubscription: Subscription;
+  projects: Project[];
 
   constructor(
     private apiService: ApiService
   ) { }
 
   ngOnInit() {
-    this.projectsSubscription = this.apiService.projectsSubject.subscribe(
+    this.apiService.projectsSubject.subscribe(
       (data: any) => {
+        console.log(data);
         this.projects = data;
       }
     );
     this.apiService.getAllProjects();
     this.apiService.emitProjects();
-  }
-
-
-
-  ngOnDestroy() {
-    this.projectsSubscription.unsubscribe();
   }
 
   slideConfig = {
@@ -47,7 +38,5 @@ export class ProjectsComponent implements OnInit {
     'dots': true,
     'autoplay': true
   };
-
-  
 
 }
