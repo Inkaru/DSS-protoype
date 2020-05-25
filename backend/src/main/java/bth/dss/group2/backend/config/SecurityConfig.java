@@ -31,12 +31,15 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.csrf().disable() // required for post method testing, remove this in production
+				.csrf()
+				.disable() // required for post method testing, remove this in production
 				.httpBasic()
 				.and()
 				.authorizeRequests()
-				.antMatchers("/api/projects/*", "/api/users/*", "/api/login/user").authenticated()
-				.antMatchers("*.bundle.*", "/index*", "/*", "/home*", "/api/login/authenticate").permitAll();
+				.antMatchers("*.bundle.*", "/index*", "/*", "/home*", "/api/login/authenticate", "/api/users/registerUser")
+				.permitAll()
+				.anyRequest()
+				.authenticated();
 
 	/*
 				.and()
