@@ -102,9 +102,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.projectsForm.reset();
   }
 
-  onDeleteProject(index) {
+  onDeleteProject(id) {
     if (confirm('Are you sure you want delete this project?')) {
-      this.apiService.deleteProjects(index);
+      this.apiService.deleteProjectById(id).subscribe(value => {
+        console.log('project deleted successfully');
+        // todo should work
+        this.authService.getCurrentUser();
+      }, error1 => console.log(error1));
     }
   }
 
