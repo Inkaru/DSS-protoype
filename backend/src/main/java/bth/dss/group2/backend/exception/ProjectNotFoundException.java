@@ -1,11 +1,14 @@
 package bth.dss.group2.backend.exception;
 
-public class ProjectNotFoundException extends Exception {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class ProjectNotFoundException extends ResponseStatusException {
 	public ProjectNotFoundException() {
-		this("Project could not be found");
+		this(HttpStatus.NOT_FOUND, "Project could not be found");
 	}
 
-	public ProjectNotFoundException(final String message) {
-		super(message);
+	private ProjectNotFoundException(HttpStatus status, String reason) {
+		super(status, reason);
 	}
 }

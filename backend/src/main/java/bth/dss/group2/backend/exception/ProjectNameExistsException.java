@@ -1,11 +1,14 @@
 package bth.dss.group2.backend.exception;
 
-public class ProjectNameExistsException extends Exception {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class ProjectNameExistsException extends ResponseStatusException {
 	public ProjectNameExistsException() {
-		this("Project name exists already");
+		this(HttpStatus.BAD_REQUEST, "Project name exists already");
 	}
 
-	public ProjectNameExistsException(final String message) {
-		super(message);
+	private ProjectNameExistsException(HttpStatus status, String reason) {
+		super(status, reason);
 	}
 }

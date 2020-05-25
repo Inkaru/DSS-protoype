@@ -1,11 +1,14 @@
 package bth.dss.group2.backend.exception;
 
-public class EmailNotFoundException extends Exception {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class EmailNotFoundException extends ResponseStatusException {
 	public EmailNotFoundException() {
-		this("Email address could not be found");
+		this(HttpStatus.NOT_FOUND, "Email address could not be found");
 	}
 
-	public EmailNotFoundException(final String message) {
-		super(message);
+	private EmailNotFoundException(HttpStatus status, String reason) {
+		super(status, reason);
 	}
 }

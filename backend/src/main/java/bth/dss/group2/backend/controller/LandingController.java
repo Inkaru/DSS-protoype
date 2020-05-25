@@ -1,7 +1,5 @@
 package bth.dss.group2.backend.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -18,13 +16,8 @@ public class LandingController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/index", "/home" }, method = RequestMethod.GET)
 	public String land(Locale locale, Model model) {
-		logger.info("Welcome home! the client locale is " + locale);
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		String formattedDate = dateFormat.format(date);
-		model.addAttribute("serverTime", formattedDate);
 		return "index.html";
 	}
 }

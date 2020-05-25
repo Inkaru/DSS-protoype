@@ -4,11 +4,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import bth.dss.group2.backend.exception.LoginNameNotFoundException;
-import bth.dss.group2.backend.exception.ProjectNameExistsException;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.dto.ProjectForm;
@@ -16,8 +13,6 @@ import bth.dss.group2.backend.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
@@ -44,44 +38,23 @@ public class ProjectController {
 	}
 
 	@PostMapping(value = "/createProject")
-	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectForm projectForm, final Principal principal, final HttpServletRequest httpServletRequest) {
-		try {
-			String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
-			Project project = projectService.createProject(projectForm, loginName);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(
-					ServletUriComponentsBuilder
-							.fromContextPath(httpServletRequest)
-							.path("/api/projects/createProject")
-							.buildAndExpand(project.getId())
-							.toUri()
-			);
-			logger.info("##### Created project: " + project);
-			return new ResponseEntity<>(headers, HttpStatus.CREATED);
-		}
-		catch (ProjectNameExistsException | LoginNameNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating project : " + e.getMessage(), e);
-		}
+	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectForm projectForm, final Principal principal) {
+		String loginName = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.getName();
+		projectService.createProject(projectForm, loginName);
+		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	@GetMapping(value = "/getProject")
-	public Project getProject(@RequestParam Optional<String> id, @RequestParam Optional<String> name, final HttpServletRequest httpServletRequest) {
-		try {
-			Project Project;
-			if (id.isPresent()) {
-				Project = projectService.getProjectById(id.get());
-			}
-			else if (name.isPresent()) {
-				Project = projectService.getProjectByName(name.get());
-			}
-			else {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
-			}
-			return Project;
+	public Project getProject(@RequestParam Optional<String> id, @RequestParam Optional<String> name) {
+		if (id.isPresent()) {
+			return projectService.getProjectById(id.get());
 		}
-		catch (ProjectNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found", e);
+		else if (name.isPresent()) {
+			return projectService.getProjectByName(name.get());
+		}
+		else {
+			throw new ProjectNotFoundException();
 		}
 	}
 
@@ -91,45 +64,23 @@ public class ProjectController {
 	}
 
 	@PostMapping(value = "/updateProject")
-	public ResponseEntity<Void> updateProject(@RequestBody final ProjectForm projectForm, final HttpServletRequest httpServletRequest) {
-		try {
-			Project project = projectService.updateProject(projectForm);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(
-					ServletUriComponentsBuilder
-							.fromContextPath(httpServletRequest)
-							.path("/api/projects/updateProject")
-							.buildAndExpand(project.getId()).toUri()
-			);
-			return new ResponseEntity<>(headers, HttpStatus.OK);
-		}
-		catch (ProjectNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error updating project", e);
-		}
+	public ResponseEntity<Void> updateProject(@RequestBody final ProjectForm projectForm) {
+		projectService.updateProject(projectForm);
+		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	@DeleteMapping(value = "/deleteProject")
-	public ResponseEntity<Void> deleteProject(@RequestParam Optional<String> id, @RequestParam Optional<String> name, final HttpServletRequest httpServletRequest) {
-		try {
-			String str = "";
-			if (id.isPresent()) {
-				projectService.deleteProjectById(str = id.get());
-			}
-			else if (name.isPresent()) {
-				projectService.deleteProjectByName(str = name.get());
-			}
-			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(
-					ServletUriComponentsBuilder
-							.fromContextPath(httpServletRequest)
-							.path("/api/projects/deleteProject")
-							.buildAndExpand(str).toUri()
-			);
-			return new ResponseEntity<>(headers, HttpStatus.OK);
+	public ResponseEntity<Void> deleteProject(@RequestParam Optional<String> id, @RequestParam Optional<String> name) {
+		if (id.isPresent()) {
+			projectService.deleteProjectById(id.get());
 		}
-		catch (ProjectNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found", e);
+		else if (name.isPresent()) {
+			projectService.deleteProjectByName(name.get());
 		}
+		else {
+			throw new ProjectNotFoundException();
+		}
+		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 }

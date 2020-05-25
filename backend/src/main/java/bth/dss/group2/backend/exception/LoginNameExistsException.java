@@ -1,11 +1,14 @@
 package bth.dss.group2.backend.exception;
 
-public class LoginNameExistsException extends Exception {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class LoginNameExistsException extends ResponseStatusException {
 	public LoginNameExistsException() {
-		this("Login name exists already");
+		this(HttpStatus.BAD_REQUEST, "Login name exists already");
 	}
 
-	public LoginNameExistsException(final String message) {
-		super(message);
+	private LoginNameExistsException(HttpStatus status, String reason) {
+		super(status, reason);
 	}
 }

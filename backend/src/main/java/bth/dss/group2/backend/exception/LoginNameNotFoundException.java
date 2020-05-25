@@ -1,11 +1,14 @@
 package bth.dss.group2.backend.exception;
 
-public class LoginNameNotFoundException extends Exception {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class LoginNameNotFoundException extends ResponseStatusException {
 	public LoginNameNotFoundException() {
-		this("Login name not found");
+		this(HttpStatus.NOT_FOUND, "Login name not found");
 	}
 
-	public LoginNameNotFoundException(final String message) {
-		super(message);
+	private LoginNameNotFoundException(HttpStatus status, String reason) {
+		super(status, reason);
 	}
 }

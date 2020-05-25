@@ -1,11 +1,14 @@
 package bth.dss.group2.backend.exception;
 
-public class EmailExistsException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class EmailExistsException extends ResponseStatusException {
 	public EmailExistsException() {
-		this("Email address exists already");
+		this(HttpStatus.BAD_REQUEST, "Email address exists already");
 	}
 
-	public EmailExistsException(final String message) {
-		super(message);
+	private EmailExistsException(HttpStatus status, String reason) {
+		super(status, reason);
 	}
 }

@@ -1,11 +1,14 @@
 package bth.dss.group2.backend.exception;
 
-public class UserNotFoundException extends Exception {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class UserNotFoundException extends ResponseStatusException {
 	public UserNotFoundException() {
-		this("User could not be found");
+		this(HttpStatus.NOT_FOUND, "User could not be found");
 	}
 
-	public UserNotFoundException(final String message) {
-		super(message);
+	private UserNotFoundException(HttpStatus status, String reason) {
+		super(status, reason);
 	}
 }
