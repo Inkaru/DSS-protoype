@@ -5,10 +5,12 @@ import java.util.Collections;
 import javax.transaction.Transactional;
 
 import bth.dss.group2.backend.model.Company;
+import bth.dss.group2.backend.model.MarketplaceItem;
 import bth.dss.group2.backend.model.Person;
 import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.model.dto.RegistrationForm;
+import bth.dss.group2.backend.repository.MarketplaceItemRepository;
 import bth.dss.group2.backend.repository.ProjectRepository;
 import bth.dss.group2.backend.repository.UserRepository;
 import bth.dss.group2.backend.service.UserService;
@@ -34,6 +36,9 @@ public class DSSApplication implements CommandLineRunner {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	MarketplaceItemRepository marketplaceItemRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DSSApplication.class, args);
@@ -93,5 +98,14 @@ public class DSSApplication implements CommandLineRunner {
 
 		userService.createUser(new RegistrationForm("frenchie", "test@test.test", "Encule69!", "Encule69!"));
 		System.out.println(userRepository.findByLoginName("frenchie"));
+		MarketplaceItem item = new MarketplaceItem().setCreator(timo)
+				.setPrice(844.4)
+				.setName("SHIT")
+				.setDescription("BUY MY SHIT")
+				.setCity("Karlskrona")
+				.setCountry("Sweden")
+				.setType(MarketplaceItem.MarketplaceItemType.OFFER);
+		marketplaceItemRepository.save(item);
+		System.out.println(item);
 	}
 }
