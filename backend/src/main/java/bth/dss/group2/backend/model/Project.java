@@ -22,15 +22,49 @@ public class Project {
 	@JsonProperty
 	private String description;
 	@JsonProperty
-	@DBRef/*(db = "User")*/
-	private Set<User> creators;
+	@DBRef(lazy = true)
+	private User creator;
 	@JsonProperty
-	@DBRef/*(db = "User")*/
+	@DBRef(lazy = true)
 	private Set<User> participants;
+	@DBRef(lazy = true)
+	private Set<User> likes;
+	@JsonProperty
+	@DBRef(lazy = true)
+	private Set<User> follows;
 
 	public Project() {
-		creators = new HashSet<>();
 		participants = new HashSet<>();
+		likes = new HashSet<>();
+		follows = new HashSet<>();
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public User getCreator() {
+		return creator;
+	}
+
+	public Set<User> getParticipants() {
+		return participants;
+	}
+
+	public Set<User> getLikes() {
+		return likes;
+	}
+
+	public Set<User> getFollows() {
+		return follows;
 	}
 
 	public Project name(String name) {
@@ -38,27 +72,13 @@ public class Project {
 		return this;
 	}
 
-	public String getId() {
-		return id;
-	}
-
 	public Project description(String description) {
 		this.description = description;
 		return this;
 	}
 
-	public Project creators(Set<User> creators) {
-		this.creators = creators;
-		return this;
-	}
-
-	public Project addCreator(User creator) {
-		this.creators.add(creator);
-		return this;
-	}
-
-	public Project likes(Set<User> likes) {
-		this.participants = likes;
+	public Project creator(User creator) {
+		this.creator = creator;
 		return this;
 	}
 
@@ -68,7 +88,7 @@ public class Project {
 				"id='" + id + '\'' +
 				", name='" + name + '\'' +
 				", description='" + description + '\'' +
-				", creators=" + creators +
+				", creators=" + creator +
 				", likes=" + participants +
 				'}';
 	}
@@ -84,21 +104,5 @@ public class Project {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public Set<User> getCreators() {
-		return creators;
-	}
-
-	public Set<User> getParticipants() {
-		return participants;
 	}
 }

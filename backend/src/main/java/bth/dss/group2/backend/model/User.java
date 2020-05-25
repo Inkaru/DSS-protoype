@@ -29,16 +29,32 @@ public abstract class User {
 	@JsonProperty
 	String phoneNumber;
 	@JsonProperty
-	@DBRef
+	String city;
+	@JsonProperty
+	String country;
+	@JsonProperty
+	@DBRef(lazy = true)
 	Set<Project> followedProjects;
 	@JsonProperty
-	@DBRef
+	@DBRef(lazy = true)
 	Set<Project> likedProjects;
+	@JsonProperty
+	@DBRef(lazy = true)
+	Set<Project> createdProjects;
+	@JsonProperty
+	@DBRef(lazy = true)
+	Set<Project> participatedProjects;
 
 	public User() {
 		followedProjects = new HashSet<>();
 		likedProjects = new HashSet<>();
+		createdProjects = new HashSet<>();
+		participatedProjects = new HashSet<>();
 	}
+
+	public abstract User city(String city);
+
+	public abstract User country(String country);
 
 	public abstract User loginName(String loginName);
 
@@ -53,6 +69,8 @@ public abstract class User {
 	public abstract User likedProject(Set<Project> likedProjects);
 
 	public abstract User followedProjects(Set<Project> followedProjects);
+
+	public abstract User createdProjects(Set<Project> createdProjects);
 
 	public String getId() {
 		return id;
@@ -91,12 +109,28 @@ public abstract class User {
 		return phoneNumber;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
 	public Set<Project> getFollowedProjects() {
 		return followedProjects;
 	}
 
 	public Set<Project> getLikedProjects() {
 		return likedProjects;
+	}
+
+	public Set<Project> getCreatedProjects() {
+		return createdProjects;
+	}
+
+	public Set<Project> getParticipatedProjects() {
+		return participatedProjects;
 	}
 
 	//Only for testing purposes

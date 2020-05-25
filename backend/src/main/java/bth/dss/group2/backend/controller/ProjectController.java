@@ -7,8 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
-import bth.dss.group2.backend.model.Project;
-import bth.dss.group2.backend.model.dto.ProjectForm;
+import bth.dss.group2.backend.model.dto.ProjectDTO;
 import bth.dss.group2.backend.service.ProjectService;
 import bth.dss.group2.backend.util.ControllerUtil;
 import org.slf4j.Logger;
@@ -38,14 +37,14 @@ public class ProjectController {
 	}
 
 	@PostMapping(value = "/createProject")
-	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectForm projectForm, final Principal principal) {
-		projectService.createProject(projectForm, ControllerUtil.getLoginName(principal));
+	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectDTO projectDto, final Principal principal) {
+		projectService.createProject(projectDto, ControllerUtil.getLoginName(principal));
 		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	@GetMapping(value = "/getProject")
-	public Project getProject(@RequestParam Optional<String> id, @RequestParam Optional<String> name) {
+	public ProjectDTO getProject(@RequestParam Optional<String> id, @RequestParam Optional<String> name) {
 		if (id.isPresent()) {
 			return projectService.getProjectById(id.get());
 		}
@@ -58,13 +57,13 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = "/getAllProjects", method = RequestMethod.GET)
-	public List<Project> getAllProjects() {
+	public List<ProjectDTO> getAllProjects() {
 		return projectService.getAllProjects();
 	}
 
 	@PostMapping(value = "/updateProject")
-	public ResponseEntity<Void> updateProject(@RequestBody final ProjectForm projectForm) {
-		projectService.updateProject(projectForm);
+	public ResponseEntity<Void> updateProject(@RequestBody final ProjectDTO projectDto) {
+		projectService.updateProject(projectDto);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 

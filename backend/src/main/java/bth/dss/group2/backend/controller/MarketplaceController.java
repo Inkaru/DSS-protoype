@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import bth.dss.group2.backend.model.MarketplaceItem;
 import bth.dss.group2.backend.model.dto.MarketplaceItemDTO;
 import bth.dss.group2.backend.service.MarketplaceService;
 import bth.dss.group2.backend.util.ControllerUtil;
@@ -34,22 +33,22 @@ public class MarketplaceController {
 	}
 
 	@GetMapping(value = "/getAllItems")
-	public List<MarketplaceItem> getAllItems() {
+	public List<MarketplaceItemDTO> getAllItems() {
 		return marketplaceService.getAll();
 	}
 
 	@GetMapping(value = "/getAllOffers")
-	public List<MarketplaceItem> getAllOffers() {
+	public List<MarketplaceItemDTO> getAllOffers() {
 		return marketplaceService.getAllOffers();
 	}
 
 	@GetMapping(value = "/getAllRequests")
-	public List<MarketplaceItem> getAllRequests() {
+	public List<MarketplaceItemDTO> getAllRequests() {
 		return marketplaceService.getAllRequests();
 	}
 
 	@GetMapping(value = "/getItem")
-	public MarketplaceItem getItem(@RequestParam String id) {
+	public MarketplaceItemDTO getItem(@RequestParam String id) {
 		return marketplaceService.getItem(id);
 	}
 

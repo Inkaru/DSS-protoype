@@ -14,10 +14,6 @@ public class Person extends User {
 	@JsonProperty
 	private String title;
 	@JsonProperty
-	private String city;
-	@JsonProperty
-	private String country;
-	@JsonProperty
 	private String address;
 
 	public Person firstName(String firstName) {
@@ -35,11 +31,13 @@ public class Person extends User {
 		return this;
 	}
 
+	@Override
 	public Person city(String city) {
 		this.city = city;
 		return this;
 	}
 
+	@Override
 	public Person country(String country) {
 		this.country = country;
 		return this;
@@ -93,13 +91,20 @@ public class Person extends User {
 	}
 
 	@Override
+	public User createdProjects(Set<Project> createdProjects) {
+		this.createdProjects = createdProjects;
+		return this;
+	}
+
+	@Override
 	public String toString() {
 		//TODO: add more
 		return String.format(
-				"User[id='%s', loginName='%s', email='%s', hashedPassword='%s',firstName='%s', lastName='%s', likedProjects='%s', followedProjects='%s']",
+				"User[id='%s', loginName='%s', email='%s', hashedPassword='%s',firstName='%s', lastName='%s', likedProjects='%s', followedProjects='%s', createdProjects='%s']",
 				id, loginName, email, hashedPassword, firstName, lastName,
 				likedProjects.stream().map(Project::getName).collect(Collectors.toSet()),
-				followedProjects.stream().map(Project::getName).collect(Collectors.toSet()));
+				followedProjects.stream().map(Project::getName).collect(Collectors.toSet()),
+				createdProjects.stream().map(Project::getName).collect(Collectors.toSet()));
 	}
 
 	/*@Override
@@ -121,6 +126,14 @@ public class Person extends User {
 
 	public String getLastName() {
 		return lastName;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getAddress() {
+		return address;
 	}
 
 	@Override

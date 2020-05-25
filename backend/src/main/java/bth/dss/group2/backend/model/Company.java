@@ -9,8 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 public class Company extends User {
 	@JsonProperty
 	private String name;
-	@JsonProperty
-	private List<String> cities;
+
 	@JsonProperty
 	@DBRef
 	private List<Person> employees;
@@ -21,11 +20,6 @@ public class Company extends User {
 
 	public Company name(String name) {
 		this.name = name;
-		return this;
-	}
-
-	public Company cities(List<String> cities) {
-		this.cities = cities;
 		return this;
 	}
 
@@ -65,6 +59,18 @@ public class Company extends User {
 	}
 
 	@Override
+	public Company city(String city) {
+		this.city = city;
+		return this;
+	}
+
+	@Override
+	public Company country(String country) {
+		this.country = country;
+		return this;
+	}
+
+	@Override
 	public Company likedProject(Set<Project> likedProjects) {
 		this.likedProjects = likedProjects;
 		return this;
@@ -73,6 +79,12 @@ public class Company extends User {
 	@Override
 	public Company followedProjects(Set<Project> followedProjects) {
 		this.followedProjects = followedProjects;
+		return this;
+	}
+
+	@Override
+	public User createdProjects(Set<Project> createdProjects) {
+		this.createdProjects = createdProjects;
 		return this;
 	}
 

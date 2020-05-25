@@ -62,22 +62,24 @@ public class DSSApplication implements CommandLineRunner {
 				.email("antonin@antonin.antonin");
 		User ey = new Company().name("EY")
 				.employees(Collections.singletonList((Person) timo))
-				.cities(Collections.singletonList("Los Angeles"))
+				.city("Los Angeles")
 				.loginName("EYTheWorst")
 				.email("eytheworst@ey.ey");
 		userRepository.save(timo);
 		userRepository.save(antonin);
 		userRepository.save(ey);
-
-		projectRepository.save(new Project().name("TestProject1")
+		Project test1 = new Project().name("TestProject1")
 				.description("Description of text project 1")
-				.creators(Collections
-						.singleton(timo)));
-		projectRepository.save(new Project().name("TestProject2")
+				.creator(timo);
+		projectRepository.save(test1);
+		Project test2 = new Project().name("TestProject2")
 				.description("Description of text project 2")
-				.creators(Collections
-						.singleton(ey)));
-
+				.creator(ey);
+		projectRepository.save(test2);
+		timo.getCreatedProjects().add(test1);
+		ey.getCreatedProjects().add(test2);
+		userRepository.save(ey);
+		userRepository.save(timo);
 		// fetch all customers
 		System.out.println("Customers found with findAll():");
 		System.out.println("-------------------------------");

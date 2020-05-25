@@ -25,23 +25,14 @@ public class MarketplaceItemDTO {
 	public MarketplaceItemDTO() {
 	}
 
-	public MarketplaceItemDTO(@NotNull String name, double price, String description, String city, String country, MarketplaceItem.MarketplaceItemType type) {
-		this.name = name;
-		this.price = price;
-		this.description = description;
-		this.city = city;
-		this.country = country;
-		this.type = type;
-	}
-
-	public MarketplaceItemDTO(String id, @NotNull String name, double price, String description, String city, String country, MarketplaceItem.MarketplaceItemType type) {
-		this.id = id;
-		this.name = name;
-		this.price = price;
-		this.description = description;
-		this.city = city;
-		this.country = country;
-		this.type = type;
+	public MarketplaceItemDTO(MarketplaceItem item) {
+		this.id = item.getId();
+		this.name = item.getName();
+		this.price = item.getPrice();
+		this.description = item.getDescription();
+		this.city = item.getCity();
+		this.country = item.getCountry();
+		this.type = item.getType();
 	}
 
 	public String getId() {

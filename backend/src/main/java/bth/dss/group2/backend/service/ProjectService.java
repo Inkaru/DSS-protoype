@@ -1,6 +1,7 @@
 package bth.dss.group2.backend.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -10,7 +11,7 @@ import bth.dss.group2.backend.exception.ProjectNameExistsException;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.User;
-import bth.dss.group2.backend.model.dto.ProjectForm;
+import bth.dss.group2.backend.model.dto.ProjectDTO;
 import bth.dss.group2.backend.repository.ProjectRepository;
 import bth.dss.group2.backend.repository.UserRepository;
 import org.slf4j.Logger;
@@ -31,48 +32,61 @@ public class ProjectService {
 		this.userRepository = userRepository;
 	}
 
-	public List<Project> getAllProjects() {
-		return projectRepository.findAll();
+	public List<ProjectDTO> getAllProjects() {
+		return projectRepository.findAll().stream().map(ProjectDTO::createWithReferences).collect(Collectors.toList());
 	}
 
-	public Project getProjectById(String id) throws ProjectNotFoundException {
-		return projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new);
+	public ProjectDTO getProjectById(String id) throws ProjectNotFoundException {
+		return ProjectDTO.createWithReferences(projectRepository.findById(id)
+				.orElseThrow(ProjectNotFoundException::new));
 	}
 
-	public Project getProjectByName(String name) throws ProjectNotFoundException {
-		return projectRepository.findByName(name).orElseThrow(ProjectNotFoundException::new);
+	public ProjectDTO getProjectByName(String name) throws ProjectNotFoundException {
+		return ProjectDTO.createWithReferences(projectRepository.findByName(name)
+				.orElseThrow(ProjectNotFoundException::new));
 	}
 
-	public Project createProject(ProjectForm projectForm, String creatorLoginName) throws ProjectNameExistsException, LoginNameNotFoundException {
-		if (projectRepository.existsByName(projectForm.getName())) throw new ProjectNameExistsException();
+	public void createProject(ProjectDTO projectDto, String creatorLoginName) throws ProjectNameExistsException, LoginNameNotFoundException {
+		if (projectRepository.existsByName(projectDto.getName())) throw new ProjectNameExistsException();
 		User creator = userRepository.findByLoginName(creatorLoginName).orElseThrow(LoginNameNotFoundException::new);
 		Project project = projectRepository.save((
 				new Project())
-				.name(projectForm.getName())
-				.addCreator(creator)
-				.description(projectForm.getDescription()));
+				.name(projectDto.getName())
+				.creator(creator)
+				.description(projectDto.getDescription()));
 		logger.info("##### PROJECT SAVED: " + project);
-		return project;
 	}
 
-	public Project updateProject(ProjectForm updatedProjectForm) throws ProjectNotFoundException {
-		Project project = projectRepository.findById(updatedProjectForm.getId())
+	public void updateProject(ProjectDTO updatedProjectDto) throws ProjectNotFoundException {
+		Project project = projectRepository.findById(updatedProjectDto.getId())
 				.orElseThrow(ProjectNotFoundException::new);
-		project.name(updatedProjectForm.getName()).description(updatedProjectForm.getDescription());
+		project.name(updatedProjectDto.getName()).description(updatedProjectDto.getDescription());
 		projectRepository.save(project);
 		logger.info("##### PROJECT UPDATED: " + project);
-		return project;
 	}
 
 	public void deleteProjectById(String id) throws ProjectNotFoundException {
-		Project project = projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new);
-		projectRepository.delete(project);
-		logger.info("##### PROJECT DELETED: " + id);
+		deleteProject(projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new));
 	}
 
 	public void deleteProjectByName(String name) throws ProjectNotFoundException {
-		Project project = projectRepository.findByName(name).orElseThrow(ProjectNotFoundException::new);
+		deleteProject(projectRepository.findByName(name).orElseThrow(ProjectNotFoundException::new));
+	}
+
+	private void deleteProject(Project project) {
 		projectRepository.delete(project);
-		logger.info("##### PROJECT DELETED: " + name);
+		logger.info("##### PROJECT DELETED: " + project.getName());
+	}
+
+	public void onUserDeleted(User user) {
+		for (Project p : user.getFollowedProjects()) {
+			p.getFollows().remove(user);
+			projectRepository.save(p);
+		}
+		for (Project p : user.getLikedProjects()) {
+			p.getLikes().remove(user);
+			projectRepository.save(p);
+		}
+		user.getCreatedProjects().forEach(this::deleteProject);
 	}
 }

@@ -7,9 +7,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import bth.dss.group2.backend.exception.UserNotFoundException;
-import bth.dss.group2.backend.model.Person;
 import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.model.dto.RegistrationForm;
+import bth.dss.group2.backend.model.dto.UserDTO;
 import bth.dss.group2.backend.service.UserService;
 import bth.dss.group2.backend.util.ControllerUtil;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class UserController {
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	@GetMapping(value = "/getUser")
-	public User getUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email) {
+	public UserDTO getUser(@RequestParam Optional<String> id, @RequestParam Optional<String> loginName, @RequestParam Optional<String> email) {
 		if (id.isPresent()) {
 			return userService.getUserById(id.get());
 		}
@@ -67,7 +67,7 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/updateUser")
-	public ResponseEntity<Void> updateUser(@RequestBody final Person user) {
+	public ResponseEntity<Void> updateUser(@RequestBody final UserDTO user) {
 		userService.updateUser(user);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
