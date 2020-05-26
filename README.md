@@ -1,71 +1,51 @@
 # DSS-protoype
 
-## API
+## Login
+### REST-API :
+- **Authenticate**:             GET `api/login/authenticate` (returns true if valid login)
+- **Get own user object**:      GET `api/login/user` (returns true if valid login)
+## Users
+### Attributes:
+![alt text](documentation/UserDTO_26_05.png "UserDTO")
 
-### Users / Companies
+Note that `type` can be the following Strings: `PERSON`,`COMPANY`,`INSTITUTION` 
+(currently not implemented for registration)
 
-#### Attributes :
+### REST-API :
 
-- Name
-- Location (adress + country)
-- Size
-- Field of activity
-- Social network links
-- Description
-- Image ?
+- **Create**:                   POST `api/users/registerUser`
+- **Get all**:                  GET `api/users/getAllUsers`
+- **Get**:                      GET `api/users/getUser?id={id}` || `api/users/getUser?loginName={loginName}` || `api/users/getUser?email={email}`
+- **Update**:                   POST `api/users/updateUser`(user-id required!)
+- **Delete**:                   DELETE `api/users/deleteUser?id={id}` || `api/users/deleteUser?loginName={loginName}` || `api/users/deleteUser?email={email}`
+- **Like Project**:             GET `api/users/likeProject?id={id}`
+- **Unlike Project**:           GET `api/users/unlikeProject?id={id}`
+- **Follow Project**:           GET `api/users/followProject?id={id}`
+- **Unfollow Project**:         GET `api/users/unfollowProject?id={id}`
+## Projects
+### Attributes:
+![alt text](documentation/ProjectDTO_26_05.png "ProjectDTO")
 
-authentification
-- email
-- login
-- password
+### REST-API :
 
 
+- **Create**                    POST `api/projects/createProject`
+- **Get all**:                  GET `api/projects/getAllProjects`
+- **Get**:                      GET `api/projects/getProject?id={id}` || `api/projects/getProject?name={name}`
+- **Update**:                   POST `api/projects/updateProject` (project-id required!)
+- **Delete**:                   DELETE `api/projects/deleteProject?id={id}` || `api/projects/deleteProject?name={name}`
 
-#### Methods :
+## Marketplace
+### Attributes:
+![alt text](documentation/MarketplaceItemDTO_26_05.png "MarketplaceItemDTO")
+Note that `type` can be the following Strings: `PERSON`,`COMPANY`,`INSTITUTION` 
 
-- login
-- CRUDS (Create, Read, Update, Delete, Search)
-
-Currently implemented REST Calls
-
-- New registration:         POST api/users/registerUser (form attributes: loginName, email, password, passwordRepeat)
-- Get all user objects:     GET api/users/getAllUsers
-- Get user object:          GET api/users/getUser?id={id} || api/users/getUser?loginName={loginName} || api/users/getUser?email={email}
-- Update user(bugged atm):  POST api/users/updateUser (form attributes: loginName, email, password, firstName, lastName and many more)      
-- Delete user:              DELETE api/users/deleteUser?id={id} || api/users/deleteUser?loginName={loginName} || api/users/deleteUser?email={email}
-
-### Projects
-
-#### Attributes :
-
-- Name
-- Associated companies / users
-- Description
-
-#### Methods :
-
-- CRUDS
-
-Currently implemented REST Calls
-
-- Create project:           POST api/projects/createProject (form attributes: name, description)
-- Get all projects:         GET api/projects/getAllProjects
-- Get project:              GET api/projects/getProject?id={id} || api/projects/getProject?name={name}
-- Update project:           POST api/projects/updateProject (form attributes: id(required, has to match the project that should be updated), name, description)      
-- Delete project:           DELETE api/projects/deleteProject?id={id} || api/projects/deleteProject?name={name}
-
-### Communication
-
-#### Methods :
-
-- GET communication between two users
-
-### Suggestions
-
-#### Methods :
-
-- GET projects suggestions for user
-- GET partners suggestions for user
+### REST-API :
+- **Create**                   POST `api/marketplace/createItem`
+- **Get all**:                  GET `api/marketplace/getAllItems` || `api/marketplace/getAllOffers` || `api/marketplace/getAllRequests`
+- **Get**:                      GET `api/marketplace/getProject?id={id}`
+- **Update**:                   POST `api/marketplace/updateItem` (item-id required!)
+- **Delete**:                   DELETE `api/marketplace/deleteItem?id={id}`
 
 ## Project Setup
 1. Import project using the pom.xml in parent directory. In IntelliJ: File -> New -> Project from Existing Sources -> choose pom.xml
