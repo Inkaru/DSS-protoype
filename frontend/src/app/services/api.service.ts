@@ -17,10 +17,10 @@ export class ApiService {
 
   MPItems: MarketplaceItem[] = [];
   MPItemsSubject = new Subject<any[]>();
-  // Project Methods
 
   // API calls are done with '/api/... '
 
+  // Project Methods
 
   getAllProjects() {
     this.httpClient
