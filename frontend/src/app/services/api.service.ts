@@ -48,9 +48,10 @@ export class ApiService {
     return this.httpClient.post('/api/projects/createProject', data, {headers: header} );
  }
 
-  updateProjects(project, index){
-    this.projects[index] = project;
-    this.emitProjects();
+  public updateProject(project: Project){
+    const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    const data = JSON.stringify(project);
+    return this.httpClient.post('/api/projects/updateProject', data, {headers: header} );
   }
 
   // User methods
@@ -74,7 +75,6 @@ export class ApiService {
     return this.httpClient.get<User>('/api/users/getUser', {params});
   }
 
-  // TODO : test if it works
   public updateUser(user: User){
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(user);

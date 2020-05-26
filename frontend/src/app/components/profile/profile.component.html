@@ -40,13 +40,13 @@
             <h3 class="font-weight-light align-self-center">My Projects</h3>
           </div>
           <div class="col text-right">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#projectsFormModal"
+            <button class="btn btn-primary" data-toggle="modal" data-target="#projectFormModal"
                     (click)="resetForm()">Submit a new project
             </button>
           </div>
         </div>
         <hr class="mt-1 mb-5 bg-dark">
-        <div class="card mb-2" *ngFor="let project of projects">
+        <div class="card mb-2" *ngFor="let project of currentUser.createdProjects">
           <div class="card-body">
             <div class="col-10">
               <div class="card-title">
@@ -137,40 +137,80 @@
     </div>
   </div>
 
-
   <!-- Modal -->
-  <div class="modal fade" id="projectsFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  <div class="modal fade" id="projectFormModal" tabindex="-1" role="dialog"
+       aria-labelledby="exampleModalScrollableTitle"
        aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
-        <form [formGroup]="projectsForm" (ngSubmit)="onSubmitProjectsForm()">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Edition d'un projet</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <input type="text" placeholder="name of the project" class="form-control" formControlName="name">
-            </div>
-            <div class="form-group">
-              <textarea placeholder="description" rows="4" class="form-control w-100"
-                        formControlName="description"></textarea>
+        <div class="modal-header">
+          <h5 *ngIf="editMode" class="modal-title">Edit Project</h5>
+          <h5 *ngIf="!editMode" class="modal-title">Create Project</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+            <div class="form-row mb-4">
+              <div class="col">
+                <input class="form-control" type="text" [(ngModel)]="currentProject.name" placeholder="Name" name="name">
+              </div>
             </div>
 
-          </div>
-          <div *ngIf="error" class="alert alert-danger mb-0">
-            {{error}}
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" type="submit">Submit</button>
-          </div>
-        </form>
+            <div class="form-group">
+              <label for="description2">Description</label>
+              <textarea id="description2" [(ngModel)]="currentProject.description" class="form-control" name="description"></textarea>
+            </div>
+
+          </form>
+        </div>
+        <div *ngIf="error" class="alert alert-danger mb-0">
+          {{error}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="onSubmitProjectsForm()">Submit</button>
+        </div>
       </div>
     </div>
   </div>
+
+
+<!--  &lt;!&ndash; Modal &ndash;&gt;-->
+<!--  <div class="modal fade" id="projectsFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"-->
+<!--       aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--      <div class="modal-content">-->
+<!--        <form [formGroup]="projectsForm" (ngSubmit)="onSubmitProjectsForm()">-->
+<!--          <div class="modal-header">-->
+<!--            <h5 class="modal-title" id="exampleModalLongTitle">Edition d'un projet</h5>-->
+<!--            <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--              <span aria-hidden="true">&times;</span>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--          <div class="modal-body">-->
+<!--            <div class="form-group">-->
+<!--              <input type="text" placeholder="name of the project" class="form-control" formControlName="name">-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--              <textarea placeholder="description" rows="4" class="form-control w-100"-->
+<!--                        formControlName="description"></textarea>-->
+<!--            </div>-->
+
+<!--          </div>-->
+<!--          <div *ngIf="error" class="alert alert-danger mb-0">-->
+<!--            {{error}}-->
+<!--          </div>-->
+<!--          <div class="modal-footer">-->
+<!--            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>-->
+<!--            <button type="button" class="btn btn-primary" type="submit">Submit</button>-->
+<!--          </div>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
 
 
