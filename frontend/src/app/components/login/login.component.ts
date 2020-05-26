@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private http: HttpClient
   ) {
     if (this.authService.currentUserValue) {
       this.router.navigate(['/']);
@@ -80,9 +79,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(
       this.logform.username.value,
       this.logform.password.value,
-      () => {
-        this.router.navigate([this.returnUrl]);
-      }
+      () => this.goBack()
     );
 
     this.logloading = false;
@@ -127,4 +124,7 @@ export class LoginComponent implements OnInit {
     this.router.navigate([this.returnUrl]);
   }
 
+  private goBack() {
+    this.router.navigate([this.returnUrl]);
+  }
 }
