@@ -1,6 +1,7 @@
 package bth.dss.group2.backend.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import bth.dss.group2.backend.controller.UserController;
 import bth.dss.group2.backend.exception.EmailExistsException;
@@ -45,8 +46,8 @@ public class UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	public List<UserDTO> getAllUsers() {
+		return userRepository.findAll().stream().map(UserDTO::createWithReferences).collect(Collectors.toList());
 	}
 
 	public UserDTO getUserById(String id) throws UserNotFoundException {

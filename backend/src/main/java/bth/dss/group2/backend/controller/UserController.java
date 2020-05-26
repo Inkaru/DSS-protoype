@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import bth.dss.group2.backend.exception.UserNotFoundException;
-import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.model.dto.RegistrationForm;
 import bth.dss.group2.backend.model.dto.UserDTO;
 import bth.dss.group2.backend.service.UserService;
@@ -62,7 +61,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
-	public List<User> getAllUsers() {
+	public List<UserDTO> getAllUsers() {
 		return userService.getAllUsers();
 	}
 
