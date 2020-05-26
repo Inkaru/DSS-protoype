@@ -43,7 +43,6 @@ export class ProjectsComponent implements OnInit {
       }
     );
     this.apiService.getAllProjects();
-    this.apiService.emitProjects();
   }
 
   onSubmitProjectsForm() {

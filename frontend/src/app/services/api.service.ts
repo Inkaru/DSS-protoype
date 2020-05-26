@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Project} from '../model/project';
 import {User} from '../model/user';
 import { Subject } from 'rxjs';
+import {MarketplaceItem} from '../model/marketplaceItem';
 
 @Injectable({
   providedIn: 'root'
@@ -11,22 +12,24 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
+  projects: Project[] = [];
+  projectsSubject = new Subject<any[]>();
+
+  MPItems: MarketplaceItem[] = [];
+  MPItemsSubject = new Subject<any[]>();
   // Project Methods
 
   // API calls are done with '/api/... '
 
-  projects: Project[] = [];
 
-  projectsSubject = new Subject<any[]>();
-
-  public getAllProjects() {
+  getAllProjects() {
     this.httpClient
       .get<any[]>('/api/projects/getAllProjects')
       .subscribe(
         (response) => {
           console.log('got projects from backend');
           this.projects = response;
-          this.emitProjects();
+          this.projectsSubject.next(this.projects);
         },
         (error) => {
           console.log(error);
@@ -34,48 +37,71 @@ export class ApiService {
       );
   }
 
-  emitProjects(){
-    this.projectsSubject.next(this.projects);
-  }
-
-  /* POST: add a new project to the database */
-
   createProject(project: Project) {
-    // this.projects.push(project);
-    // this.emitProjects();
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(project);
     return this.httpClient.post('/api/projects/createProject', data, {headers: header} );
  }
 
-  public updateProject(project: Project){
+  updateProject(project: Project){
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(project);
     return this.httpClient.post('/api/projects/updateProject', data, {headers: header} );
   }
 
+
+  getProjectById(id) {
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get<Project>('/api/projects/getProject', {params});
+  }
+
+  likeProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/likeProject', {params});
+  }
+
+  unlikeProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/unlikeProject', {params});
+  }
+
+  followProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/followProject', {params});
+  }
+
+  unfollowProject(id){
+    const params = new HttpParams().set('id', String(id));
+    return this.httpClient.get('/api/users/unfollowProject', {params});
+  }
+
+  deleteProjectById(id) {
+    const params = new HttpParams().set('id', id);
+    return this.httpClient.delete('api/projects/deleteProject', {params});
+  }
+
   // User methods
 
-  public getAllUsers(){
+  getAllUsers(){
     return this.httpClient.get<Project[]>('/api/users/getAllUsers');
   }
 
-  public getUserById(id){
+  getUserById(id){
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get<User>('/api/users/getUser', {params});
   }
 
-  public getUserByLogin(login: string){
+  getUserByLogin(login: string){
     const params = new HttpParams().set('loginName', login);
     return this.httpClient.get<User>('/api/users/getUser', {params});
   }
 
-  public getUserByEmail(email: string){
+  getUserByEmail(email: string){
     const params = new HttpParams().set('email', email);
     return this.httpClient.get<User>('/api/users/getUser', {params});
   }
 
-  public updateUser(user: User){
+  updateUser(user: User){
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(user);
     return this.httpClient.post('/api/users/updateUser', data, {headers: header} );
@@ -96,33 +122,73 @@ export class ApiService {
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
 
-  getProjectById(id) {
-    const params = new HttpParams().set('id', String(id));
-    return this.httpClient.get<Project>('/api/projects/getProject', {params});
+  // Marketplace Methods
+
+  createMPItem(item: MarketplaceItem) {
+    const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    const data = JSON.stringify(item);
+    return this.httpClient.post('/api/marketplace/createItem', data, {headers: header} );
   }
 
-  likeProject(id){
-    const params = new HttpParams().set('id', String(id));
-    return this.httpClient.get('/api/users/likeProject', {params});
+  updateMPItem(item: MarketplaceItem){
+    const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    const data = JSON.stringify(item);
+    return this.httpClient.post('/api/marketplace/updateItem', data, {headers: header} );
   }
 
-  unlikeProject(id){
+  deleteMPItemById(id){
     const params = new HttpParams().set('id', String(id));
-    return this.httpClient.get('/api/users/unlikeProject', {params});
+    return this.httpClient.delete('/api/marketplace/deleteItem', {params});
   }
 
- followProject(id){
+  getMPItemById(id) {
     const params = new HttpParams().set('id', String(id));
-    return this.httpClient.get('/api/users/followProject', {params});
+    return this.httpClient.get<MarketplaceItem>('/api/marketplace/getItem', {params});
   }
 
-  unfollowProject(id){
-    const params = new HttpParams().set('id', String(id));
-    return this.httpClient.get('/api/users/unfollowProject', {params});
+  getAllMPItems() {
+    this.httpClient
+      .get<any[]>('/api/marketplace/getAllItems')
+      .subscribe(
+        (response) => {
+          console.log('got MPItems from backend');
+          this.MPItems = response;
+          this.MPItemsSubject.next(this.MPItems);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
-  deleteProjectById(id) {
-    const params = new HttpParams().set('id', id);
-    return this.httpClient.delete('api/projects/deleteProject', {params});
+  getOffersMPItems() {
+    this.httpClient
+      .get<any[]>('/api/marketplace/getAllOffers')
+      .subscribe(
+        (response) => {
+          console.log('got offers from backend');
+          this.MPItems = response;
+          this.MPItemsSubject.next(this.MPItems);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
+
+  getRequestsMPItems() {
+    this.httpClient
+      .get<any[]>('/api/marketplace/getAllRequests')
+      .subscribe(
+        (response) => {
+          console.log('got requests from backend');
+          this.MPItems = response;
+          this.MPItemsSubject.next(this.MPItems);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
 }
