@@ -1,9 +1,11 @@
 package bth.dss.group2.backend.model.dto;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import bth.dss.group2.backend.model.Project;
+import bth.dss.group2.backend.model.User;
 
 public class ProjectDTO {
 	private String id;
@@ -25,12 +27,12 @@ public class ProjectDTO {
 		return dto;
 	}
 
-	public static ProjectDTO createWithReferences(Project project) {
+	public static ProjectDTO createWithReferences(Project project, List<User> follows, List<User> likes) {
 		ProjectDTO dto = create(project);
 		dto.setCreator(UserDTO.create(project.getCreator()));
 		dto.setParticipants(project.getParticipants().stream().map(UserDTO::create).collect(Collectors.toSet()));
-		dto.setFollows(project.getFollows().stream().map(UserDTO::create).collect(Collectors.toSet()));
-		dto.setLikes(project.getLikes().stream().map(UserDTO::create).collect(Collectors.toSet()));
+		dto.setFollows(follows.stream().map(UserDTO::create).collect(Collectors.toSet()));
+		dto.setLikes(likes.stream().map(UserDTO::create).collect(Collectors.toSet()));
 		return dto;
 	}
 

@@ -90,21 +90,15 @@ public class Person extends User {
 		return this;
 	}
 
-	@Override
-	public User createdProjects(Set<Project> createdProjects) {
-		this.createdProjects = createdProjects;
-		return this;
-	}
 
 	@Override
 	public String toString() {
 		//TODO: add more
 		return String.format(
-				"User[id='%s', loginName='%s', email='%s', hashedPassword='%s',firstName='%s', lastName='%s', likedProjects='%s', followedProjects='%s', createdProjects='%s']",
+				"User[id='%s', loginName='%s', email='%s', hashedPassword='%s',firstName='%s', lastName='%s', likedProjects='%s', followedProjects='%s']",
 				id, loginName, email, hashedPassword, firstName, lastName,
 				likedProjects.stream().map(Project::getName).collect(Collectors.toSet()),
-				followedProjects.stream().map(Project::getName).collect(Collectors.toSet()),
-				createdProjects.stream().map(Project::getName).collect(Collectors.toSet()));
+				followedProjects.stream().map(Project::getName).collect(Collectors.toSet()));
 	}
 
 	/*@Override

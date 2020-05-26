@@ -5,7 +5,6 @@ import java.time.Instant;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "MarketplaceItem")
@@ -16,8 +15,6 @@ public class MarketplaceItem {
 	private String id;
 	@JsonProperty
 	private String name;
-	@DBRef(lazy = true)
-	private User creator;
 	@JsonProperty
 	private Instant created;
 	@JsonProperty
@@ -36,9 +33,8 @@ public class MarketplaceItem {
 	public MarketplaceItem() {
 	}
 
-	public MarketplaceItem(String name, User creator, Instant created, Instant updated, double price, String description, String city, String country, MarketplaceItemType type) {
+	public MarketplaceItem(String name, Instant created, Instant updated, double price, String description, String city, String country, MarketplaceItemType type) {
 		this.name = name;
-		this.creator = creator;
 		this.created = created;
 		this.updated = updated;
 		this.price = price;
@@ -58,15 +54,6 @@ public class MarketplaceItem {
 
 	public MarketplaceItem setName(String name) {
 		this.name = name;
-		return this;
-	}
-
-	public User getCreator() {
-		return creator;
-	}
-
-	public MarketplaceItem setCreator(User creator) {
-		this.creator = creator;
 		return this;
 	}
 
@@ -138,7 +125,6 @@ public class MarketplaceItem {
 		return "MarketplaceItem{" +
 				"id='" + id + '\'' +
 				", name='" + name + '\'' +
-				", creator=" + creator +
 				", created=" + created +
 				", updated=" + updated +
 				", price=" + price +

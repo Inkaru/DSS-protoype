@@ -40,19 +40,11 @@ public abstract class User {
 	Set<Project> likedProjects;
 	@JsonProperty
 	@DBRef(lazy = true)
-	Set<Project> createdProjects;
-	@JsonProperty
-	@DBRef(lazy = true)
-	Set<Project> participatedProjects;
-	@JsonProperty
-	@DBRef(lazy = true)
 	Set<MarketplaceItem> marketplaceItems;
 
 	public User() {
 		followedProjects = new HashSet<>();
 		likedProjects = new HashSet<>();
-		createdProjects = new HashSet<>();
-		participatedProjects = new HashSet<>();
 		marketplaceItems = new HashSet<>();
 	}
 
@@ -74,7 +66,6 @@ public abstract class User {
 
 	public abstract User followedProjects(Set<Project> followedProjects);
 
-	public abstract User createdProjects(Set<Project> createdProjects);
 
 	public String getId() {
 		return id;
@@ -127,14 +118,6 @@ public abstract class User {
 
 	public Set<Project> getLikedProjects() {
 		return likedProjects;
-	}
-
-	public Set<Project> getCreatedProjects() {
-		return createdProjects;
-	}
-
-	public Set<Project> getParticipatedProjects() {
-		return participatedProjects;
 	}
 
 	public Set<MarketplaceItem> getMarketplaceItems() {

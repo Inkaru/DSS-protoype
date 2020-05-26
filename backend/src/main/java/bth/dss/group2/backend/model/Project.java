@@ -27,16 +27,9 @@ public class Project {
 	@JsonProperty
 	@DBRef(lazy = true)
 	private Set<User> participants;
-	@DBRef(lazy = true)
-	private Set<User> likes;
-	@JsonProperty
-	@DBRef(lazy = true)
-	private Set<User> follows;
 
 	public Project() {
 		participants = new HashSet<>();
-		likes = new HashSet<>();
-		follows = new HashSet<>();
 	}
 
 	public String getId() {
@@ -59,13 +52,6 @@ public class Project {
 		return participants;
 	}
 
-	public Set<User> getLikes() {
-		return likes;
-	}
-
-	public Set<User> getFollows() {
-		return follows;
-	}
 
 	public Project name(String name) {
 		this.name = name;

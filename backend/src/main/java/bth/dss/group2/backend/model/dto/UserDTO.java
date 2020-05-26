@@ -1,10 +1,12 @@
 package bth.dss.group2.backend.model.dto;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import bth.dss.group2.backend.model.Company;
 import bth.dss.group2.backend.model.Person;
+import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.User;
 
 public class UserDTO {
@@ -64,10 +66,10 @@ public class UserDTO {
 		return dto;
 	}
 
-	public static UserDTO createWithReferences(User user) {
+	public static UserDTO createWithReferences(User user, List<Project> createdProjects, List<Project> participatedProjects) {
 		UserDTO dto = create(user);
-		dto.setCreatedProjects(user.getCreatedProjects().stream().map(ProjectDTO::create).collect(Collectors.toSet()));
-		dto.setParticipatedProjects(user.getParticipatedProjects()
+		dto.setCreatedProjects(createdProjects.stream().map(ProjectDTO::create).collect(Collectors.toSet()));
+		dto.setParticipatedProjects(participatedProjects
 				.stream()
 				.map(ProjectDTO::create)
 				.collect(Collectors.toSet()));

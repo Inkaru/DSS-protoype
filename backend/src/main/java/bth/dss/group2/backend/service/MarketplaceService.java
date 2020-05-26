@@ -8,11 +8,14 @@ import javax.transaction.Transactional;
 
 import bth.dss.group2.backend.exception.LoginNameNotFoundException;
 import bth.dss.group2.backend.exception.MarketplaceItemNotFoundException;
+import bth.dss.group2.backend.exception.UserNotFoundException;
 import bth.dss.group2.backend.model.MarketplaceItem;
 import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.model.dto.MarketplaceItemDTO;
 import bth.dss.group2.backend.repository.MarketplaceItemRepository;
 import bth.dss.group2.backend.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class MarketplaceService {
 	private final MarketplaceItemRepository marketplaceItemRepository;
 	private final UserRepository<User> userRepository;
+	private static final Logger logger = LoggerFactory.getLogger(MarketplaceService.class);
 
 	@Autowired
 	public MarketplaceService(MarketplaceItemRepository marketplaceItemRepository, UserRepository<User> userRepository) {
@@ -30,30 +34,36 @@ public class MarketplaceService {
 
 	public void create(MarketplaceItemDTO dto, String loginName) throws LoginNameNotFoundException {
 		User creator = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
-		MarketplaceItem item = new MarketplaceItem(dto.getName(), creator, Instant.now(), Instant.now(), dto
+		MarketplaceItem item = new MarketplaceItem(dto.getName(), Instant.now(), Instant.now(), dto
 				.getPrice(), dto.getDescription(), dto.getCity(), dto.getCountry(), dto.getType());
-		creator.getMarketplaceItems().add(marketplaceItemRepository.save(item));
+		creator.getMarketplaceItems().add(item);
+		marketplaceItemRepository.save(item);
 		userRepository.save(creator);
+		logger.info("##### MARKETPLACEITEM SAVED:" + item);
 	}
 
 	public List<MarketplaceItemDTO> getAllOffers() {
 		return marketplaceItemRepository.findAllByTypeOrderByCreated(MarketplaceItem.MarketplaceItemType.OFFER)
-				.stream().map(MarketplaceItemDTO::new).collect(Collectors.toList());
+				.stream().map(this::getItemDTO).collect(Collectors.toList());
 	}
 
 	public List<MarketplaceItemDTO> getAllRequests() {
 		return marketplaceItemRepository.findAllByTypeOrderByCreated(MarketplaceItem.MarketplaceItemType.REQUEST)
-				.stream().map(MarketplaceItemDTO::new).collect(Collectors.toList());
+				.stream().map(this::getItemDTO).collect(Collectors.toList());
 	}
 
 	public List<MarketplaceItemDTO> getAll() {
 		return marketplaceItemRepository.findAllByOrderByCreated()
-				.stream().map(MarketplaceItemDTO::new).collect(Collectors.toList());
+				.stream().map(this::getItemDTO).collect(Collectors.toList());
 	}
 
 	public MarketplaceItemDTO getItem(String id) {
-		return new MarketplaceItemDTO(marketplaceItemRepository.findById(id)
-				.orElseThrow(MarketplaceItemNotFoundException::new));
+		return getItemDTO(marketplaceItemRepository.findById(id).orElseThrow(MarketplaceItemNotFoundException::new));
+	}
+
+	public MarketplaceItemDTO getItemDTO(MarketplaceItem item) {
+		User user = userRepository.findByMarketplaceItemsContains(item).orElseThrow(UserNotFoundException::new);
+		return MarketplaceItemDTO.createWithReferences(item, user);
 	}
 
 	public void update(MarketplaceItemDTO dto, String loginName) throws LoginNameNotFoundException, MarketplaceItemNotFoundException {
@@ -79,5 +89,6 @@ public class MarketplaceService {
 		marketplaceItemRepository.delete(item);
 		User creator = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
 		creator.getMarketplaceItems().remove(item);
+		userRepository.save(creator);
 	}
 }

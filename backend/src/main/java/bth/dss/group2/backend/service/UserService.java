@@ -3,7 +3,6 @@ package bth.dss.group2.backend.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import bth.dss.group2.backend.controller.UserController;
 import bth.dss.group2.backend.exception.EmailExistsException;
 import bth.dss.group2.backend.exception.EmailNotFoundException;
 import bth.dss.group2.backend.exception.LoginNameExistsException;
@@ -30,37 +29,38 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 	private final UserRepository<User> userRepository;
 	private final ProjectRepository projectRepository;
 	private final MarketplaceItemRepository marketplaceItemRepository;
-	private final ProjectService projectService;
 	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserService(UserRepository<User> userRepository, ProjectRepository projectRepository, MarketplaceItemRepository marketplaceItemRepository, ProjectService projectService, PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository<User> userRepository, ProjectRepository projectRepository, MarketplaceItemRepository marketplaceItemRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.projectRepository = projectRepository;
 		this.marketplaceItemRepository = marketplaceItemRepository;
-		this.projectService = projectService;
 		this.passwordEncoder = passwordEncoder;
 	}
 
 	public List<UserDTO> getAllUsers() {
-		return userRepository.findAll().stream().map(UserDTO::createWithReferences).collect(Collectors.toList());
+		return userRepository.findAll().stream().map(this::getUserDTO).collect(Collectors.toList());
 	}
 
 	public UserDTO getUserById(String id) throws UserNotFoundException {
-		return UserDTO.createWithReferences(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
+		return getUserDTO(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
 	}
 
 	public UserDTO getUserByLoginName(String loginName) throws LoginNameNotFoundException {
-		return UserDTO.createWithReferences(userRepository.findByLoginName(loginName)
-				.orElseThrow(LoginNameNotFoundException::new));
+		return getUserDTO(userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new));
 	}
 
 	public UserDTO getUserByEmail(String email) throws EmailNotFoundException {
-		return UserDTO.createWithReferences(userRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new));
+		return getUserDTO(userRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new));
+	}
+
+	private UserDTO getUserDTO(User user) {
+		return UserDTO.createWithReferences(user, getCreatedProjects(user), getParticipatedProjects(user));
 	}
 
 	public void createUser(RegistrationForm reg) throws EmailExistsException, LoginNameExistsException {
@@ -110,45 +110,49 @@ public class UserService {
 	}
 
 	public void deleteUser(User user) {
+		for (Project project : projectRepository.findAllByParticipantsContaining(user)) {
+			project.getParticipants().remove(user);
+			projectRepository.save(project);
+		}
+		user.getMarketplaceItems().forEach(marketplaceItemRepository::delete);
+		projectRepository.findAllByCreator(user).forEach(projectRepository::delete);
 		userRepository.delete(user);
-		projectService.onUserDeleted(user);
-		marketplaceItemRepository.findAllByCreator(user).forEach(marketplaceItemRepository::delete);
 		logger.info("##### USER DELETED: " + user);
 	}
 
-	// @formatter:off
+	private List<Project> getCreatedProjects(User user) {
+		return projectRepository.findAllByCreator(user);
+	}
+
+	private List<Project> getParticipatedProjects(User user) {
+		return projectRepository.findAllByParticipantsContaining(user);
+	}
+
 	public void addLike(String loginName, String projectId) throws ProjectNotFoundException, LoginNameNotFoundException {
-		modifyLikesAndFollows((u, p) -> { u.getLikedProjects().add(p);p.getLikes().add(u); }, loginName, projectId);
-		logger.info("##### Like added, user: " + loginName + ", project: " + projectId);
+		User user = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
+		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+		user.getLikedProjects().add(project);
+		logger.info("##### Like added, user: " + user + ", project: " + project);
 	}
 
 	public void removeLike(String loginName, String projectId) throws ProjectNotFoundException, LoginNameNotFoundException {
-		modifyLikesAndFollows((u, p) -> { u.getLikedProjects().remove(p);p.getLikes().remove(u); }, loginName, projectId);
-		logger.info("##### Like removed, user: " + loginName + ", project: " + projectId);
+		User user = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
+		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+		user.getLikedProjects().remove(project);
+		logger.info("##### Like removed, user: " + user + ", project: " + project);
 	}
 
 	public void addFollow(String loginName, String projectId) throws ProjectNotFoundException, LoginNameNotFoundException {
-		modifyLikesAndFollows((u, p) -> { u.getFollowedProjects().add(p); p.getFollows().add(u); }, loginName, projectId);
-		logger.info("##### Follow added, user: " + loginName + ", project: " + projectId);
+		User user = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
+		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+		user.getFollowedProjects().add(project);
+		logger.info("##### Follow added, user: " + user + ", project: " + project);
 	}
 
 	public void removeFollow(String loginName, String projectId) throws ProjectNotFoundException, LoginNameNotFoundException {
-		modifyLikesAndFollows((u, p) -> { u.getFollowedProjects().remove(p); p.getFollows().remove(u); }, loginName, projectId);
-		logger.info("##### Follow removed, user: " + loginName + ", project: " + projectId);
-	}
-
-	// @formatter:on
-	private void modifyLikesAndFollows(ModifyFunction func, String loginName, String projectId) {
 		User user = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
 		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
-		func.execute(user, project);
-		projectRepository.save(project);
-		userRepository.save(user);
+		user.getFollowedProjects().remove(project);
 		logger.info("##### Follow removed, user: " + user + ", project: " + project);
-	}
-
-	@FunctionalInterface
-	private interface ModifyFunction {
-		void execute(User user, Project project);
 	}
 }

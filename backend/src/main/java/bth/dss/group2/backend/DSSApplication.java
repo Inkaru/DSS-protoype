@@ -76,8 +76,6 @@ public class DSSApplication implements CommandLineRunner {
 				.description("Description of text project 2")
 				.creator(ey);
 		projectRepository.save(test2);
-		timo.getCreatedProjects().add(test1);
-		ey.getCreatedProjects().add(test2);
 		userRepository.save(ey);
 		userRepository.save(timo);
 		// fetch all customers
@@ -100,7 +98,7 @@ public class DSSApplication implements CommandLineRunner {
 
 		userService.createUser(new RegistrationForm("frenchie", "test@test.test", "Encule69!", "Encule69!"));
 		System.out.println(userRepository.findByLoginName("frenchie"));
-		MarketplaceItem item = new MarketplaceItem().setCreator(timo)
+		MarketplaceItem item = new MarketplaceItem()
 				.setPrice(844.4)
 				.setName("SHIT")
 				.setDescription("BUY MY SHIT")
@@ -108,6 +106,9 @@ public class DSSApplication implements CommandLineRunner {
 				.setCountry("Sweden")
 				.setType(MarketplaceItem.MarketplaceItemType.OFFER);
 		marketplaceItemRepository.save(item);
+		User frenchie = userRepository.findByLoginName("frenchie").get();
+		frenchie.getMarketplaceItems().add(item);
+		userRepository.save(frenchie);
 		System.out.println(item);
 	}
 }

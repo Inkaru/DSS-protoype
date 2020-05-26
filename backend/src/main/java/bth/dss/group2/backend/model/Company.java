@@ -82,11 +82,6 @@ public class Company extends User {
 		return this;
 	}
 
-	@Override
-	public User createdProjects(Set<Project> createdProjects) {
-		this.createdProjects = createdProjects;
-		return this;
-	}
 
 	@Override
 	public String toString() {

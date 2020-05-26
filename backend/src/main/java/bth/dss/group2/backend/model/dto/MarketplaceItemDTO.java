@@ -3,6 +3,7 @@ package bth.dss.group2.backend.model.dto;
 import javax.validation.constraints.NotNull;
 
 import bth.dss.group2.backend.model.MarketplaceItem;
+import bth.dss.group2.backend.model.User;
 
 public class MarketplaceItemDTO {
 
@@ -21,6 +22,8 @@ public class MarketplaceItemDTO {
 
 	@NotNull
 	private MarketplaceItem.MarketplaceItemType type;
+
+	private UserDTO creator;
 
 	public MarketplaceItemDTO() {
 	}
@@ -101,5 +104,20 @@ public class MarketplaceItemDTO {
 		dto.setCity(item.getCity());
 		dto.setCountry(item.getCountry());
 		return dto;
+	}
+
+	public static MarketplaceItemDTO createWithReferences(MarketplaceItem item, User user) {
+		MarketplaceItemDTO dto = create(item);
+		dto.setCreator(UserDTO.create(user));
+		return dto;
+	}
+
+	public UserDTO getCreator() {
+		return creator;
+	}
+
+	public MarketplaceItemDTO setCreator(UserDTO creator) {
+		this.creator = creator;
+		return this;
 	}
 }
