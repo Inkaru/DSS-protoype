@@ -90,4 +90,16 @@ public class MarketplaceItemDTO {
 	public void setType(MarketplaceItem.MarketplaceItemType type) {
 		this.type = type;
 	}
+
+	public static MarketplaceItemDTO create(MarketplaceItem item) {
+		MarketplaceItemDTO dto = new MarketplaceItemDTO();
+		dto.setId(item.getId());
+		dto.setName(item.getName());
+		dto.setDescription(item.getDescription());
+		dto.setPrice(item.getPrice());
+		dto.setType(item.getType());
+		dto.setCity(item.getCity());
+		dto.setCountry(item.getCountry());
+		return dto;
+	}
 }

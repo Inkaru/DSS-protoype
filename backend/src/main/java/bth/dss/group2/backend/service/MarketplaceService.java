@@ -32,7 +32,8 @@ public class MarketplaceService {
 		User creator = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
 		MarketplaceItem item = new MarketplaceItem(dto.getName(), creator, Instant.now(), Instant.now(), dto
 				.getPrice(), dto.getDescription(), dto.getCity(), dto.getCountry(), dto.getType());
-		marketplaceItemRepository.save(item);
+		creator.getMarketplaceItems().add(marketplaceItemRepository.save(item));
+		userRepository.save(creator);
 	}
 
 	public List<MarketplaceItemDTO> getAllOffers() {
@@ -73,7 +74,10 @@ public class MarketplaceService {
 	public void delete(String id, String loginName) throws LoginNameNotFoundException, MarketplaceItemNotFoundException {
 		//TODO: security check to make sure user deletes only his own items
 		// User creator = userService.getUserByLoginName(loginName);
-		marketplaceItemRepository.delete(marketplaceItemRepository.findById(id)
-				.orElseThrow(MarketplaceItemNotFoundException::new));
+		MarketplaceItem item = marketplaceItemRepository.findById(id)
+				.orElseThrow(MarketplaceItemNotFoundException::new);
+		marketplaceItemRepository.delete(item);
+		User creator = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
+		creator.getMarketplaceItems().remove(item);
 	}
 }

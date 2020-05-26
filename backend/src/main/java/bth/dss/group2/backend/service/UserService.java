@@ -15,6 +15,7 @@ import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.model.dto.RegistrationForm;
 import bth.dss.group2.backend.model.dto.UserDTO;
+import bth.dss.group2.backend.repository.MarketplaceItemRepository;
 import bth.dss.group2.backend.repository.ProjectRepository;
 import bth.dss.group2.backend.repository.UserRepository;
 import org.slf4j.Logger;
@@ -31,13 +32,15 @@ public class UserService {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private final UserRepository<User> userRepository;
 	private final ProjectRepository projectRepository;
+	private final MarketplaceItemRepository marketplaceItemRepository;
 	private final ProjectService projectService;
 	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserService(UserRepository<User> userRepository, ProjectRepository projectRepository, ProjectService projectService, PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository<User> userRepository, ProjectRepository projectRepository, MarketplaceItemRepository marketplaceItemRepository, ProjectService projectService, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.projectRepository = projectRepository;
+		this.marketplaceItemRepository = marketplaceItemRepository;
 		this.projectService = projectService;
 		this.passwordEncoder = passwordEncoder;
 	}
@@ -108,6 +111,7 @@ public class UserService {
 	public void deleteUser(User user) {
 		userRepository.delete(user);
 		projectService.onUserDeleted(user);
+		marketplaceItemRepository.findAllByCreator(user).forEach(marketplaceItemRepository::delete);
 		logger.info("##### USER DELETED: " + user);
 	}
 

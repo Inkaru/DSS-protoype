@@ -21,6 +21,7 @@ public class UserDTO {
 	private Set<ProjectDTO> likedProjects;
 	private Set<ProjectDTO> createdProjects;
 	private Set<ProjectDTO> participatedProjects;
+	private Set<MarketplaceItemDTO> marketplaceItems;
 
 	//Specific to Person:
 	private String address;
@@ -75,6 +76,10 @@ public class UserDTO {
 				.map(ProjectDTO::create)
 				.collect(Collectors.toSet()));
 		dto.setLikedProjects(user.getLikedProjects().stream().map(ProjectDTO::create).collect(Collectors.toSet()));
+		dto.setMarketplaceItems(user.getMarketplaceItems()
+				.stream()
+				.map(MarketplaceItemDTO::create)
+				.collect(Collectors.toSet()));
 		return dto;
 	}
 
@@ -174,6 +179,15 @@ public class UserDTO {
 
 	public UserDTO setParticipatedProjects(Set<ProjectDTO> participatedProjects) {
 		this.participatedProjects = participatedProjects;
+		return this;
+	}
+
+	public Set<MarketplaceItemDTO> getMarketplaceItems() {
+		return marketplaceItems;
+	}
+
+	public UserDTO setMarketplaceItems(Set<MarketplaceItemDTO> marketplaceItems) {
+		this.marketplaceItems = marketplaceItems;
 		return this;
 	}
 

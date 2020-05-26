@@ -44,12 +44,16 @@ public abstract class User {
 	@JsonProperty
 	@DBRef(lazy = true)
 	Set<Project> participatedProjects;
+	@JsonProperty
+	@DBRef(lazy = true)
+	Set<MarketplaceItem> marketplaceItems;
 
 	public User() {
 		followedProjects = new HashSet<>();
 		likedProjects = new HashSet<>();
 		createdProjects = new HashSet<>();
 		participatedProjects = new HashSet<>();
+		marketplaceItems = new HashSet<>();
 	}
 
 	public abstract User city(String city);
@@ -131,6 +135,10 @@ public abstract class User {
 
 	public Set<Project> getParticipatedProjects() {
 		return participatedProjects;
+	}
+
+	public Set<MarketplaceItem> getMarketplaceItems() {
+		return marketplaceItems;
 	}
 
 	//Only for testing purposes
