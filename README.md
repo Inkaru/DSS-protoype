@@ -3,7 +3,7 @@
 ## Login
 ### REST-API :
 - **Authenticate**:             GET `api/login/authenticate` (returns true if valid login)
-- **Get own user object**:      GET `api/login/user` (returns true if valid login)
+- **Get own user object**:      GET `api/login/user` (only works if logged in)
 ## Users
 ### Attributes:
 ![alt text](documentation/UserDTO_26_05.png "UserDTO")
