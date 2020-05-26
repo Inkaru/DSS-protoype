@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../../services/api.service';
 import {Project} from '../../model/project';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-projects',
@@ -48,12 +47,17 @@ export class ProjectsComponent implements OnInit {
   }
 
   onSubmitProjectsForm() {
+    if (this.projectsForm.invalid){
+      this.error = 'All fields must be filled';
+      return;
+    }
     this.apiService.createProject(this.projectsForm.value).subscribe(
       response => {
         console.log(response);
         this.apiService.getAllProjects();
         // @ts-ignore
         $('#projectsFormModal').modal('hide');
+        this.error = '';
       }, error => {
         console.log(error);
         this.error = error.message;
