@@ -8,12 +8,12 @@
 ### Attributes:
 ![alt text](documentation/UserDTO_26_05.png "UserDTO")
 
-Note that `type` can be the following Strings: `PERSON`,`COMPANY`,`INSTITUTION` 
+Note that `type` can be one of the following strings for the frontend: `PERSON`,`COMPANY`,`INSTITUTION` 
 (currently not implemented for registration)
 
 ### REST-API :
 
-- **Create**:                   POST `api/users/registerUser`
+- **Create**:                   POST `api/users/registerUser` (form attributes are different here: loginName, email, password, passwordRepeat)
 - **Get all**:                  GET `api/users/getAllUsers`
 - **Get**:                      GET `api/users/getUser?id={id}` || `api/users/getUser?loginName={loginName}` || `api/users/getUser?email={email}`
 - **Update**:                   POST `api/users/updateUser`(user-id required!)
@@ -38,7 +38,8 @@ Note that `type` can be the following Strings: `PERSON`,`COMPANY`,`INSTITUTION`
 ## Marketplace
 ### Attributes:
 ![alt text](documentation/MarketplaceItemDTO_26_05.png "MarketplaceItemDTO")
-Note that `type` can be the following Strings: `PERSON`,`COMPANY`,`INSTITUTION` 
+
+Note that `type` can be one of the following strings for the frontend: `OFFER`,`REQUEST`
 
 ### REST-API :
 - **Create**                   POST `api/marketplace/createItem`
