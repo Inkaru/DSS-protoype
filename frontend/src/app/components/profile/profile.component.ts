@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
           this.authService.getCurrentUser();
           this.currentProject = new Project();
           // @ts-ignore
-          $('#projectsFormModal').modal('hide');
+          $('#projectFormModal').modal('hide');
         }, error => {
           console.log(error);
         }
@@ -76,9 +76,9 @@ export class ProfileComponent implements OnInit {
           console.log('success');
           console.log(data);
           this.authService.getCurrentUser();
-          // @ts-ignore
-          $('#projectsFormModal').modal('hide');
           this.currentProject = new Project();
+          // @ts-ignore
+          $('#projectFormModal').modal('hide');
         },
         error => {
           console.log(error);
@@ -96,7 +96,6 @@ export class ProfileComponent implements OnInit {
     if (confirm('Are you sure you want delete this project?')) {
       this.apiService.deleteProjectById(id).subscribe(value => {
         console.log('project deleted successfully');
-        // todo should work
         this.authService.getCurrentUser();
       }, error1 => console.log(error1));
     }
@@ -106,7 +105,7 @@ export class ProfileComponent implements OnInit {
     this.editMode = true;
     this.currentProject = project;
     // @ts-ignore
-    $('#projectsFormModal').modal('show');
+    $('#projectFormModal').modal('show');
 
   }
 }
