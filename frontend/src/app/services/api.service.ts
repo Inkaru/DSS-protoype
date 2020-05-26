@@ -13,10 +13,10 @@ export class ApiService {
   constructor(private httpClient: HttpClient) { }
 
   projects: Project[] = [];
-  projectsSubject = new Subject<any[]>();
+  projectsSubject = new Subject<Project[]>();
 
-  MPItems: MarketplaceItem[] = [];
-  MPItemsSubject = new Subject<any[]>();
+  mpItems: MarketplaceItem[] = [];
+  mpItemsSubject = new Subject<MarketplaceItem[]>();
 
   // API calls are done with '/api/... '
 
@@ -152,8 +152,8 @@ export class ApiService {
       .subscribe(
         (response) => {
           console.log('got MPItems from backend');
-          this.MPItems = response;
-          this.MPItemsSubject.next(this.MPItems);
+          this.mpItems = response;
+          this.mpItemsSubject.next(this.mpItems);
         },
         (error) => {
           console.log(error);
@@ -167,8 +167,8 @@ export class ApiService {
       .subscribe(
         (response) => {
           console.log('got offers from backend');
-          this.MPItems = response;
-          this.MPItemsSubject.next(this.MPItems);
+          this.mpItems = response;
+          this.mpItemsSubject.next(this.mpItems);
         },
         (error) => {
           console.log(error);
@@ -182,8 +182,8 @@ export class ApiService {
       .subscribe(
         (response) => {
           console.log('got requests from backend');
-          this.MPItems = response;
-          this.MPItemsSubject.next(this.MPItems);
+          this.mpItems = response;
+          this.mpItemsSubject.next(this.mpItems);
         },
         (error) => {
           console.log(error);
