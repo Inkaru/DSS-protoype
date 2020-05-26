@@ -12,16 +12,24 @@
               {{currentUser.description}}
             </p>
           </div>
-          <div class="">
-            <span class="mr-1">Liked Projects</span>
-            <button class="circle">A</button>
-            <button class="circle">B</button>
+          <div class="mb-4" *ngIf="currentUser.likedProjects.length">
+            <span class="mr-2">Liked Projects</span>
+            <button class="btn-circle mr-1" *ngFor="let project of currentUser.likedProjects"
+            routerLink="/project/{{project.id}}"
+            [ngStyle]="{'background-color': getRandomColor()}"
+            title="{{project.name}}">
+              {{project.name[0]}}
+            </button>
           </div>
 
-          <div class="">
-            <span class="mr-1">Followed Projects :</span>
-            <button class="circle">C</button>
-            <button class="circle">D</button>
+          <div class="" *ngIf="currentUser.followedProjects.length">
+            <span class="mr-2">Followed Projects </span>
+            <button class="btn-circle mr-1" *ngFor="let project of currentUser.followedProjects"
+                    routerLink="/project/{{project.id}}"
+                    [ngStyle]="{'background-color': getRandomColor()}"
+                    title="{{project.name}}">
+              {{project.name[0]}}
+            </button>
           </div>
         </div>
 
