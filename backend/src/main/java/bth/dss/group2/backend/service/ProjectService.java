@@ -89,6 +89,10 @@ public class ProjectService {
 			p.getLikes().remove(user);
 			projectRepository.save(p);
 		}
+		for (Project p : user.getLikedProjects()) {
+			p.getParticipants().remove(user);
+			projectRepository.save(p);
+		}
 		user.getCreatedProjects().forEach(this::deleteProject);
 	}
 }
