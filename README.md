@@ -48,6 +48,38 @@ Note that `type` can be one of the following strings for the frontend: `OFFER`,`
 - **Update**:                   POST `api/marketplace/updateItem` (item-id required!)
 - **Delete**:                   DELETE `api/marketplace/deleteItem?id={id}`
 
+## Chat
+### Notes for frontend implementation
+Chats are modelled as ChatChannels, each channel can have 2 to unlimited participants. The ChatChannel objects contain a list of messages.
+Channels are unique by their set of participants, so there can for example be only one channel with the same three participants.
+The intended use of the `getMyChannels` REST-call is to display previously existing conversations (the channel objects will contain a list of messages with author, timestamp, content)
+The `establishChannel` call is mainly for initialization of a new chat channel and will return a channel object containing the assigned ID (needed for the WebSocket-functions).
+In case of an already existing channel with the same participants, it will (hopefully) return the existing one though, including all previous messages.
+
+After subscribing to the STOMP/Websocket-Channel, the messages will come in automatically (including own messages), without doing rest calls, and they will also be saved by the server automatically.
+Similarly, messages sent over the other path will be distributed and saved without the frontend having to do anyting else.
+
+A testing page can be reached under `localhost:8080/testchat/`. It requires to be logged in to work properly. The javascript code of the testpage probably helps with the implementation a lot, since it seems very similar to what has to be done in angular. It can be found under `/backend/resources/static/js/main.js`.
+Together with the js file, this tutorial for angular helps, I think:
+https://grokonez.com/frontend/angular/angular-6/angular-6-websocket-example-with-spring-boot-websocket-server-sockjs-stomp
+
+
+### Attributes:
+![alt text](documentation/ChatMessageDTO.png "ChatMessageDTO")
+![alt text](documentation/ChatChannelDTO.png "ChatChannelDTO")
+
+### WEBSOCKET-API (STOMP)
+- **Subscribing to messages**      `/topic/chat.{channel_id}` (expect same attributes in message objects as in the ChatMessageDTO)
+- **Sending messages**              `app/chat/chat.{channel_id}` (only the message content needs to be sent, everything else is added by the server)
+
+### REST-API :
+- **Establish Chat-Channel**    POST `api/chat/establishChannel`(only need to post participants list, if logged in user is missing he will be automatically added on server-side)
+- **Get my Chat-Channels**:     GET `api/chat/getMyChannels` (should be sorted by last message timestamp, not sure if ascending or descending :P)
+
+
+
+
+
 ## Project Setup
 1. Import project using the pom.xml in parent directory. In IntelliJ: File -> New -> Project from Existing Sources -> choose pom.xml
 2. Go to Project Settings (Ctrl+Shift+Alt+S) and make sure that "Project SDK" is a Java 14 SDK (in IntelliJ you can autodownload OpenJDK 14) and "Project Langauge level" is set to 14, too

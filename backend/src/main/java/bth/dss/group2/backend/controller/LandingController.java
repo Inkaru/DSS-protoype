@@ -20,4 +20,11 @@ public class LandingController {
 	public String land(Locale locale, Model model) {
 		return "index.html";
 	}
+
+
+	@RequestMapping(value = { "/testchat" }, method = RequestMethod.GET)
+	public String chat(Locale locale, Model model) {
+		return "chat.html";
+	}
+
 }

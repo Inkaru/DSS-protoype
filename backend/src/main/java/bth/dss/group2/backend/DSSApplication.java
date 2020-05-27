@@ -1,6 +1,9 @@
 package bth.dss.group2.backend;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
@@ -9,10 +12,12 @@ import bth.dss.group2.backend.model.MarketplaceItem;
 import bth.dss.group2.backend.model.Person;
 import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.User;
+import bth.dss.group2.backend.model.dto.ChatChannelDTO;
 import bth.dss.group2.backend.model.dto.RegistrationForm;
 import bth.dss.group2.backend.repository.MarketplaceItemRepository;
 import bth.dss.group2.backend.repository.ProjectRepository;
 import bth.dss.group2.backend.repository.UserRepository;
+import bth.dss.group2.backend.service.ChatService;
 import bth.dss.group2.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -36,6 +41,9 @@ public class DSSApplication implements CommandLineRunner {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	ChatService chatService;
 
 	@Autowired
 	MarketplaceItemRepository marketplaceItemRepository;
@@ -97,6 +105,9 @@ public class DSSApplication implements CommandLineRunner {
 		System.out.println(userRepository.findByLoginName("pute"));
 
 		userService.createUser(new RegistrationForm("frenchie", "test@test.test", "Encule69!", "Encule69!"));
+		userService.createUser(new RegistrationForm("mcfuckface", "fuck@fucktest.test", "ra7SVxfg9DP&Bb7miiY", "ra7SVxfg9DP&Bb7miiY"));
+		userService.createUser(new RegistrationForm("german", "german@fucktest.test", "Encule69!", "Encule69!"));
+
 		System.out.println(userRepository.findByLoginName("frenchie"));
 		MarketplaceItem item = new MarketplaceItem()
 				.setPrice(844.4)
@@ -109,6 +120,9 @@ public class DSSApplication implements CommandLineRunner {
 		User frenchie = userRepository.findByLoginName("frenchie").get();
 		frenchie.getMarketplaceItems().add(item);
 		userRepository.save(frenchie);
+		ChatChannelDTO channel = new ChatChannelDTO();
+		channel.setParticipantLoginNames(Stream.of("frenchie", "german").collect(Collectors.toSet()));
+		chatService.establishChannel(channel);
 		System.out.println(item);
 	}
 }
