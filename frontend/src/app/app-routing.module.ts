@@ -9,6 +9,7 @@ import {ProfileComponent} from './components/profile/profile.component';
 import {ProjectDetailComponent} from './components/project-detail/project-detail.component';
 import {ResourcesComponent} from './components/resources/resources.component';
 import {MarketplaceComponent} from './components/marketplace/marketplace.component';
+import {MarketplaceDetailComponent} from './components/marketplace-detail/marketplace-detail.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard]},
   {path: 'project/:id', component: ProjectDetailComponent, canActivate: [AuthGuard]},
+  {path: 'marketplaceItem/:id', component: MarketplaceDetailComponent, canActivate: [AuthGuard]},
   {path: 'marketplace', component: MarketplaceComponent, canActivate: [AuthGuard]},
   {path: 'resources', component: ResourcesComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent}

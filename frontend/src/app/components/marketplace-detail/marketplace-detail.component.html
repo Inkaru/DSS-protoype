@@ -1,0 +1,32 @@
+<div *ngIf="item">
+  <section id="item-header" class="mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center py-5">
+          <h1 class="display-4">{{item.name}}</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <row class="col-md-8 offset-md-2 d-flex justify-content-around">
+
+    <div class="">
+      <span class="mr-1">{{item.city}} - {{item.country}}</span>
+    </div>
+
+    <div class="">
+      <span class="mr-1">{{item.price}}€</span>
+    </div>
+
+  </row>
+
+  <hr>
+
+  <section id="item-description" class="col-md-8 offset-md-2">
+    <p class="lead">
+      {{item.description}}
+    </p>
+  </section>
+
+</div>
