@@ -26,23 +26,21 @@ export class ProjectDetailComponent implements OnInit {
     private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.getProject();
+  }
+
+  getProject() {
     const id = this.route.snapshot.paramMap.get('id');
     this.apiService.getProjectById(id)
       .subscribe(project => {
         this.project = project;
+        console.log(project);
         this.authService.currentUser.subscribe(x => {
           this.currentUser = x;
           this.followed = this.currentUser.followedProjects.map(p => p.id).includes(this.project.id);
           this.liked = this.currentUser.likedProjects.map(p => p.id).includes(this.project.id);
         });
       }, error => this.goBack());
-
-  }
-
-  getProject() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.apiService.getProjectById(id)
-      .subscribe(project => this.project = project, error => this.goBack());
   }
 
   goBack(): void {
@@ -52,24 +50,33 @@ export class ProjectDetailComponent implements OnInit {
   likeProject(id) {
     this.apiService.likeProject(id).subscribe(response => {
       this.authService.getCurrentUser();
+      this.getProject();
     });
   }
 
   unlikeProject(id) {
     this.apiService.unlikeProject(id).subscribe(response => {
       this.authService.getCurrentUser();
+      this.getProject();
     });
   }
 
   followProject(id) {
     this.apiService.followProject(id).subscribe(response => {
       this.authService.getCurrentUser();
+      this.getProject();
     });
   }
 
   unfollowProject(id) {
     this.apiService.unfollowProject(id).subscribe(response => {
       this.authService.getCurrentUser();
+      this.getProject();
     });
+  }
+
+  getRandomColor() {
+    const color = Math.floor(0x1000000 * Math.random()).toString(16);
+    return '#' + ('000000' + color).slice(-6);
   }
 }
