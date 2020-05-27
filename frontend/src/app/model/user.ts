@@ -1,4 +1,5 @@
 import {Project} from './project';
+import {MarketplaceItem} from './marketplaceItem';
 
 export class User {
   id: string;
@@ -12,6 +13,7 @@ export class User {
   likedProjects: Project[];
   createdProjects: Project[];
   participatedProjects: Project[];
+  marketplaceItems: MarketplaceItem[];
   address: string;
   firstName: string;
   lastName: string;
