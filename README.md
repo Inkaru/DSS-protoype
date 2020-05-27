@@ -52,12 +52,13 @@ Note that `type` can be one of the following strings for the frontend: `OFFER`,`
 ### Notes for frontend implementation
 Chats are modelled as ChatChannels, each channel can have 2 to unlimited participants. The ChatChannel objects contain a list of messages.
 Channels are unique by their set of participants, so there can for example be only one channel with the same three participants.
-The intended use of the `getMyChannels` REST-call is to display previously existing conversations (the channel objects will contain a list of messages with author, timestamp, content)
-The `establishChannel` call is mainly for initialization of a new chat channel and will return a channel object containing the assigned ID (needed for the WebSocket-functions).
-In case of an already existing channel with the same participants, it will (hopefully) return the existing one though, including all previous messages.
+
+The intended use of the `getMyChannels` REST-call is to display previously existing conversations (the channel object will contain a list of message objects)
+The `establishChannel` call is mainly for initialization of a new chat channel and will return a channel object containing the assigned ID (needed for the WebSocket-functions). 
+Only the participant login names need to be set by the frontend for this. In case of an already existing channel with the same participants, it should return the existing one though, including all previous messages.
 
 After subscribing to the STOMP/Websocket-Channel, the messages will come in automatically (including own messages), without doing rest calls, and they will also be saved by the server automatically.
-Similarly, messages sent over the other path will be distributed and saved without the frontend having to do anyting else.
+Similarly, messages sent over the other path will be distributed and saved without the frontend having to do anything else.
 
 A testing page can be reached under `localhost:8080/testchat/`. It requires to be logged in to work properly. The javascript code of the testpage probably helps with the implementation a lot, since it seems very similar to what has to be done in angular. It can be found under `/backend/resources/static/js/main.js`.
 Together with the js file, this tutorial for angular helps, I think:
