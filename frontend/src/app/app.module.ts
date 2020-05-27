@@ -16,6 +16,7 @@ import { MarketplaceComponent } from './components/marketplace/marketplace.compo
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { MarketplaceDetailComponent } from './components/marketplace-detail/marketplace-detail.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ProjectsComponent } from './components/projects/projects.component';
     ProfileComponent,
     ProjectDetailComponent,
     ResourcesComponent,
-    MarketplaceComponent
+    MarketplaceComponent,
+    MarketplaceDetailComponent
   ],
   imports: [
     BrowserModule,
