@@ -132,6 +132,7 @@ public class UserService {
 		User user = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
 		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 		user.getLikedProjects().add(project);
+		userRepository.save(user);
 		logger.info("##### Like added, user: " + user + ", project: " + project);
 	}
 
@@ -139,6 +140,7 @@ public class UserService {
 		User user = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
 		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 		user.getLikedProjects().remove(project);
+		userRepository.save(user);
 		logger.info("##### Like removed, user: " + user + ", project: " + project);
 	}
 
@@ -146,6 +148,7 @@ public class UserService {
 		User user = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
 		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 		user.getFollowedProjects().add(project);
+		userRepository.save(user);
 		logger.info("##### Follow added, user: " + user + ", project: " + project);
 	}
 
@@ -153,6 +156,7 @@ public class UserService {
 		User user = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
 		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 		user.getFollowedProjects().remove(project);
+		userRepository.save(user);
 		logger.info("##### Follow removed, user: " + user + ", project: " + project);
 	}
 }

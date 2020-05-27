@@ -65,6 +65,7 @@ public class ProjectService {
 				.name(projectDto.getName())
 				.creator(creator)
 				.description(projectDto.getDescription()));
+		userRepository.save(creator);
 		logger.info("##### PROJECT SAVED: " + project);
 	}
 
