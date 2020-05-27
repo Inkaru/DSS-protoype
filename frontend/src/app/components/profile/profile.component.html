@@ -51,7 +51,7 @@
             </button>
           </div>
         </div>
-        <hr class="mt-1 mb-5 bg-dark">
+        <hr class="mt-1 mb-2 bg-dark">
         <div class="card mb-2" *ngFor="let project of currentUser.createdProjects">
           <div class="card-body">
             <div class="col-10">
@@ -79,14 +79,28 @@
             <h3 class="font-weight-light align-self-center">My Marketplace</h3>
           </div>
           <div class="col text-right">
-            <button class="btn btn-secondary" data-toggle="modal" data-target="#"
+            <button class="btn btn-secondary" data-toggle="modal" data-target="#itemFormModal"
                     (click)="resetForm()">Submit a new offer or request
             </button>
           </div>
         </div>
 
-<!--    TODO : add list of requests    -->
-
+        <hr class="mt-1 mb-2 bg-dark">
+        <div class="card mb-2" *ngFor="let item of currentUser.marketplaceItems">
+          <div class="card-body">
+            <div class="card-title">
+              <a class="" routerLink="/marketplaceItem/{{item.id}}">
+                <i class="fas fa-caret-right"></i>
+                <span class="h5 mr-3"> {{item.name}}</span>
+              </a>
+              <button class="btn btn-sm btn-primary mr-1" type="button" (click)="onEditItem(item)"><i
+                class="fas fa-edit"></i></button>
+              <button class="btn btn-sm btn-secondary" type="button" (click)="onDeleteItem(item.id)"><i
+                class="fas fa-trash-alt"></i></button>
+            </div>
+            <p class="card-text">{{item.description}}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -201,6 +215,75 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" (click)="onSubmitProjectsForm()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="itemFormModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalScrollableTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="editMode" class="modal-title">Edit Item</h5>
+        <h5 *ngIf="!editMode" class="modal-title">Create Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+
+          <div class="form-row mb-4">
+            <div class="col">
+              <label for="type">Name</label>
+              <input class="form-control" type="text" [(ngModel)]="currentItem.name" placeholder="Name" name="name">
+            </div>
+          </div>
+
+          <div class="form-row mb-4">
+            <div class="col">
+              <label for="type">Type</label>
+              <select class="form-control" name="type" id="type" [(ngModel)]="currentItem.type">
+                <option value="OFFER">Offer</option>
+                <option value="REQUEST">Request</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mb-4">
+            <div class="col">
+              <label for="type">Price</label>
+              <input class="form-control" type="number" [(ngModel)]="currentItem.price" placeholder="Price" name="price">
+            </div>
+          </div>
+
+          <div class="form-row mb-4">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentItem.city" placeholder="City" name="city">
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentItem.country" placeholder="Country"
+                     name="country">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description3">Description</label>
+            <textarea id="description3" [(ngModel)]="currentItem.description" class="form-control"
+                      name="description"></textarea>
+          </div>
+
+        </form>
+      </div>
+      <div *ngIf="error" class="alert alert-danger mb-0">
+        {{error}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmitItemForm()">Submit</button>
       </div>
     </div>
   </div>
