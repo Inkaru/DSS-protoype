@@ -28,6 +28,7 @@ export class ApiService {
       .subscribe(
         (response) => {
           console.log('got projects from backend');
+          console.log(response);
           this.projects = response;
           this.projectsSubject.next(this.projects);
         },

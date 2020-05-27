@@ -24,6 +24,7 @@ export class MarketplaceComponent implements OnInit {
     this.apiService.mpItemsSubject.subscribe(
       (x) => {
         this.items = x;
+        console.log(x);
       }
     );
     this.filterItems();

@@ -11,17 +11,20 @@
 
 <!--  TODO : iterate on lists of users-->
   <row class="col-md-8 offset-md-2 d-flex justify-content-around">
-    <div class="">
-      <span class="mr-1">Created by :</span>
-      <button class="btn circle">A</button>
-      <button class="btn circle">B</button>
-    </div>
 
     <div class="">
-      <span class="mr-1">Followers :</span>
-      <button class="circle">C</button>
-      <button class="circle">D</button>
+      <span class="mr-1">Created by : {{project.creator.firstName}} {{project.creator.lastName}}</span>
     </div>
+
+    <div class="" *ngIf="project.follows.length">
+      <span class="mr-2">Followers </span>
+      <button class="btn-circle mr-1" *ngFor="let user of project.follows"
+              [ngStyle]="{'background-color': getRandomColor()}"
+              title="{{user.firstName}}">
+        {{user.firstName[0]}}
+      </button>
+    </div>
+
 
     <a (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-secondary">
       Like

@@ -38,7 +38,6 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     this.apiService.projectsSubject.subscribe(
       (data: any) => {
-        console.log(data);
         this.projects = data;
       }
     );
