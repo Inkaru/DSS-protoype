@@ -37,6 +37,7 @@ export class ChatComponent implements OnInit {
 
   send(){
     this.chatService.sendChat(this.message);
+    this.message = '';
   }
 
   establish(){
@@ -44,6 +45,7 @@ export class ChatComponent implements OnInit {
     arr.push(this.currentUser.loginName);
     arr.push(this.loginname);
     this.chatService.establishChannel({participantLoginNames: arr});
+    this.loginname = '';
   }
 
   connectTo(channel) {

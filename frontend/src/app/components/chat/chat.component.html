@@ -1,6 +1,6 @@
 <div class="container-fluid chat">
   <div class="row chat">
-    <div class="col-4 channels">
+    <div class="col-lg-3 col-md-4 channels">
       <div class="row">
         <div class="input-group m-2">
           <input type="text" class="form-control" placeholder="Start a conversation with.." [(ngModel)]="loginname">
@@ -12,11 +12,11 @@
           Public chat
         </div>
         <div *ngFor="let channel of channels" class="channel p-2 m-2 rounded-sm" [ngClass]="channel == currentChannel ? 'selected' : ''" (click)="connectTo(channel)">
-          {{channel.participantLoginNames[0]}}
+          {{channel.participantLoginNames[1]}}
         </div>
       </div>
     </div>
-    <div class="col-8 messages h-100">
+    <div class="col messages h-100">
       <div class="name h3 p-3" *ngIf="currentChannel">{{currentChannel.participantLoginNames[0]}}, {{currentChannel.participantLoginNames[1]}}</div>
       <div class="name h3 p-3" *ngIf="!currentChannel">Public Chat</div>
       <hr>

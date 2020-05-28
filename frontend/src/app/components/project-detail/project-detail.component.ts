@@ -1,10 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Project} from '../../model/project';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ApiService} from '../../services/api.service';
 import {Location} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
 import {User} from '../../model/user';
+import {ChatService} from '../../services/chat.service';
 
 @Component({
   selector: 'app-project-detail',
@@ -21,9 +22,11 @@ export class ProjectDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private apiService: ApiService,
     private location: Location,
-    private authService: AuthService) {}
+    private authService: AuthService,
+    private chatService: ChatService) {}
 
   ngOnInit(): void {
     this.getProject();
@@ -78,5 +81,13 @@ export class ProjectDetailComponent implements OnInit {
   getRandomColor() {
     const color = Math.floor(0x1000000 * Math.random()).toString(16);
     return '#' + ('000000' + color).slice(-6);
+  }
+
+  createChat() {
+    const arr = [];
+    arr.push(this.currentUser.loginName);
+    arr.push(this.project.creator.loginName);
+    this.chatService.establishChannel({participantLoginNames: arr});
+    this.router.navigate(['/chat']);
   }
 }

@@ -12,12 +12,20 @@
   <row class="col-md-8 offset-md-2 d-flex justify-content-around">
 
     <div class="">
+      <span class="mr-1">Created by : {{item.creator.loginName}}</span>
+    </div>
+
+    <div class="">
       <span class="mr-1">{{item.city}} - {{item.country}}</span>
     </div>
 
     <div class="">
-      <span class="mr-1">{{item.price}}€</span>
+      <span class="mr-1">Price : {{item.price}}€</span>
     </div>
+
+    <a (click)="createChat()" class="btn btn-secondary">
+      Chat about this
+    </a>
 
   </row>
 

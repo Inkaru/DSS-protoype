@@ -1,3 +1,5 @@
+import {User} from './user';
+
 export class MarketplaceItem {
   id: string;
   name: string;
@@ -6,4 +8,5 @@ export class MarketplaceItem {
   city: string;
   country: string;
   type: string;
+  creator: User;
 }
