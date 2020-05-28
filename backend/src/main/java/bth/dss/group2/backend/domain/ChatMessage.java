@@ -3,13 +3,13 @@ package bth.dss.group2.backend.domain;
 import java.time.Instant;
 import java.util.Objects;
 
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection = "ChatMessage")
 public class ChatMessage {
-	@Indexed
+	@Id
 	private String id;
 	@DBRef(lazy = true)
 	private final User author;

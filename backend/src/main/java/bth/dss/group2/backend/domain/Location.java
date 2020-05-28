@@ -3,7 +3,9 @@ package bth.dss.group2.backend.domain;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "Location")
 public class Location {
 	@Id
 	private String id;

@@ -8,11 +8,13 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "ChatChannel")
 public class ChatChannel {
-	@Indexed
+	@Id
 	private String id;
 	@DBRef(lazy = true)
 	private List<ChatMessage> messages;
