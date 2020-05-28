@@ -67,4 +67,15 @@ public class ChatMessageDTO {
 		dto.setReadByAll(readByAll);
 		return dto;
 	}
+
+	@Override
+	public String toString() {
+		return "ChatMessageDTO{" +
+				"channelId='" + channelId + '\'' +
+				", authorLoginName='" + authorLoginName + '\'' +
+				", timeSent=" + timeSent +
+				", content='" + content + '\'' +
+				", readByAll=" + readByAll +
+				'}';
+	}
 }

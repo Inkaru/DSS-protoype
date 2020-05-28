@@ -10,6 +10,8 @@ import bth.dss.group2.backend.domain.dto.ChatChannelDTO;
 import bth.dss.group2.backend.domain.dto.ChatMessageDTO;
 import bth.dss.group2.backend.service.ChatService;
 import bth.dss.group2.backend.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -26,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/api/chat")
 public class ChatController {
-
+	private static final Logger logger = LoggerFactory.getLogger(ChatController.class);
 	private final ChatService chatService;
 
 	@Autowired
@@ -40,6 +42,7 @@ public class ChatController {
 		message.setAuthorLoginName(Util.getLoginName(principal));
 		message.setTimeSent(Instant.now());
 		chatService.submitMessage(channelId, message);
+		logger.info("CHAT MESSAGE IN CHANNEL " + channelId + " :" + message);
 		return message;
 	}
 
@@ -48,6 +51,7 @@ public class ChatController {
 	public ChatMessageDTO sendPublicMessage(@Payload ChatMessageDTO message, Principal principal) {
 		message.setAuthorLoginName(Util.getLoginName(principal));
 		message.setTimeSent(Instant.now());
+		logger.info("CHAT MESSAGE IN PUBLIC CHAT:" + message);
 		return message;
 	}
 
