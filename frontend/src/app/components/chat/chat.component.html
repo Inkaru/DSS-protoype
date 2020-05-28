@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-3 channels">
+      <div class="channel" (click)="connectTo(null)">
+        public chat
+      </div>
+      <div *ngFor="let channel of channels" class="channel" (click)="connectTo(channel.id)">
+        {{channel.participantLoginNames[0]}}
+      </div>
+    </div>
+    <div class="col-9 messages">
+      <ng-container *ngFor="let mess of messages">
+        <div [ngClass]="mess.authorLoginName == this.currentUser.loginName ? 'myMessage' : 'otherMessage'">
+          <span>{{mess.authorLoginName}}</span>
+          <span>{{mess.content}}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<input type="text" [(ngModel)]="message">
+<button (click)="send()">Send</button>
+
+<input type="text" [(ngModel)]="loginname">
+<button (click)="establish()">establish</button>
+
+<button (click)="getMyChannels()">Channels</button>
