@@ -21,6 +21,9 @@ public class RegistrationDTO {
 	private String passwordRepeat;
 	private UserDTO.UserType type;
 
+	public RegistrationDTO() {
+	}
+
 	public RegistrationDTO(String loginName, String email, String password, String passwordRepeat, UserDTO.UserType type) {
 		this(loginName, email, password, passwordRepeat);
 		this.type = type;
