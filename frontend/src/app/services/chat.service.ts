@@ -58,7 +58,7 @@ export class ChatService {
       // this.messages = this.channel.messages;
       // this.messagesSubject.next(this.messages);
       this.getMychannels();
-    });
+    }, error => console.log(error));
   }
 
   sendChat(message){

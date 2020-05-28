@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MarketplaceItem} from '../../model/marketplaceItem';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ApiService} from '../../services/api.service';
 import {Location} from '@angular/common';
+import {ChatService} from '../../services/chat.service';
 
 @Component({
   selector: 'app-marketplace-detail',
@@ -14,6 +15,8 @@ export class MarketplaceDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    private chatService: ChatService,
     private apiService: ApiService,
     private location: Location) {
   }
@@ -33,5 +36,12 @@ export class MarketplaceDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  createChat() {
+    const arr = [];
+    arr.push(this.item.creator.loginName);
+    this.chatService.establishChannel({participantLoginNames: arr});
+    this.router.navigate(['/chat']);
   }
 }

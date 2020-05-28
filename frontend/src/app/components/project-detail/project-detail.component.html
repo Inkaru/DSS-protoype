@@ -12,7 +12,8 @@
   <row class="col-md-8 offset-md-2 d-flex justify-content-around">
 
     <div class="">
-      <span class="mr-1">Created by : {{project.creator.firstName}} {{project.creator.lastName}}</span>
+      <span class="mr-1">Created by : {{project.creator.loginName}}</span>
+<!--      <span class="mr-1">Created by : {{project.creator.firstName}} {{project.creator.lastName}}</span>-->
     </div>
 
     <div class="" *ngIf="project.follows.length">
@@ -24,20 +25,26 @@
       </button>
     </div>
 
+    <div>
+      <a (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-secondary">
+        Like
+      </a>
+      <a (click)="unlikeProject(project.id)" [hidden]="!liked" class="btn btn-danger">
+        Unlike
+      </a>
 
-    <a (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-secondary">
-      Like
-    </a>
-    <a (click)="unlikeProject(project.id)" [hidden]="!liked" class="btn btn-danger">
-      Unlike
+      <a (click)="followProject(project.id)" [hidden]="followed" class="btn btn-secondary">
+        Follow
+      </a>
+      <a (click)="unfollowProject(project.id)" [hidden]="!followed" class="btn btn-danger">
+        Unfollow
+      </a>
+    </div>
+
+    <a (click)="createChat()" class="btn btn-secondary">
+      Chat about this
     </a>
 
-    <a (click)="followProject(project.id)" [hidden]="followed" class="btn btn-secondary">
-      Follow
-    </a>
-    <a (click)="unfollowProject(project.id)" [hidden]="!followed" class="btn btn-danger">
-      Unfollow
-    </a>
   </row>
 
   <hr>
