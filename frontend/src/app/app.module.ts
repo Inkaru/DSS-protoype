@@ -17,6 +17,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { MarketplaceDetailComponent } from './components/marketplace-detail/marketplace-detail.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { MarketplaceDetailComponent } from './components/marketplace-detail/mark
     ProjectDetailComponent,
     ResourcesComponent,
     MarketplaceComponent,
-    MarketplaceDetailComponent
+    MarketplaceDetailComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

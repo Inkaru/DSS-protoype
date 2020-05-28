@@ -1,0 +1,19 @@
+.channels {
+  border: dashed red;
+}
+
+.channel {
+  border: dashed blue;
+}
+
+.messages {
+  border: dashed green;
+}
+
+.myMessage {
+  border: dashed yellow;
+}
+
+.otherMessage {
+  border: dashed #ff00c8;
+}
