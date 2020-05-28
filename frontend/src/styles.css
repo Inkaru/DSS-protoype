@@ -3,4 +3,6 @@ body {
   padding-top: 40px;
 }
 
-
+html, body {
+  height: 100% !important;
+}
