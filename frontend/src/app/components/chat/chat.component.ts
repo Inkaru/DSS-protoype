@@ -12,7 +12,7 @@ import {ChatChannel} from '../../model/chatChannel';
 })
 export class ChatComponent implements OnInit {
 
-  currentUser: User = null;
+  currentUser: User;
   messages: ChatMessage[] = [];
   currentChannel: ChatChannel;
   channels: ChatChannel[] = [];
@@ -39,6 +39,7 @@ export class ChatComponent implements OnInit {
 
   establish(){
     const arr = [];
+    arr.push(this.currentUser.loginName);
     arr.push(this.loginname);
     this.chatService.establishChannel({participantLoginNames: arr});
   }
@@ -49,5 +50,6 @@ export class ChatComponent implements OnInit {
 
   getMyChannels() {
     this.chatService.getMychannels();
+    console.log(this.channels);
   }
 }
