@@ -1,13 +1,10 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import {ChatMessage} from '../model/chatMessage';
-import {Observable, Observer, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {ChatChannel} from '../model/chatChannel';
-
-// declare var SockJS;
-// declare var Stomp;
 
 @Injectable({
   providedIn: 'root'
