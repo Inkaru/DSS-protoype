@@ -17,7 +17,7 @@ import bth.dss.group2.backend.domain.User;
 public class ChatChannelDTO {
 
 	private String id;
-	@Size(min = 2)
+	@Size(min = 1)
 	private Set<String> participantLoginNames;
 	private List<ChatMessageDTO> messages;
 
