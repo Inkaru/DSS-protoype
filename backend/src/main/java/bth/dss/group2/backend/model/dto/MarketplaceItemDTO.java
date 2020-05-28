@@ -28,16 +28,6 @@ public class MarketplaceItemDTO {
 	public MarketplaceItemDTO() {
 	}
 
-	public MarketplaceItemDTO(MarketplaceItem item) {
-		this.id = item.getId();
-		this.name = item.getName();
-		this.price = item.getPrice();
-		this.description = item.getDescription();
-		this.city = item.getCity();
-		this.country = item.getCountry();
-		this.type = item.getType();
-	}
-
 	public String getId() {
 		return id;
 	}

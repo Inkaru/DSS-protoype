@@ -7,7 +7,7 @@ import javax.validation.Valid;
 
 import bth.dss.group2.backend.model.dto.MarketplaceItemDTO;
 import bth.dss.group2.backend.service.MarketplaceService;
-import bth.dss.group2.backend.util.ControllerUtil;
+import bth.dss.group2.backend.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,19 +54,19 @@ public class MarketplaceController {
 
 	@PostMapping(value = "/createItem")
 	public ResponseEntity<Void> createItem(@RequestBody @Valid final MarketplaceItemDTO marketplaceItemDTO, final Principal principal) {
-		marketplaceService.create(marketplaceItemDTO, ControllerUtil.getLoginName(principal));
+		marketplaceService.create(marketplaceItemDTO, Util.getLoginName(principal));
 		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@PostMapping(value = "/updateItem")
 	public ResponseEntity<Void> updateItem(@RequestBody @Valid final MarketplaceItemDTO marketplaceItemDTO, final Principal principal) {
-		marketplaceService.update(marketplaceItemDTO, ControllerUtil.getLoginName(principal));
+		marketplaceService.update(marketplaceItemDTO, Util.getLoginName(principal));
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@DeleteMapping(value = "/deleteItem")
 	public ResponseEntity<Void> deleteItem(@RequestParam String id, Principal principal) {
-		marketplaceService.delete(id, ControllerUtil.getLoginName(principal));
+		marketplaceService.delete(id, Util.getLoginName(principal));
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 }

@@ -27,9 +27,12 @@ public class Project {
 	@JsonProperty
 	@DBRef(lazy = true)
 	private Set<User> participants;
+	@DBRef(lazy = true)
+	private Set<HashTag> hashTags;
 
 	public Project() {
 		participants = new HashSet<>();
+		hashTags = new HashSet<>();
 	}
 
 	public String getId() {
@@ -66,6 +69,10 @@ public class Project {
 	public Project creator(User creator) {
 		this.creator = creator;
 		return this;
+	}
+
+	public Set<HashTag> getHashTags() {
+		return hashTags;
 	}
 
 	@Override

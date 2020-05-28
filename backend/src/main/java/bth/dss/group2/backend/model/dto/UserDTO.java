@@ -1,5 +1,6 @@
 package bth.dss.group2.backend.model.dto;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,7 +35,12 @@ public class UserDTO {
 	//Deciding which object
 	private UserType type;
 
-	public UserDTO() {
+	private UserDTO() {
+		followedProjects = new HashSet<>();
+		likedProjects = new HashSet<>();
+		createdProjects = new HashSet<>();
+		participatedProjects = new HashSet<>();
+		marketplaceItems = new HashSet<>();
 	}
 
 	public static UserDTO create(User user) {

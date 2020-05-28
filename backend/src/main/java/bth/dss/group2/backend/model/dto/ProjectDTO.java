@@ -1,9 +1,11 @@
 package bth.dss.group2.backend.model.dto;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import bth.dss.group2.backend.model.HashTag;
 import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.User;
 
@@ -15,8 +17,13 @@ public class ProjectDTO {
 	private Set<UserDTO> participants;
 	private Set<UserDTO> follows;
 	private Set<UserDTO> likes;
+	private Set<String> hashTags;
 
-	public ProjectDTO() {
+	private ProjectDTO() {
+		participants = new HashSet<>();
+		follows = new HashSet<>();
+		likes = new HashSet<>();
+		hashTags = new HashSet<>();
 	}
 
 	public static ProjectDTO create(Project project) {
@@ -24,6 +31,7 @@ public class ProjectDTO {
 		dto.setId(project.getId());
 		dto.setDescription(project.getDescription());
 		dto.setName(project.getName());
+		dto.setHashTags(project.getHashTags().stream().map(HashTag::getName).collect(Collectors.toSet()));
 		return dto;
 	}
 
@@ -93,6 +101,15 @@ public class ProjectDTO {
 
 	public ProjectDTO setLikes(Set<UserDTO> likes) {
 		this.likes = likes;
+		return this;
+	}
+
+	public Set<String> getHashTags() {
+		return hashTags;
+	}
+
+	public ProjectDTO setHashTags(Set<String> hashTags) {
+		this.hashTags = hashTags;
 		return this;
 	}
 

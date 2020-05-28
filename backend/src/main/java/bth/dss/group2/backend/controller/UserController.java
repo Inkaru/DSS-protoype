@@ -10,7 +10,7 @@ import bth.dss.group2.backend.exception.UserNotFoundException;
 import bth.dss.group2.backend.model.dto.RegistrationForm;
 import bth.dss.group2.backend.model.dto.UserDTO;
 import bth.dss.group2.backend.service.UserService;
-import bth.dss.group2.backend.util.ControllerUtil;
+import bth.dss.group2.backend.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,25 +91,25 @@ public class UserController {
 
 	@GetMapping(value = "/likeProject")
 	public ResponseEntity<Void> likeProject(@RequestParam String id, Principal principal) {
-		userService.addLike(ControllerUtil.getLoginName(principal), id);
+		userService.addLike(Util.getLoginName(principal), id);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@GetMapping(value = "/unlikeProject")
 	public ResponseEntity<Void> unlikeProject(@RequestParam String id, Principal principal) {
-		userService.removeLike(ControllerUtil.getLoginName(principal), id);
+		userService.removeLike(Util.getLoginName(principal), id);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@GetMapping(value = "/followProject")
 	public ResponseEntity<Void> followProject(@RequestParam String id, Principal principal) {
-		userService.addFollow(ControllerUtil.getLoginName(principal), id);
+		userService.addFollow(Util.getLoginName(principal), id);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
 	@GetMapping(value = "/unfollowProject")
 	public ResponseEntity<Void> unfollowProject(@RequestParam String id, Principal principal) {
-		userService.removeFollow(ControllerUtil.getLoginName(principal), id);
+		userService.removeFollow(Util.getLoginName(principal), id);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 }

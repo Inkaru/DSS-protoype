@@ -4,7 +4,7 @@ import java.security.Principal;
 
 import bth.dss.group2.backend.model.dto.UserDTO;
 import bth.dss.group2.backend.service.UserService;
-import bth.dss.group2.backend.util.ControllerUtil;
+import bth.dss.group2.backend.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/login")
 public class LoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	private final UserService userService;
 
 	@Autowired
@@ -36,6 +36,6 @@ public class LoginController {
 
 	@RequestMapping(value = "/user")
 	public UserDTO getLoggedInUser(Principal principal) {
-		return userService.getUserByLoginName(ControllerUtil.getLoginName(principal));
+		return userService.getUserByLoginName(Util.getLoginName(principal));
 	}
 }

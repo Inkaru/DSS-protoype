@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.model.dto.ProjectDTO;
 import bth.dss.group2.backend.service.ProjectService;
-import bth.dss.group2.backend.util.ControllerUtil;
+import bth.dss.group2.backend.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -38,7 +37,8 @@ public class ProjectController {
 
 	@PostMapping(value = "/createProject")
 	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectDTO projectDto, final Principal principal) {
-		projectService.createProject(projectDto, ControllerUtil.getLoginName(principal));
+		projectDto.setHashTags(Util.formatHashTags(projectDto.getHashTags()));
+		projectService.createProject(projectDto, Util.getLoginName(principal));
 		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
 
@@ -56,13 +56,14 @@ public class ProjectController {
 		}
 	}
 
-	@RequestMapping(value = "/getAllProjects", method = RequestMethod.GET)
+	@GetMapping(value = "/getAllProjects")
 	public List<ProjectDTO> getAllProjects() {
 		return projectService.getAllProjects();
 	}
 
 	@PostMapping(value = "/updateProject")
 	public ResponseEntity<Void> updateProject(@RequestBody final ProjectDTO projectDto) {
+		projectDto.setHashTags(Util.formatHashTags(projectDto.getHashTags()));
 		projectService.updateProject(projectDto);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
