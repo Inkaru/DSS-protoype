@@ -4,19 +4,21 @@ import {MarketplaceItem} from './marketplaceItem';
 export class User {
   id: string;
   loginName: string;
-  description: string;
+  type: string;
+  title: string;
+
+  firstName: string;
+  lastName: string;
+
   email: string;
   phoneNumber: string;
-  city: string;
-  country: string;
+
+  description: string;
+
+  location: Location;
+
   followedProjects: Project[];
   likedProjects: Project[];
   createdProjects: Project[];
-  participatedProjects: Project[];
   marketplaceItems: MarketplaceItem[];
-  address: string;
-  firstName: string;
-  lastName: string;
-  type: string;
-  title: string;
 }

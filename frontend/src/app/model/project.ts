@@ -1,4 +1,5 @@
 import {User} from './user';
+import {Hashtag} from './hashtag';
 
 export class Project {
   id: string;
@@ -8,4 +9,5 @@ export class Project {
   participants: User[];
   follows: User[];
   likes: User[];
+  hashtags: Hashtag[];
 }
