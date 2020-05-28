@@ -60,26 +60,25 @@ export class ChatService {
   }
 
   sendChat(message){
-    const content = message.trim();
+    const content = {content: message.trim()};
     console.log('message : ' + content);
-    console.log(this.stompClient);
     if (content){
       console.log('sending to :');
       if (this.channelId){
         console.log(this.channelId);
-        this.stompClient.send('/api/chat/' + this.channelId, {}, JSON.stringify(content));
+        this.stompClient.send('/app/chat/' + this.channelId, {}, JSON.stringify(content));
       } else {
         console.log('public chat');
-        this.stompClient.send('/api/chat/publicChat', {}, JSON.stringify(content));
+        this.stompClient.send('/app/chat/publicChat', {}, JSON.stringify(content));
       }
     }
   }
 
   onConnected(){
     if (this.channelId) {
-      this.stompClient.subscribe('/topic/chat.' + this.channelId, this.onMessageReceived);
+      this.stompClient.subscribe('/topic/chat.' + this.channelId, (response) => this.onMessageReceived(response));
     } else {
-      this.stompClient.subscribe('/topic/publicChat', this.onMessageReceived);
+      this.stompClient.subscribe('/topic/publicChat', (response) => this.onMessageReceived(response));
     }
     event.preventDefault();
   }
