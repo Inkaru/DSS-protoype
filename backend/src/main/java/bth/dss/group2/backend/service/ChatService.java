@@ -10,20 +10,19 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import bth.dss.group2.backend.domain.ChatChannel;
+import bth.dss.group2.backend.domain.ChatMessage;
+import bth.dss.group2.backend.domain.User;
+import bth.dss.group2.backend.domain.dto.ChatChannelDTO;
+import bth.dss.group2.backend.domain.dto.ChatMessageDTO;
 import bth.dss.group2.backend.exception.ChatChannelNotFoundException;
 import bth.dss.group2.backend.exception.LoginNameNotFoundException;
-import bth.dss.group2.backend.model.ChatChannel;
-import bth.dss.group2.backend.model.ChatMessage;
-import bth.dss.group2.backend.model.User;
-import bth.dss.group2.backend.model.dto.ChatChannelDTO;
-import bth.dss.group2.backend.model.dto.ChatMessageDTO;
 import bth.dss.group2.backend.repository.ChatChannelRepository;
 import bth.dss.group2.backend.repository.ChatMessageRepository;
 import bth.dss.group2.backend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service

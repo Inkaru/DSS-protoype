@@ -1,14 +1,16 @@
-package bth.dss.group2.backend.model.dto;
+package bth.dss.group2.backend.domain.dto;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import bth.dss.group2.backend.model.Company;
-import bth.dss.group2.backend.model.Person;
-import bth.dss.group2.backend.model.Project;
-import bth.dss.group2.backend.model.User;
+import bth.dss.group2.backend.domain.Company;
+import bth.dss.group2.backend.domain.Institution;
+import bth.dss.group2.backend.domain.Person;
+import bth.dss.group2.backend.domain.Project;
+import bth.dss.group2.backend.domain.User;
+import bth.dss.group2.backend.util.Util;
 
 public class UserDTO {
 
@@ -17,8 +19,7 @@ public class UserDTO {
 	private String description;
 	private String email;
 	private String phoneNumber;
-	private String city;
-	private String country;
+	private LocationDTO location;
 
 	private Set<ProjectDTO> followedProjects;
 	private Set<ProjectDTO> likedProjects;
@@ -27,20 +28,23 @@ public class UserDTO {
 	private Set<MarketplaceItemDTO> marketplaceItems;
 
 	//Specific to Person:
-	private String address;
 	private String firstName;
 	private String lastName;
 	private String title;
 
+	//Specific to Company and Institution:
+	private String name;
+
 	//Deciding which object
 	private UserType type;
 
-	private UserDTO() {
+	public UserDTO() {
 		followedProjects = new HashSet<>();
 		likedProjects = new HashSet<>();
 		createdProjects = new HashSet<>();
 		participatedProjects = new HashSet<>();
 		marketplaceItems = new HashSet<>();
+		location = new LocationDTO();
 	}
 
 	public static UserDTO create(User user) {
@@ -50,44 +54,22 @@ public class UserDTO {
 		dto.setDescription(user.getDescription());
 		dto.setEmail(user.getEmail());
 		dto.setPhoneNumber(user.getPhoneNumber());
-		dto.setCity(user.getCity());
-		dto.setCountry(user.getCountry());
+		if (user.getLocation() != null) dto.setLocation(Util.getMapper().map(user.getLocation(), LocationDTO.class));
 		if (user instanceof Person) {
 			Person person = (Person) user;
 			dto.setType(UserType.PERSON);
 			dto.setFirstName(person.getFirstName());
 			dto.setLastName(person.getLastName());
 			dto.setTitle(person.getTitle());
-			dto.setAddress(person.getAddress());
 		}
 		else if (user instanceof Company) {
 			dto.setType(UserType.COMPANY);
-			//TODO: fill
+			dto.setName(((Company) user).getName());
 		}
-
-		/*else if(user instanceof Institution) {
+		else if (user instanceof Institution) {
 			dto.setType(UserType.INSTITUTION);
-			//TODO: fill
-		}*/
-		return dto;
-	}
-
-	public static UserDTO createWithReferences(User user, List<Project> createdProjects, List<Project> participatedProjects) {
-		UserDTO dto = create(user);
-		dto.setCreatedProjects(createdProjects.stream().map(ProjectDTO::create).collect(Collectors.toSet()));
-		dto.setParticipatedProjects(participatedProjects
-				.stream()
-				.map(ProjectDTO::create)
-				.collect(Collectors.toSet()));
-		dto.setFollowedProjects(user.getFollowedProjects()
-				.stream()
-				.map(ProjectDTO::create)
-				.collect(Collectors.toSet()));
-		dto.setLikedProjects(user.getLikedProjects().stream().map(ProjectDTO::create).collect(Collectors.toSet()));
-		dto.setMarketplaceItems(user.getMarketplaceItems()
-				.stream()
-				.map(MarketplaceItemDTO::create)
-				.collect(Collectors.toSet()));
+			dto.setName(((Institution) user).getName());
+		}
 		return dto;
 	}
 
@@ -136,22 +118,27 @@ public class UserDTO {
 		return this;
 	}
 
-	public String getCity() {
-		return city;
+	public static UserDTO createWithReferences(User user, List<Project> createdProjects, List<Project> participatedProjects) {
+		UserDTO dto = create(user);
+		dto.setCreatedProjects(createdProjects.stream().map(ProjectDTO::create).collect(Collectors.toSet()));
+		dto.setParticipatedProjects(participatedProjects
+				.stream()
+				.map(ProjectDTO::create)
+				.collect(Collectors.toSet()));
+		dto.setFollowedProjects(user.getFollowedProjects()
+				.stream()
+				.map(ProjectDTO::create)
+				.collect(Collectors.toSet()));
+		dto.setLikedProjects(user.getLikedProjects().stream().map(ProjectDTO::create).collect(Collectors.toSet()));
+		dto.setMarketplaceItems(user.getMarketplaceItems()
+				.stream()
+				.map(MarketplaceItemDTO::create)
+				.collect(Collectors.toSet()));
+		return dto;
 	}
 
-	public UserDTO setCity(String city) {
-		this.city = city;
-		return this;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public UserDTO setCountry(String country) {
-		this.country = country;
-		return this;
+	public LocationDTO getLocation() {
+		return location;
 	}
 
 	public Set<ProjectDTO> getFollowedProjects() {
@@ -199,15 +186,6 @@ public class UserDTO {
 		return this;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public UserDTO setAddress(String address) {
-		this.address = address;
-		return this;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -241,6 +219,20 @@ public class UserDTO {
 
 	public UserDTO setType(UserType type) {
 		this.type = type;
+		return this;
+	}
+
+	public UserDTO setLocation(LocationDTO location) {
+		this.location = location;
+		return this;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public UserDTO setName(String name) {
+		this.name = name;
 		return this;
 	}
 

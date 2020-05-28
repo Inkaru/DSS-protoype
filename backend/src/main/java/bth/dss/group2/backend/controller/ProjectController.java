@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import bth.dss.group2.backend.domain.dto.ProjectDTO;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
-import bth.dss.group2.backend.model.dto.ProjectDTO;
 import bth.dss.group2.backend.service.ProjectService;
 import bth.dss.group2.backend.util.Util;
 import org.slf4j.Logger;

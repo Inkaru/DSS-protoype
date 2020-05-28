@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import bth.dss.group2.backend.domain.HashTag;
+import bth.dss.group2.backend.domain.User;
 import bth.dss.group2.backend.exception.HashTagNotFoundException;
-import bth.dss.group2.backend.model.HashTag;
-import bth.dss.group2.backend.model.User;
 import bth.dss.group2.backend.repository.HashTagRepository;
 import bth.dss.group2.backend.repository.UserRepository;
 import org.slf4j.Logger;

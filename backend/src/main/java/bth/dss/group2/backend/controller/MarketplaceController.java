@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import bth.dss.group2.backend.model.dto.MarketplaceItemDTO;
+import bth.dss.group2.backend.domain.dto.MarketplaceItemDTO;
 import bth.dss.group2.backend.service.MarketplaceService;
 import bth.dss.group2.backend.util.Util;
 import org.slf4j.Logger;

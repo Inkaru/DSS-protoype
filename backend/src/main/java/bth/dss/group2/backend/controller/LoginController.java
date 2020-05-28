@@ -2,7 +2,7 @@ package bth.dss.group2.backend.controller;
 
 import java.security.Principal;
 
-import bth.dss.group2.backend.model.dto.UserDTO;
+import bth.dss.group2.backend.domain.dto.UserDTO;
 import bth.dss.group2.backend.service.UserService;
 import bth.dss.group2.backend.util.Util;
 import org.slf4j.Logger;

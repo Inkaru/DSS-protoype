@@ -3,7 +3,7 @@ package bth.dss.group2.backend.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import bth.dss.group2.backend.model.dto.RegistrationDTO;
+import bth.dss.group2.backend.domain.dto.RegistrationDTO;
 
 /**
  * From https://github.com/Baeldung/spring-security-registration (MIT License), possibly with modifications

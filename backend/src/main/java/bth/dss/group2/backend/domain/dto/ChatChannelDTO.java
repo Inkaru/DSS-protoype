@@ -1,4 +1,4 @@
-package bth.dss.group2.backend.model.dto;
+package bth.dss.group2.backend.domain.dto;
 
 import java.time.Instant;
 import java.util.Comparator;
@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.Size;
 
-import bth.dss.group2.backend.model.ChatChannel;
-import bth.dss.group2.backend.model.ChatMessage;
-import bth.dss.group2.backend.model.User;
+import bth.dss.group2.backend.domain.ChatChannel;
+import bth.dss.group2.backend.domain.ChatMessage;
+import bth.dss.group2.backend.domain.User;
 
 public class ChatChannelDTO {
 

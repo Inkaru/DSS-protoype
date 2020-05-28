@@ -1,46 +1,34 @@
-package bth.dss.group2.backend.model;
+package bth.dss.group2.backend.domain;
 
 import java.time.Instant;
 
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "MarketplaceItem")
 public class MarketplaceItem {
 
 	@Id
-	@JsonProperty
 	private String id;
-	@JsonProperty
 	private String name;
-	@JsonProperty
 	private Instant created;
-	@JsonProperty
 	private Instant updated;
-	@JsonProperty
 	private double price;
-	@JsonProperty
 	private String description;
-	@JsonProperty
-	private String city;
-
-	private String country;
-
+	private Location location;
 	private MarketplaceItemType type;
 
 	public MarketplaceItem() {
 	}
 
-	public MarketplaceItem(String name, Instant created, Instant updated, double price, String description, String city, String country, MarketplaceItemType type) {
+	public MarketplaceItem(String name, Instant created, Instant updated, double price, String description, Location location, MarketplaceItemType type) {
 		this.name = name;
 		this.created = created;
 		this.updated = updated;
 		this.price = price;
 		this.description = description;
-		this.city = city;
-		this.country = country;
+		this.location = location;
 		this.type = type;
 	}
 
@@ -93,21 +81,12 @@ public class MarketplaceItem {
 		return this;
 	}
 
-	public String getCity() {
-		return city;
+	public Location getLocation() {
+		return location;
 	}
 
-	public MarketplaceItem setCity(String city) {
-		this.city = city;
-		return this;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public MarketplaceItem setCountry(String country) {
-		this.country = country;
+	public MarketplaceItem setLocation(Location location) {
+		this.location = location;
 		return this;
 	}
 
@@ -129,8 +108,7 @@ public class MarketplaceItem {
 				", updated=" + updated +
 				", price=" + price +
 				", description='" + description + '\'' +
-				", city='" + city + '\'' +
-				", country='" + country + '\'' +
+				", location=" + location +
 				", type=" + type +
 				'}';
 	}

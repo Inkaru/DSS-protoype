@@ -1,4 +1,4 @@
-package bth.dss.group2.backend.model;
+package bth.dss.group2.backend.domain;
 
 import java.time.Instant;
 import java.util.Objects;

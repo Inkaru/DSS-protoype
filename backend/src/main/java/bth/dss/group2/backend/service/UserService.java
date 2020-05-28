@@ -3,19 +3,19 @@ package bth.dss.group2.backend.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import bth.dss.group2.backend.domain.Company;
+import bth.dss.group2.backend.domain.Institution;
+import bth.dss.group2.backend.domain.Person;
+import bth.dss.group2.backend.domain.Project;
+import bth.dss.group2.backend.domain.User;
+import bth.dss.group2.backend.domain.dto.RegistrationDTO;
+import bth.dss.group2.backend.domain.dto.UserDTO;
 import bth.dss.group2.backend.exception.EmailExistsException;
 import bth.dss.group2.backend.exception.EmailNotFoundException;
 import bth.dss.group2.backend.exception.LoginNameExistsException;
 import bth.dss.group2.backend.exception.LoginNameNotFoundException;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.exception.UserNotFoundException;
-import bth.dss.group2.backend.model.Company;
-import bth.dss.group2.backend.model.Institution;
-import bth.dss.group2.backend.model.Person;
-import bth.dss.group2.backend.model.Project;
-import bth.dss.group2.backend.model.User;
-import bth.dss.group2.backend.model.dto.RegistrationDTO;
-import bth.dss.group2.backend.model.dto.UserDTO;
 import bth.dss.group2.backend.repository.MarketplaceItemRepository;
 import bth.dss.group2.backend.repository.ProjectRepository;
 import bth.dss.group2.backend.repository.UserRepository;
@@ -32,13 +32,15 @@ public class UserService {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 	private final UserRepository<User> userRepository;
+	private final LocationService locationService;
 	private final ProjectRepository projectRepository;
 	private final MarketplaceItemRepository marketplaceItemRepository;
 	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserService(UserRepository<User> userRepository, ProjectRepository projectRepository, MarketplaceItemRepository marketplaceItemRepository, PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository<User> userRepository, LocationService locationService, ProjectRepository projectRepository, MarketplaceItemRepository marketplaceItemRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
+		this.locationService = locationService;
 		this.projectRepository = projectRepository;
 		this.marketplaceItemRepository = marketplaceItemRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -78,9 +80,9 @@ public class UserService {
 		else {
 			newUser = new Person();
 		}
-		newUser.loginName(reg.getLoginName())
-				.email(reg.getEmail())
-				.hashedPassword(passwordEncoder.encode(reg.getPassword()));
+		newUser.setLoginName(reg.getLoginName())
+				.setEmail(reg.getEmail())
+				.setHashedPassword(passwordEncoder.encode(reg.getPassword()));
 		userRepository.save(newUser);
 		logger.info("##### USER SAVED: " + newUser);
 	}
@@ -88,21 +90,19 @@ public class UserService {
 	public void updateUser(UserDTO updated) throws UserNotFoundException {
 		User existing = userRepository.findById(updated.getId()).orElseThrow(UserNotFoundException::new);
 		// update only immutable fields (not login name, email, or id)
-		existing.description(updated.getDescription())
-				.phoneNumber(updated.getPhoneNumber())
-				.city(updated.getCity())
-				.country(updated.getCountry());
+		existing.setDescription(updated.getDescription())
+				.setPhoneNumber(updated.getPhoneNumber())
+				.setLocation(locationService.getOrCreate(updated.getLocation()));
 		if (updated.getType() == UserDTO.UserType.PERSON && existing instanceof Person) {
-			((Person) existing).firstName(updated.getFirstName())
-					.lastName(updated.getLastName())
-					.title(updated.getTitle())
-					.address(updated.getAddress());
+			((Person) existing).setFirstName(updated.getFirstName())
+					.setLastName(updated.getLastName())
+					.setTitle(updated.getTitle());
 		}
 		else if (updated.getType() == UserDTO.UserType.COMPANY && existing instanceof Company) {
-			//TODO: fill
+			((Company) existing).setName(updated.getFirstName());
 		}
-		else if (updated.getType() == UserDTO.UserType.INSTITUTION) {
-			//TODO: fill
+		else if (updated.getType() == UserDTO.UserType.INSTITUTION && existing instanceof Institution) {
+			((Institution) existing).setName(updated.getFirstName());
 		}
 		userRepository.save(existing);
 		logger.info("##### USER UPDATED: " + existing);

@@ -1,29 +1,32 @@
-package bth.dss.group2.backend.model.dto;
+package bth.dss.group2.backend.domain.dto;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import bth.dss.group2.backend.model.HashTag;
-import bth.dss.group2.backend.model.Project;
-import bth.dss.group2.backend.model.User;
+import bth.dss.group2.backend.domain.HashTag;
+import bth.dss.group2.backend.domain.Project;
+import bth.dss.group2.backend.domain.User;
+import bth.dss.group2.backend.util.Util;
 
 public class ProjectDTO {
 	private String id;
 	private String name;
 	private String description;
 	private UserDTO creator;
+	private LocationDTO location;
 	private Set<UserDTO> participants;
 	private Set<UserDTO> follows;
 	private Set<UserDTO> likes;
 	private Set<String> hashTags;
 
-	private ProjectDTO() {
+	public ProjectDTO() {
 		participants = new HashSet<>();
 		follows = new HashSet<>();
 		likes = new HashSet<>();
 		hashTags = new HashSet<>();
+		location = new LocationDTO();
 	}
 
 	public static ProjectDTO create(Project project) {
@@ -32,6 +35,7 @@ public class ProjectDTO {
 		dto.setDescription(project.getDescription());
 		dto.setName(project.getName());
 		dto.setHashTags(project.getHashTags().stream().map(HashTag::getName).collect(Collectors.toSet()));
+		dto.setLocation(Util.getMapper().map(project.getLocation(), LocationDTO.class));
 		return dto;
 	}
 
@@ -44,12 +48,48 @@ public class ProjectDTO {
 		return dto;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public ProjectDTO setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public ProjectDTO setName(String name) {
+		this.name = name;
+		return this;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public ProjectDTO setDescription(String description) {
+		this.description = description;
+		return this;
+	}
+
 	public UserDTO getCreator() {
 		return creator;
 	}
 
 	public ProjectDTO setCreator(UserDTO creator) {
 		this.creator = creator;
+		return this;
+	}
+
+	public LocationDTO getLocation() {
+		return location;
+	}
+
+	public ProjectDTO setLocation(LocationDTO location) {
+		this.location = location;
 		return this;
 	}
 
@@ -71,30 +111,6 @@ public class ProjectDTO {
 		return this;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public Set<UserDTO> getLikes() {
 		return likes;
 	}
@@ -110,16 +126,6 @@ public class ProjectDTO {
 
 	public ProjectDTO setHashTags(Set<String> hashTags) {
 		this.hashTags = hashTags;
-		return this;
-	}
-
-	public ProjectDTO name(String name) {
-		this.name = name;
-		return this;
-	}
-
-	public ProjectDTO description(String description) {
-		this.description = description;
 		return this;
 	}
 }

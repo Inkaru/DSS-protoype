@@ -1,8 +1,8 @@
-package bth.dss.group2.backend.model.dto;
+package bth.dss.group2.backend.domain.dto;
 
 import java.time.Instant;
 
-import bth.dss.group2.backend.model.ChatMessage;
+import bth.dss.group2.backend.domain.ChatMessage;
 
 public class ChatMessageDTO {
 	private String channelId;

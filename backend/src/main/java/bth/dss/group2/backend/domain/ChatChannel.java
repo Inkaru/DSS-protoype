@@ -1,8 +1,7 @@
-package bth.dss.group2.backend.model;
+package bth.dss.group2.backend.domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

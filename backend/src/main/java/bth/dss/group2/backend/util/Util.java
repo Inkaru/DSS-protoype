@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class Util {
@@ -18,9 +20,15 @@ public class Util {
 	}
 
 	public static Set<String> formatHashTags(Set<String> hashTags) {
-		if(hashTags == null) return null;
+		if (hashTags == null) return null;
 		HashSet<String> formattedTags = new HashSet<>();
 		hashTags.forEach(str -> formattedTags.add(formatHashTag(str)));
 		return formattedTags;
+	}
+
+	public static ModelMapper getMapper() {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+		return modelMapper;
 	}
 }

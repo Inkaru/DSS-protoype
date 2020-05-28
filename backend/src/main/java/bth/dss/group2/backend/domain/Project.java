@@ -1,12 +1,12 @@
-package bth.dss.group2.backend.model;
+package bth.dss.group2.backend.domain;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,18 +17,16 @@ public class Project {
 	@Id
 	private String id;
 	@Indexed(unique = true)
-	@JsonProperty
 	private String name;
-	@JsonProperty
 	private String description;
-	@JsonProperty
 	@DBRef(lazy = true)
 	private User creator;
-	@JsonProperty
 	@DBRef(lazy = true)
 	private Set<User> participants;
 	@DBRef(lazy = true)
 	private Set<HashTag> hashTags;
+	@DBRef(lazy = true)
+	private Location location;
 
 	public Project() {
 		participants = new HashSet<>();
@@ -39,40 +37,63 @@ public class Project {
 		return id;
 	}
 
+	public Project setId(String id) {
+		this.id = id;
+		return this;
+	}
+
 	public String getName() {
 		return name;
+	}
+
+	public Project setName(String name) {
+		this.name = name;
+		return this;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
+	public Project setDescription(String description) {
+		this.description = description;
+		return this;
+	}
+
 	public User getCreator() {
 		return creator;
+	}
+
+	public Project setCreator(User creator) {
+		this.creator = creator;
+		return this;
 	}
 
 	public Set<User> getParticipants() {
 		return participants;
 	}
 
-
-	public Project name(String name) {
-		this.name = name;
-		return this;
-	}
-
-	public Project description(String description) {
-		this.description = description;
-		return this;
-	}
-
-	public Project creator(User creator) {
-		this.creator = creator;
+	public Project setParticipants(Set<User> participants) {
+		this.participants = participants;
 		return this;
 	}
 
 	public Set<HashTag> getHashTags() {
 		return hashTags;
+	}
+
+	public Project setHashTags(Set<HashTag> hashTags) {
+		this.hashTags = hashTags;
+		return this;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public Project setLocation(Location location) {
+		this.location = location;
+		return this;
 	}
 
 	@Override
@@ -81,8 +102,10 @@ public class Project {
 				"id='" + id + '\'' +
 				", name='" + name + '\'' +
 				", description='" + description + '\'' +
-				", creators=" + creator +
-				", likes=" + participants +
+				", creator=" + creator +
+				", participants=" + participants.stream().map(User::getLoginName).collect(Collectors.joining(",")) +
+				", hashTags=" + hashTags.stream().map(HashTag::getName).collect(Collectors.joining(",")) +
+				", location=" + location +
 				'}';
 	}
 

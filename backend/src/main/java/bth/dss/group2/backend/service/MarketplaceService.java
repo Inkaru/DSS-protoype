@@ -6,14 +6,16 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import bth.dss.group2.backend.domain.Location;
+import bth.dss.group2.backend.domain.MarketplaceItem;
+import bth.dss.group2.backend.domain.User;
+import bth.dss.group2.backend.domain.dto.MarketplaceItemDTO;
 import bth.dss.group2.backend.exception.LoginNameNotFoundException;
 import bth.dss.group2.backend.exception.MarketplaceItemNotFoundException;
 import bth.dss.group2.backend.exception.UserNotFoundException;
-import bth.dss.group2.backend.model.MarketplaceItem;
-import bth.dss.group2.backend.model.User;
-import bth.dss.group2.backend.model.dto.MarketplaceItemDTO;
 import bth.dss.group2.backend.repository.MarketplaceItemRepository;
 import bth.dss.group2.backend.repository.UserRepository;
+import bth.dss.group2.backend.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,8 @@ public class MarketplaceService {
 	public void create(MarketplaceItemDTO dto, String loginName) throws LoginNameNotFoundException {
 		User creator = userRepository.findByLoginName(loginName).orElseThrow(LoginNameNotFoundException::new);
 		MarketplaceItem item = new MarketplaceItem(dto.getName(), Instant.now(), Instant.now(), dto
-				.getPrice(), dto.getDescription(), dto.getCity(), dto.getCountry(), dto.getType());
+				.getPrice(), dto.getDescription(), Util.getMapper()
+				.map(dto.getLocation(), Location.class), dto.getType());
 		creator.getMarketplaceItems().add(item);
 		marketplaceItemRepository.save(item);
 		userRepository.save(creator);
@@ -71,13 +74,8 @@ public class MarketplaceService {
 		// User creator = userService.getUserByLoginName(loginName);
 		MarketplaceItem item = marketplaceItemRepository.findById(dto.getId())
 				.orElseThrow(MarketplaceItemNotFoundException::new);
-		item
-				.setName(dto.getName())
-				.setDescription(dto.getDescription())
-				.setCity(dto.getCity())
-				.setCountry(dto.getCountry())
-				.setPrice(dto.getPrice())
-				.setUpdated(Instant.now());
+		Util.getMapper().map(dto, item);
+		item.setUpdated(Instant.now());
 		marketplaceItemRepository.save(item);
 	}
 

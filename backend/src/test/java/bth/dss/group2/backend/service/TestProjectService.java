@@ -1,12 +1,5 @@
 package bth.dss.group2.backend.service;
 
-import bth.dss.group2.backend.model.Project;
-import bth.dss.group2.backend.repository.ProjectRepository;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
 public class TestProjectService {
 
 /*    private ProjectRepository projectRepository = Mockito.mock(ProjectRepository.class);

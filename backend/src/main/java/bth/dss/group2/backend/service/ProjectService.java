@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import bth.dss.group2.backend.domain.HashTag;
+import bth.dss.group2.backend.domain.Project;
+import bth.dss.group2.backend.domain.User;
+import bth.dss.group2.backend.domain.dto.ProjectDTO;
 import bth.dss.group2.backend.exception.LoginNameNotFoundException;
 import bth.dss.group2.backend.exception.ProjectNameExistsException;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
-import bth.dss.group2.backend.model.HashTag;
-import bth.dss.group2.backend.model.Project;
-import bth.dss.group2.backend.model.User;
-import bth.dss.group2.backend.model.dto.ProjectDTO;
 import bth.dss.group2.backend.repository.HashTagRepository;
 import bth.dss.group2.backend.repository.ProjectRepository;
 import bth.dss.group2.backend.repository.UserRepository;
@@ -24,13 +24,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class ProjectService {
+	private final LocationService locationService;
 	private final ProjectRepository projectRepository;
 	private final UserRepository<User> userRepository;
 	private final HashTagRepository hashTagRepository;
 	private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 
 	@Autowired
-	public ProjectService(ProjectRepository projectRepository, UserRepository<User> userRepository, HashTagRepository hashTagRepository) {
+	public ProjectService(LocationService locationService, ProjectRepository projectRepository, UserRepository<User> userRepository, HashTagRepository hashTagRepository) {
+		this.locationService = locationService;
 		this.projectRepository = projectRepository;
 		this.userRepository = userRepository;
 		this.hashTagRepository = hashTagRepository;
@@ -65,10 +67,13 @@ public class ProjectService {
 	public void createProject(ProjectDTO projectDto, String creatorLoginName) throws ProjectNameExistsException, LoginNameNotFoundException {
 		if (projectRepository.existsByName(projectDto.getName())) throw new ProjectNameExistsException();
 		Project project = (new Project())
-				.name(projectDto.getName())
-				.creator(userRepository.findByLoginName(creatorLoginName).orElseThrow(LoginNameNotFoundException::new))
-				.description(projectDto.getDescription());
+				.setName(projectDto.getName())
+				.setCreator(userRepository.findByLoginName(creatorLoginName)
+						.orElseThrow(LoginNameNotFoundException::new))
+				.setDescription(projectDto.getDescription())
+				.setLocation(locationService.getOrCreate(projectDto.getLocation()));
 		projectDto.getHashTags().forEach(h -> addHashTag(project, h));
+
 		projectRepository.save(project);
 		logger.info("##### PROJECT SAVED: " + project);
 	}
@@ -76,7 +81,7 @@ public class ProjectService {
 	public void updateProject(ProjectDTO updatedProjectDto) throws ProjectNotFoundException {
 		Project project = projectRepository.findById(updatedProjectDto.getId())
 				.orElseThrow(ProjectNotFoundException::new);
-		project.name(updatedProjectDto.getName()).description(updatedProjectDto.getDescription());
+		project.setName(updatedProjectDto.getName()).setDescription(updatedProjectDto.getDescription());
 		project.getHashTags().clear();
 		updatedProjectDto.getHashTags().forEach(h -> addHashTag(project, h));
 		projectRepository.save(project);

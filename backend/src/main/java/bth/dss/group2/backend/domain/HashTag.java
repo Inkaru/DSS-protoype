@@ -1,4 +1,4 @@
-package bth.dss.group2.backend.model;
+package bth.dss.group2.backend.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;

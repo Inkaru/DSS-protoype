@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import bth.dss.group2.backend.model.ChatChannel;
-import bth.dss.group2.backend.model.User;
+import bth.dss.group2.backend.domain.ChatChannel;
+import bth.dss.group2.backend.domain.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ChatChannelRepository extends MongoRepository<ChatChannel, String> {

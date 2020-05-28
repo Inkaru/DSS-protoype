@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import bth.dss.group2.backend.model.dto.ChatChannelDTO;
-import bth.dss.group2.backend.model.dto.ChatMessageDTO;
+import bth.dss.group2.backend.domain.dto.ChatChannelDTO;
+import bth.dss.group2.backend.domain.dto.ChatMessageDTO;
 import bth.dss.group2.backend.service.ChatService;
 import bth.dss.group2.backend.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;

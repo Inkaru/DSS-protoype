@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import bth.dss.group2.backend.model.User;
+import bth.dss.group2.backend.domain.User;
 import bth.dss.group2.backend.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

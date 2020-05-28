@@ -6,9 +6,9 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import bth.dss.group2.backend.domain.dto.RegistrationDTO;
+import bth.dss.group2.backend.domain.dto.UserDTO;
 import bth.dss.group2.backend.exception.UserNotFoundException;
-import bth.dss.group2.backend.model.dto.RegistrationDTO;
-import bth.dss.group2.backend.model.dto.UserDTO;
 import bth.dss.group2.backend.service.UserService;
 import bth.dss.group2.backend.util.Util;
 import org.slf4j.Logger;

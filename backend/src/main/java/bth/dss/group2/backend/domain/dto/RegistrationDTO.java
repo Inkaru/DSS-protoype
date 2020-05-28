@@ -1,4 +1,4 @@
-package bth.dss.group2.backend.model.dto;
+package bth.dss.group2.backend.domain.dto;
 
 import javax.validation.constraints.NotNull;
 

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -68,23 +67,16 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-	@Override
-	protected void configure(final AuthenticationManagerBuilder auth) {
-		auth.authenticationProvider(authProvider());
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth
+				.userDetailsService(customUserDetailsService)
+				.passwordEncoder(encoder());
 	}
 
 	@Bean
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
-	public DaoAuthenticationProvider authProvider() {
-		final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setPasswordEncoder(encoder());
-		authProvider.setUserDetailsService(customUserDetailsService);
-		//authProvider.setPostAuthenticationChecks(differentLocationChecker);
-		return authProvider;
 	}
 
 	@Bean

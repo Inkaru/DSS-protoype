@@ -1,6 +1,6 @@
 package bth.dss.group2.backend.customAssert.service;
 
-import bth.dss.group2.backend.model.Person;
+import bth.dss.group2.backend.domain.Person;
 import org.assertj.core.api.AbstractAssert;
 
 public class UserAssert extends AbstractAssert<UserAssert, Person> {
