@@ -1,19 +1,38 @@
+.chat {
+  height: 100%;
+}
+
 .channels {
-  border: dashed red;
+  background-color: #819bb8;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 .channel {
-  border: dashed blue;
+  background-color: #dbdbdb;
+  width: 100%;
+}
+
+.channel:hover {
+  background-color: #67cdcc;
+}
+
+.channel.selected {
+  background-color: white;
 }
 
 .messages {
-  border: dashed green;
+  overflow-y: scroll;
 }
 
-.myMessage {
-  border: dashed yellow;
+.message {
+
 }
 
-.otherMessage {
-  border: dashed #ff00c8;
+.field {
+  position: absolute;
+  bottom: 0;
+  width: 95%;
 }
+
+

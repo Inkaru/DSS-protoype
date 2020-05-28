@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
@@ -39,7 +39,9 @@ export class ChatService {
   }
 
   connectChat(id){
-    // choose channel id
+    if (this.stompClient){
+      this.stompClient.disconnect();
+    }
     this.channelId = id;
     const socket = new SockJS('http://localhost:8080/ws');
     this.stompClient = Stomp.over(socket);
@@ -51,10 +53,10 @@ export class ChatService {
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(participants);
     this.httpClient.post('/api/chat/establishChannel', data, {headers: header} ).subscribe((response: ChatChannel) => {
-      this.channel = response;
-      this.channelSubject.next(this.channel);
-      this.messages = this.channel.messages;
-      this.messagesSubject.next(this.messages);
+      // this.channel = response;
+      // this.channelSubject.next(this.channel);
+      // this.messages = this.channel.messages;
+      // this.messagesSubject.next(this.messages);
       this.getMychannels();
     });
   }
@@ -92,5 +94,15 @@ export class ChatService {
     console.log(message);
     this.messages.push(message);
     this.messagesSubject.next(this.messages);
+  }
+
+  updateMessages(channel: ChatChannel) {
+    if (channel){
+      this.messages = channel.messages;
+      this.messagesSubject.next(this.messages);
+    } else {
+      this.messages = [];
+      this.messagesSubject.next(this.messages);
+    }
   }
 }

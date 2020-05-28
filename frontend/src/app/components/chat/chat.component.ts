@@ -28,9 +28,11 @@ export class ChatComponent implements OnInit {
     });
     this.chatService.channelsSubject.subscribe((data) => this.channels = data);
     this.chatService.channelSubject.subscribe(data => this.currentChannel = data);
+    this.chatService.getMychannels();
   }
 
   ngOnInit(): void {
+    this.connectTo(null);
   }
 
   send(){
@@ -44,12 +46,15 @@ export class ChatComponent implements OnInit {
     this.chatService.establishChannel({participantLoginNames: arr});
   }
 
-  connectTo(id) {
-    this.chatService.connectChat(id);
-  }
-
-  getMyChannels() {
-    this.chatService.getMychannels();
-    console.log(this.channels);
+  connectTo(channel) {
+    if (channel){
+      this.chatService.connectChat(channel.id);
+      this.currentChannel = channel;
+      this.chatService.updateMessages(channel);
+    } else {
+      this.chatService.connectChat(null);
+      this.currentChannel = null;
+      this.chatService.updateMessages(null);
+    }
   }
 }
