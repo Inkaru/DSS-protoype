@@ -1,7 +1,6 @@
 package bth.dss.group2.backend.model;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -90,30 +89,6 @@ public class Person extends User {
 		return this;
 	}
 
-
-	@Override
-	public String toString() {
-		//TODO: add more
-		return String.format(
-				"User[id='%s', loginName='%s', email='%s', hashedPassword='%s',firstName='%s', lastName='%s', likedProjects='%s', followedProjects='%s']",
-				id, loginName, email, hashedPassword, firstName, lastName,
-				likedProjects.stream().map(Project::getName).collect(Collectors.toSet()),
-				followedProjects.stream().map(Project::getName).collect(Collectors.toSet()));
-	}
-
-	/*@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		User user = (User) o;
-		return loginName.equals(user.loginName);
-	}*/
-
-	/*@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}*/
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -131,7 +106,12 @@ public class Person extends User {
 	}
 
 	@Override
-	public Set<Project> getFollowedProjects() {
-		return followedProjects;
+	public String toString() {
+		return super.toString() + "+ Person{" +
+				"firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", title='" + title + '\'' +
+				", address='" + address + '\'' +
+				'}';
 	}
 }

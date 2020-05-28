@@ -3,6 +3,7 @@ package bth.dss.group2.backend.model;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Id;
 
@@ -66,22 +67,8 @@ public abstract class User {
 
 	public abstract User followedProjects(Set<Project> followedProjects);
 
-
 	public String getId() {
 		return id;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		User user = (User) o;
-		return loginName.equals(user.loginName);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
 	}
 
 	public String getLoginName() {
@@ -129,9 +116,35 @@ public abstract class User {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return "User{" +
+				"id='" + id + '\'' +
+				", loginName='" + loginName + '\'' +
+				", hashedPassword='" + hashedPassword + '\'' +
+				", description='" + description + '\'' +
+				", email='" + email + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				", city='" + city + '\'' +
+				", country='" + country + '\'' +
+				", followedProjects=" + followedProjects.stream().map(Project::getName).collect(Collectors.toSet()) +
+				", likedProjects=" + likedProjects.stream().map(Project::getName).collect(Collectors.toSet()) +
+				", marketplaceItems=" + marketplaceItems.stream()
+				.map(MarketplaceItem::getName)
+				.collect(Collectors.toSet()) +
+				'}';
+	}
 
-    /* If a print method have to be common for user and company !
-    public String toString(){
-        return "";
-    };*/
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return Objects.equals(id, user.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 }

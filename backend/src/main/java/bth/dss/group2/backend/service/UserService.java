@@ -10,10 +10,11 @@ import bth.dss.group2.backend.exception.LoginNameNotFoundException;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
 import bth.dss.group2.backend.exception.UserNotFoundException;
 import bth.dss.group2.backend.model.Company;
+import bth.dss.group2.backend.model.Institution;
 import bth.dss.group2.backend.model.Person;
 import bth.dss.group2.backend.model.Project;
 import bth.dss.group2.backend.model.User;
-import bth.dss.group2.backend.model.dto.RegistrationForm;
+import bth.dss.group2.backend.model.dto.RegistrationDTO;
 import bth.dss.group2.backend.model.dto.UserDTO;
 import bth.dss.group2.backend.repository.MarketplaceItemRepository;
 import bth.dss.group2.backend.repository.ProjectRepository;
@@ -63,15 +64,25 @@ public class UserService {
 		return UserDTO.createWithReferences(user, getCreatedProjects(user), getParticipatedProjects(user));
 	}
 
-	public void createUser(RegistrationForm reg) throws EmailExistsException, LoginNameExistsException {
+	public void createUser(RegistrationDTO reg) throws EmailExistsException, LoginNameExistsException {
 		if (userRepository.existsByEmail(reg.getEmail())) throw new EmailExistsException();
 		if (userRepository.existsByLoginName(reg.getLoginName())) throw new LoginNameExistsException();
-		User newGuy = new Person()
-				.loginName(reg.getLoginName())
+		User newUser;
+		if (reg.getType() != null) {
+			newUser = switch (reg.getType()) {
+				case INSTITUTION -> new Institution();
+				case COMPANY -> new Company();
+				case PERSON -> new Person();
+			};
+		}
+		else {
+			newUser = new Person();
+		}
+		newUser.loginName(reg.getLoginName())
 				.email(reg.getEmail())
 				.hashedPassword(passwordEncoder.encode(reg.getPassword()));
-		userRepository.save(newGuy);
-		logger.info("##### USER SAVED: " + newGuy);
+		userRepository.save(newUser);
+		logger.info("##### USER SAVED: " + newUser);
 	}
 
 	public void updateUser(UserDTO updated) throws UserNotFoundException {

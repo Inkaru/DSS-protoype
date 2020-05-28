@@ -25,9 +25,9 @@ public class MarketplaceItem {
 	private String description;
 	@JsonProperty
 	private String city;
-	@JsonProperty
+
 	private String country;
-	@JsonProperty
+
 	private MarketplaceItemType type;
 
 	public MarketplaceItem() {

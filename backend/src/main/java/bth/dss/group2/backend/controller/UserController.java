@@ -7,7 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import bth.dss.group2.backend.exception.UserNotFoundException;
-import bth.dss.group2.backend.model.dto.RegistrationForm;
+import bth.dss.group2.backend.model.dto.RegistrationDTO;
 import bth.dss.group2.backend.model.dto.UserDTO;
 import bth.dss.group2.backend.service.UserService;
 import bth.dss.group2.backend.util.Util;
@@ -38,7 +38,7 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/registerUser")
-	public ResponseEntity<Void> registerUser(@RequestBody @Valid final RegistrationForm registration) {
+	public ResponseEntity<Void> registerUser(@RequestBody @Valid final RegistrationDTO registration) {
 		userService.createUser(registration);
 		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}

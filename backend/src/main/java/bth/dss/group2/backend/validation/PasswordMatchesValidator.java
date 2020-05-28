@@ -3,7 +3,7 @@ package bth.dss.group2.backend.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import bth.dss.group2.backend.model.dto.RegistrationForm;
+import bth.dss.group2.backend.model.dto.RegistrationDTO;
 
 /**
  * From https://github.com/Baeldung/spring-security-registration (MIT License), possibly with modifications
@@ -17,7 +17,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
 	@Override
 	public boolean isValid(final Object obj, final ConstraintValidatorContext context) {
-		final RegistrationForm reg = (RegistrationForm) obj;
+		final RegistrationDTO reg = (RegistrationDTO) obj;
 		return reg.getPassword().equals(reg.getPasswordRepeat());
 	}
 }

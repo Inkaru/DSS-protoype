@@ -2,16 +2,14 @@ package bth.dss.group2.backend.model;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Company extends User {
-	@JsonProperty
 	private String name;
 
-	@JsonProperty
-	@DBRef
+	@DBRef(lazy = true)
 	private List<Person> employees;
 
 	public Company() {
@@ -82,12 +80,11 @@ public class Company extends User {
 		return this;
 	}
 
-
 	@Override
 	public String toString() {
-		//TODO: add more
-		return String.format(
-				"Company[id='%s', loginName='%s', email='%s', hashedPassword='%s', name='%s', employee='%s']",
-				id, loginName, email, hashedPassword, name, employees);
+		return super.toString() + " + Company{" +
+				"name='" + name + '\'' +
+				", employees=" + employees.stream().map(User::getLoginName).collect(Collectors.toList()) +
+				'}';
 	}
 }
