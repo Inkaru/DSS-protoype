@@ -145,7 +145,7 @@ public class DataPopulatorService {
 	private void generateInstitution(String loginName, String name, LocationDTO location) {
 		userService.createUser(new RegistrationDTO(loginName, loginName + "@" + loginName + ".com", "test", "test", UserDTO.UserType.INSTITUTION));
 		UserDTO dto = userService.getUserByLoginName(loginName);
-		dto.setName(name)
+		dto.setDisplayName(name)
 				.setLocation(location)
 				.setType(UserDTO.UserType.INSTITUTION)
 				.setPhoneNumber(getRandomPhoneNo());

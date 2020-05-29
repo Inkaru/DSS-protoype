@@ -34,9 +34,6 @@ public class UserDTO {
 	private String lastName;
 	private String title;
 
-	//Specific to Company and Institution:
-	private String name;
-
 	//Deciding which object
 	private UserType type;
 
@@ -68,11 +65,11 @@ public class UserDTO {
 		}
 		else if (user instanceof Company) {
 			dto.setType(UserType.COMPANY);
-			dto.setName(((Company) user).getName());
+			//dto.setName(((Company) user).getName());
 		}
 		else if (user instanceof Institution) {
 			dto.setType(UserType.INSTITUTION);
-			dto.setName(((Institution) user).getName());
+			//dto.setName(((Institution) user).getName());
 		}
 		return dto;
 	}
@@ -228,15 +225,6 @@ public class UserDTO {
 
 	public UserDTO setLocation(LocationDTO location) {
 		this.location = location;
-		return this;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public UserDTO setName(String name) {
-		this.name = name;
 		return this;
 	}
 

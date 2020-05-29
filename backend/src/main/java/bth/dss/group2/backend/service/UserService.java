@@ -106,10 +106,10 @@ public class UserService {
 					.setTitle(updated.getTitle());
 		}
 		else if (updated.getType() == UserDTO.UserType.COMPANY && existing instanceof Company) {
-			((Company) existing).setName(updated.getFirstName());
+			//((Company) existing).setName(updated.getFirstName());
 		}
 		else if (updated.getType() == UserDTO.UserType.INSTITUTION && existing instanceof Institution) {
-			((Institution) existing).setName(updated.getFirstName());
+			//((Institution) existing).setName(updated.getFirstName());
 		}
 		userRepository.save(existing);
 		logger.info("##### USER UPDATED: " + existing);
