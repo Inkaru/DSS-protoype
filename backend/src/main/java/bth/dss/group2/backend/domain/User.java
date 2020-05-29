@@ -37,6 +37,7 @@ public abstract class User {
 		followedProjects = new HashSet<>();
 		likedProjects = new HashSet<>();
 		marketplaceItems = new HashSet<>();
+		fieldOfActivityTags = new HashSet<>();
 	}
 
 	public String getId() {

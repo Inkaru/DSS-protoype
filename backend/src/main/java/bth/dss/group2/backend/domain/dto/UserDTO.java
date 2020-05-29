@@ -47,6 +47,7 @@ public class UserDTO {
 		participatedProjects = new HashSet<>();
 		marketplaceItems = new HashSet<>();
 		location = new LocationDTO();
+		fieldOfActivityTags = new HashSet<>();
 	}
 
 	public static UserDTO create(User user) {
