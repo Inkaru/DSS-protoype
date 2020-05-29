@@ -3,8 +3,6 @@ import {AuthService} from '../../services/auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +44,7 @@ export class LoginComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       loginName: ['', Validators.required],
-      type: ['PERSON', Validators.required],
+      type: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
       passwordConfirm: ['', Validators.required]
@@ -55,7 +53,7 @@ export class LoginComponent implements OnInit {
     sessionStorage.setItem('token', '');
 
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/home';
   }
 
   // convenience getter for easy access to form fields
