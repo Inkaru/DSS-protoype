@@ -4,7 +4,12 @@
     <div class="col-sm-12 col-md-6 col-lg-4">
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">{{currentUser.firstName}} {{currentUser.lastName}}</h5>
+          <ng-container *ngIf="currentUser.type == 'PERSON'">
+            <h5 class="card-title">{{currentUser.firstName}} {{currentUser.lastName}}</h5>
+          </ng-container>
+          <ng-container *ngIf="currentUser.type !== 'PERSON'">
+            <h5 class="card-title">{{currentUser.displayName}}</h5>
+          </ng-container>
           <h6 class="card-subtitle mb-2 text-muted">{{currentUser.email}}</h6>
           <h6 class="card-subtitle mb-2 text-muted">{{currentUser.phoneNumber}}</h6>
           <div class="card-text">
@@ -121,6 +126,7 @@
       <div class="modal-body">
         <form>
 
+          <ng-container *ngIf="currentUser.type == 'PERSON'">
           <div class="form-row mb-4">
             <div class="col">
               <input class="form-control" type="text" [(ngModel)]="currentUser.firstName" placeholder="Firstname"
@@ -131,6 +137,16 @@
                      name="lastname">
             </div>
           </div>
+          </ng-container>
+
+          <ng-container *ngIf="currentUser.type == 'COMPANY' || currentUser.type == 'INSTITUTION'">
+          <div class="form-row mb-4">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentUser.displayName" placeholder="Display name"
+                     name="displayname">
+            </div>
+          </div>
+          </ng-container>
 
           <label>Contact</label>
           <div class="form-row mb-4">

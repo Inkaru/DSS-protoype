@@ -12,6 +12,7 @@ export class User {
   type: string;
   title: string;
 
+  displayName: string;
   firstName: string;
   lastName: string;
 

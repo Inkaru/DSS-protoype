@@ -12,7 +12,12 @@
   <row class="col-md-8 offset-md-2 d-flex justify-content-around">
 
     <div class="">
-      <span class="mr-1">Created by : {{item.creator.loginName}}</span>
+      <ng-container *ngIf="item.creator.type == 'PERSON'">
+        <span class="mr-1">Submitted by : {{item.creator.firstName}} {{item.creator.lastName}}</span>
+      </ng-container>
+      <ng-container *ngIf="item.creator.type == 'COMPANY' || item.creator.type == 'INSTITUTION'">
+        <span class="mr-1">Submitted by : {{item.creator.displayName}}</span>
+      </ng-container>
     </div>
 
     <div class="">

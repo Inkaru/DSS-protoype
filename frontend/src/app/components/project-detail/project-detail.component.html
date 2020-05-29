@@ -17,8 +17,12 @@
   <row class="col-md-8 offset-md-2 d-flex justify-content-around">
 
     <div class="">
-      <span class="mr-1">Created by : {{project.creator.loginName}}</span>
-<!--      <span class="mr-1">Created by : {{project.creator.firstName}} {{project.creator.lastName}}</span>-->
+      <ng-container *ngIf="project.creator.type == 'PERSON'">
+        <span class="mr-1">Created by : {{project.creator.firstName}} {{project.creator.lastName}}</span>
+      </ng-container>
+      <ng-container *ngIf="project.creator.type == 'COMPANY' || project.creator.type == 'INSTITUTION'">
+        <span class="mr-1">Created by : {{project.creator.displayName}}</span>
+      </ng-container>
     </div>
 
     <div class="" *ngIf="project.follows.length">
@@ -31,14 +35,14 @@
     </div>
 
     <div>
-      <a (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-secondary mr-1">
+      <a (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-success mr-1">
         Like
       </a>
       <a (click)="unlikeProject(project.id)" [hidden]="!liked" class="btn btn-danger mr-1">
         Unlike
       </a>
 
-      <a (click)="followProject(project.id)" [hidden]="followed" class="btn btn-secondary">
+      <a (click)="followProject(project.id)" [hidden]="followed" class="btn btn-success">
         Follow
       </a>
       <a (click)="unfollowProject(project.id)" [hidden]="!followed" class="btn btn-danger">

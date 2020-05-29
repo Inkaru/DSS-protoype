@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <button (click)="tempLogin()">TemporaryLogin</button>
+<!--  <button (click)="tempLogin()">TemporaryLogin</button>-->
 
   <!-- Modal -->
   <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -55,11 +55,14 @@
               </div>
             </div>
             <div class="form-group">
-              <select class="form-control" formControlName="type">
-                <option value="PERSON">Person</option>
+              <select class="form-control" formControlName="type" required>
+                <option value="PERSON" >Person</option>
                 <option value="COMPANY">Company</option>
                 <option value="INSTITUTION">Institution</option>
               </select>
+              <div *ngIf="regsubmitted && regform.type.errors" class="invalid-feedback">
+                <div *ngIf="regform.type.errors.required">Type is required</div>
+              </div>
             </div>
             <div class="form-group">
               <input type="email" placeholder="Email" class="form-control" formControlName="email"
