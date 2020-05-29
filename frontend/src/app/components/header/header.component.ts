@@ -10,7 +10,7 @@ import {AuthService} from '../../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  title = 'DSS';
+  title = 'Agora';
   currentUser: User = null;
 
   constructor(private router: Router, private authService: AuthService) {
