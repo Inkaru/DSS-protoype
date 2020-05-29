@@ -58,18 +58,18 @@ export class ProjectsComponent implements OnInit {
 
   addTag() {
     if (this.tag !== '') {
-      this.currentProject.hashTags.push('#' + this.tag);
+      this.currentProject.tags.push('#' + this.tag);
       this.tag = '';
     }
   }
 
   removeTag(tag: string) {
     if (tag !== '') {
-      const index = this.currentProject.hashTags.indexOf(tag);
+      const index = this.currentProject.tags.indexOf(tag);
       console.log(tag);
       console.log(index);
       if (index !== -1) {
-        this.currentProject.hashTags.splice(index, 1);
+        this.currentProject.tags.splice(index, 1);
       }
     }
   }
@@ -93,7 +93,7 @@ export class ProjectsComponent implements OnInit {
     let tmp = this.projects;
     if (this.selectedTag !== ''){
       console.log('filter with tag' + this.selectedTag);
-      tmp = tmp.filter(p => p.hashTags.includes(this.selectedTag));
+      tmp = tmp.filter(p => p.tags.includes(this.selectedTag));
     }
 
     if (this.selectedCities !== ''){
@@ -107,7 +107,7 @@ export class ProjectsComponent implements OnInit {
   updateTags() {
     const tmp = new Set<string>();
     for (const p of this.projects) {
-      for (const tag of p.hashTags) {
+      for (const tag of p.tags) {
         tmp.add(tag);
       }
     }

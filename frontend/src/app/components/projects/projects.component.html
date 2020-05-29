@@ -93,8 +93,8 @@
               </a>
             </div>
             <div class="card-body">
-              <div class="card-title" *ngIf="project.hashTags.length">
-                <button *ngFor="let tag of project.hashTags" class="btn btn-sm btn-outline-info mr-1 disabled">
+              <div class="card-title" *ngIf="project.tags.length">
+                <button *ngFor="let tag of project.tags" class="btn btn-sm btn-outline-info mr-1 disabled">
                   {{tag}}
                 </button>
               </div>
@@ -130,8 +130,8 @@
             </div>
           </div>
 
-          <div class="card-title" *ngIf="currentProject.hashTags.length">
-            <button *ngFor="let tag of currentProject.hashTags" class="btn btn-sm btn-outline-danger mr-1" (click)="removeTag(tag)">
+          <div class="card-title" *ngIf="currentProject.tags.length">
+            <button *ngFor="let tag of currentProject.tags" class="btn btn-sm btn-outline-danger mr-1" (click)="removeTag(tag)">
               {{tag}}
             </button>
           </div>
