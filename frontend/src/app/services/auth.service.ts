@@ -66,9 +66,9 @@ export class AuthService {
     this.currentUserSubject.next(null);
   }
 
-  public registerUser(loginName: string, email: string, password: string, passwordRepeat: string){
+  public registerUser(loginName: string, email: string, password: string, passwordRepeat: string, type: string){
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-    const data = JSON.stringify({loginName, email, password, passwordRepeat});
+    const data = JSON.stringify({loginName, email, password, passwordRepeat, type});
     console.log(data);
     return this.http.post('/api/users/registerUser', data, {headers: header});
   }

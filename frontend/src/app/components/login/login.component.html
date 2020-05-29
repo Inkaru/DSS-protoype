@@ -55,6 +55,13 @@
               </div>
             </div>
             <div class="form-group">
+              <select class="form-control" formControlName="type">
+                <option value="PERSON">Person</option>
+                <option value="COMPANY">Company</option>
+                <option value="INSTITUTION">Institution</option>
+              </select>
+            </div>
+            <div class="form-group">
               <input type="email" placeholder="Email" class="form-control" formControlName="email"
                      formControlName="email" [ngClass]="{ 'is-invalid': regsubmitted && regform.email.errors }">
               <div *ngIf="regsubmitted && regform.email.errors" class="invalid-feedback">
