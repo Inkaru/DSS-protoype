@@ -87,14 +87,21 @@
       <div class="rounded shadow bg-white p-5">
         <div class="card-columns">
           <div class="card" *ngFor="let project of projects">
-            <div class="card-body">
-              <a class="card-title" routerLink="/project/{{project.id}}">
+            <div class="card-header">
+              <a class="" routerLink="/project/{{project.id}}">
                 <h5>
                   <i class="fas fa-caret-right"></i>
                   {{project.name}}
                 </h5>
               </a>
-              <small class="text-muted">Company</small>
+            </div>
+            <div class="card-body">
+              <div class="card-title" *ngIf="project.hashTags.length">
+                <button *ngFor="let tag of project.hashTags" class="btn btn-sm btn-outline-info mr-1 disabled">
+                  {{tag}}
+                </button>
+              </div>
+              <small class="text-muted">Created by {{project.creator.loginName}}</small>
               <p class="card-text">{{project.description}}</p>
             </div>
           </div>
@@ -106,35 +113,75 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="projectFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="projectFormModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalScrollableTitle"
      aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
-      <form [formGroup]="projectsForm" (ngSubmit)="onSubmitProjectsForm()">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">New Project</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" placeholder="name of the project" class="form-control" formControlName="name">
-          </div>
-          <div class="form-group">
-              <textarea placeholder="description" rows="4" class="form-control w-100"
-                        formControlName="description"></textarea>
+      <div class="modal-header">
+        <h5 class="modal-title">Create Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+
+          <div class="form-row mb-4">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentProject.name" placeholder="Name" name="name">
+            </div>
           </div>
 
-        </div>
-        <div *ngIf="error" class="alert alert-danger mb-0">
-          {{error}}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" type="submit">Submit</button>
-        </div>
-      </form>
+          <div class="card-title" *ngIf="currentProject.hashTags.length">
+            <button *ngFor="let tag of currentProject.hashTags" class="btn btn-sm btn-outline-danger mr-1" (click)="removeTag(tag)">
+              {{tag}}
+            </button>
+          </div>
+          <div class="form-row mb-4">
+            <div class="col input-group">
+              <input type="text" class="form-control" placeholder="Add a new tag" [(ngModel)]="tag" name="tag">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button" (click)="addTag()">Add</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description2">Description</label>
+            <textarea id="description2" [(ngModel)]="currentProject.description" class="form-control"
+                      name="description"></textarea>
+          </div>
+
+          <label>Address</label>
+          <div class="form-row mb-1">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentProject.location.streetAddress" placeholder="Address"
+                     name="address">
+            </div>
+          </div>
+          <div class="form-row mb-4">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentProject.location.zipCode" placeholder="City" name="city">
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentProject.location.city" placeholder="Country"
+                     name="country">
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentProject.location.country" placeholder="Country" name="country">
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div *ngIf="error" class="alert alert-danger mb-0">
+        {{error}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmitProjectsForm()">Submit</button>
+      </div>
     </div>
   </div>
 </div>

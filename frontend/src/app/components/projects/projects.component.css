@@ -21,7 +21,15 @@ a {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 700px) {
+  .card-columns {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+  }
+}
+
+@media (min-width: 1000px) {
   .card-columns {
     -webkit-column-count: 2;
     -moz-column-count: 2;
@@ -29,7 +37,7 @@ a {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1600px) {
   .card-columns {
     -webkit-column-count: 3;
     -moz-column-count: 3;

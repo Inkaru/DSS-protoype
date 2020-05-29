@@ -39,7 +39,7 @@
               </a>
               <span class="text-muted" *ngIf="item.price !== 0">  {{item.price}}€</span>
 
-              <p class="text-muted" >{{item.city}} - {{item.country}}</p>
+              <p class="text-muted" >{{item.location.city}} - {{item.location.country}}</p>
               <p class="card-text">{{item.description}}</p>
             </div>
           </div>
@@ -89,13 +89,23 @@
             </div>
           </div>
 
+          <label>Address</label>
+          <div class="form-row mb-1">
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentItem.location.streetAddress" placeholder="Address"
+                     name="address">
+            </div>
+          </div>
           <div class="form-row mb-4">
             <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentItem.city" placeholder="City" name="city">
+              <input class="form-control" type="text" [(ngModel)]="currentItem.location.zipCode" placeholder="City" name="city">
             </div>
             <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentItem.country" placeholder="Country"
+              <input class="form-control" type="text" [(ngModel)]="currentItem.location.city" placeholder="Country"
                      name="country">
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" [(ngModel)]="currentItem.location.country" placeholder="Country" name="country">
             </div>
           </div>
 

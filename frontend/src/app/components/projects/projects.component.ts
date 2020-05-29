@@ -22,6 +22,8 @@ export class ProjectsComponent implements OnInit {
 
   error: string;
 
+  currentProject: Project = new Project();
+  tag = '';
   projects: Project[];
 
   projectsForm: FormGroup;
@@ -44,22 +46,56 @@ export class ProjectsComponent implements OnInit {
     this.apiService.getAllProjects();
   }
 
-  onSubmitProjectsForm() {
-    if (this.projectsForm.invalid){
-      this.error = 'All fields must be filled';
-      return;
+  addTag(){
+    if (this.tag !== '' ){
+      this.currentProject.hashTags.push('#' + this.tag);
+      this.tag = '';
     }
-    this.apiService.createProject(this.projectsForm.value).subscribe(
-      response => {
-        console.log(response);
-        this.apiService.getAllProjects();
-        // @ts-ignore
-        $('#projectsFormModal').modal('hide');
-        this.error = '';
-      }, error => {
-        console.log(error);
-        this.error = error.message;
-      }
-    );
   }
+
+  removeTag(tag: string) {
+    if (tag !== '' ){
+      const index = this.currentProject.hashTags.indexOf(tag);
+      console.log(tag);
+      console.log(index);
+      if (index !== -1){
+        this.currentProject.hashTags.splice(index, 1);
+      }
+    }
+  }
+
+  onSubmitProjectsForm() {
+    this.apiService.createProject(this.currentProject).subscribe(data => {
+        console.log('success');
+        console.log(data);
+        this.apiService.getAllProjects();
+        this.currentProject = new Project();
+        // @ts-ignore
+        $('#projectFormModal').modal('hide');
+      },
+      error => {
+        console.log(error);
+        this.error = error.error.message;
+      });
+  }
+
+  // onSubmitProjectsForm() {
+  //   if (this.projectsForm.invalid){
+  //     this.error = 'All fields must be filled';
+  //     return;
+  //   }
+  //   this.apiService.createProject(this.projectsForm.value).subscribe(
+  //     response => {
+  //       console.log(response);
+  //       this.apiService.getAllProjects();
+  //       // @ts-ignore
+  //       $('#projectsFormModal').modal('hide');
+  //       this.error = '';
+  //     }, error => {
+  //       console.log(error);
+  //       this.error = error.message;
+  //     }
+  //   );
+  // }
+
 }
