@@ -132,6 +132,17 @@
             </div>
           </div>
 
+          <div class="form-row mb-4">
+            <div class="col">
+              <label for="utype">Type</label>
+              <select class="form-control" name="utype" id="utype" [(ngModel)]="currentUser.type">
+                <option value="PERSON">Person</option>
+                <option value="COMPANY">Company</option>
+                <option value="INSTITUTION">Institution</option>
+              </select>
+            </div>
+          </div>
+
           <label>Contact</label>
           <div class="form-row mb-4">
             <div class="col">
@@ -204,8 +215,8 @@
             </div>
           </div>
 
-          <div class="card-title" *ngIf="currentProject.hashTags.length">
-            <button *ngFor="let tag of currentProject.hashTags" class="btn btn-sm btn-outline-danger mr-1" (click)="removeTag(tag)">
+          <div class="card-title" *ngIf="currentProject.tags.length">
+            <button *ngFor="let tag of currentProject.tags" class="btn btn-sm btn-outline-danger mr-1" (click)="removeTag(tag)">
               {{tag}}
             </button>
           </div>

@@ -5,7 +5,7 @@ export class Project {
 
   constructor() {
     this.location = new Loc();
-    this.hashTags = [];
+    this.tags = [];
   }
 
   id: string;
@@ -15,6 +15,6 @@ export class Project {
   participants: User[];
   follows: User[];
   likes: User[];
-  hashTags: string[];
+  tags: string[];
   location: Loc;
 }

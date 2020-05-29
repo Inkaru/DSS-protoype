@@ -98,18 +98,18 @@ export class ProfileComponent {
 
   addTag(){
     if (this.tag !== '' ){
-      this.currentProject.hashTags.push('#' + this.tag);
+      this.currentProject.tags.push('#' + this.tag);
       this.tag = '';
     }
   }
 
   removeTag(tag: string) {
     if (tag !== '' ){
-      const index = this.currentProject.hashTags.indexOf(tag);
+      const index = this.currentProject.tags.indexOf(tag);
       console.log(tag);
       console.log(index);
       if (index !== -1){
-        this.currentProject.hashTags.splice(index, 1);
+        this.currentProject.tags.splice(index, 1);
       }
     }
   }

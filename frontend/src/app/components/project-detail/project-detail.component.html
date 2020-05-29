@@ -4,8 +4,8 @@
       <div class="row">
         <div class="col text-center py-5">
           <h1 class="display-4">{{project.name}}</h1>
-          <div *ngIf="project.hashTags.length">
-            <button *ngFor="let tag of project.hashTags" class="btn btn-outline-light mr-1 disabled">
+          <div *ngIf="project.tags.length">
+            <button *ngFor="let tag of project.tags" class="btn btn-outline-light mr-1 disabled">
               {{tag}}
             </button>
           </div>
