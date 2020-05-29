@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       loginName: ['', Validators.required],
+      type: ['PERSON', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
       passwordConfirm: ['', Validators.required]
@@ -97,7 +98,8 @@ export class LoginComponent implements OnInit {
       this.regform.loginName.value,
       this.regform.email.value,
       this.regform.password.value,
-      this.regform.passwordConfirm.value
+      this.regform.passwordConfirm.value,
+      this.regform.type.value
     ).pipe(first())
       .subscribe(
         data => {
