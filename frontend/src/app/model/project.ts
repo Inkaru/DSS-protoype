@@ -1,7 +1,13 @@
 import {User} from './user';
-import {Hashtag} from './hashtag';
+import {Loc} from './location';
 
 export class Project {
+
+  constructor() {
+    this.location = new Loc();
+    this.hashTags = [];
+  }
+
   id: string;
   name: string;
   description: string;
@@ -9,5 +15,6 @@ export class Project {
   participants: User[];
   follows: User[];
   likes: User[];
-  hashtags: Hashtag[];
+  hashTags: string[];
+  location: Loc;
 }

@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: 'marketplace', component: MarketplaceComponent, canActivate: [AuthGuard]},
   {path: 'resources', component: ResourcesComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path: 'chat', component: ChatComponent}
+  {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

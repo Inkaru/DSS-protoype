@@ -4,6 +4,11 @@
       <div class="row">
         <div class="col text-center py-5">
           <h1 class="display-4">{{project.name}}</h1>
+          <div *ngIf="project.hashTags.length">
+            <button *ngFor="let tag of project.hashTags" class="btn btn-outline-light mr-1 disabled">
+              {{tag}}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -20,16 +25,16 @@
       <span class="mr-2">Followers </span>
       <button class="btn-circle mr-1" *ngFor="let user of project.follows"
               [ngStyle]="{'background-color': getRandomColor()}"
-              title="{{user.firstName}}">
-        {{user.firstName[0]}}
+              title="{{user.loginName}}">
+        {{user.loginName[0]}}
       </button>
     </div>
 
     <div>
-      <a (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-secondary">
+      <a (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-secondary mr-1">
         Like
       </a>
-      <a (click)="unlikeProject(project.id)" [hidden]="!liked" class="btn btn-danger">
+      <a (click)="unlikeProject(project.id)" [hidden]="!liked" class="btn btn-danger mr-1">
         Unlike
       </a>
 

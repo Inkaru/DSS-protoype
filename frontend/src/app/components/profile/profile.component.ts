@@ -32,6 +32,7 @@ export class ProfileComponent {
   editMode = false;
 
   error: '';
+  tag = '';
 
   updateProfile() {
     this.apiService.updateUser(this.currentUser).subscribe(response => {
@@ -75,6 +76,8 @@ export class ProfileComponent {
 
   resetForm() {
     this.editMode = false;
+    this.currentItem = new MarketplaceItem();
+    this.currentProject = new Project();
   }
 
   onDeleteProject(id) {
@@ -91,6 +94,24 @@ export class ProfileComponent {
     this.currentProject = project;
     // @ts-ignore
     $('#projectFormModal').modal('show');
+  }
+
+  addTag(){
+    if (this.tag !== '' ){
+      this.currentProject.hashTags.push('#' + this.tag);
+      this.tag = '';
+    }
+  }
+
+  removeTag(tag: string) {
+    if (tag !== '' ){
+      const index = this.currentProject.hashTags.indexOf(tag);
+      console.log(tag);
+      console.log(index);
+      if (index !== -1){
+        this.currentProject.hashTags.splice(index, 1);
+      }
+    }
   }
 
   getRandomColor() {
