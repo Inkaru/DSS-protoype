@@ -37,7 +37,7 @@ public class ProjectController {
 
 	@PostMapping(value = "/createProject")
 	public ResponseEntity<Void> registerProject(@RequestBody @Valid final ProjectDTO projectDto, final Principal principal) {
-		projectDto.setHashTags(Util.formatHashTags(projectDto.getHashTags()));
+		//projectDto.setTags(Util.formatHashTags(projectDto.getTags()));
 		projectService.createProject(projectDto, Util.getLoginName(principal));
 		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}
@@ -63,7 +63,7 @@ public class ProjectController {
 
 	@PostMapping(value = "/updateProject")
 	public ResponseEntity<Void> updateProject(@RequestBody final ProjectDTO projectDto) {
-		projectDto.setHashTags(Util.formatHashTags(projectDto.getHashTags()));
+		//projectDto.setTags(Util.formatHashTags(projectDto.getTags()));
 		projectService.updateProject(projectDto);
 		return ResponseEntity.ok().location(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri()).build();
 	}

@@ -23,13 +23,13 @@ public class Project {
 	@DBRef(lazy = true)
 	private Set<User> participants;
 	@DBRef(lazy = true)
-	private Set<HashTag> hashTags;
+	private Set<Tag> tags;
 	@DBRef(lazy = true)
 	private Location location;
 
 	public Project() {
 		participants = new HashSet<>();
-		hashTags = new HashSet<>();
+		tags = new HashSet<>();
 	}
 
 	public String getId() {
@@ -77,12 +77,12 @@ public class Project {
 		return this;
 	}
 
-	public Set<HashTag> getHashTags() {
-		return hashTags;
+	public Set<Tag> getTags() {
+		return tags;
 	}
 
-	public Project setHashTags(Set<HashTag> hashTags) {
-		this.hashTags = hashTags;
+	public Project setTags(Set<Tag> tags) {
+		this.tags = tags;
 		return this;
 	}
 
@@ -103,7 +103,7 @@ public class Project {
 				", description='" + description + '\'' +
 				", creator=" + creator +
 				", participants=" + participants.stream().map(User::getLoginName).collect(Collectors.joining(",")) +
-				", hashTags=" + hashTags.stream().map(HashTag::getName).collect(Collectors.joining(",")) +
+				", tags=" + tags.stream().map(Tag::getName).collect(Collectors.joining(",")) +
 				", location=" + location +
 				'}';
 	}

@@ -3,14 +3,14 @@ package bth.dss.group2.backend.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "HashTag")
-public class HashTag {
+@Document(collection = "Tag")
+public class Tag {
 	@Id
 	private String id;
 
 	private String name;
 
-	public HashTag(String name) {
+	public Tag(String name) {
 		this.name = name;
 	}
 
@@ -18,7 +18,7 @@ public class HashTag {
 		return id;
 	}
 
-	public HashTag setId(String id) {
+	public Tag setId(String id) {
 		this.id = id;
 		return this;
 	}
@@ -27,7 +27,7 @@ public class HashTag {
 		return name;
 	}
 
-	public HashTag setName(String name) {
+	public Tag setName(String name) {
 		this.name = name;
 		return this;
 	}

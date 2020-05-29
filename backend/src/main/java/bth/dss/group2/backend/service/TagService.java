@@ -5,10 +5,10 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import bth.dss.group2.backend.domain.HashTag;
+import bth.dss.group2.backend.domain.Tag;
 import bth.dss.group2.backend.domain.User;
 import bth.dss.group2.backend.exception.HashTagNotFoundException;
-import bth.dss.group2.backend.repository.HashTagRepository;
+import bth.dss.group2.backend.repository.TagRepository;
 import bth.dss.group2.backend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,22 +17,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-public class HashTagService {
-	private final HashTagRepository hashTagRepository;
-	private static final Logger logger = LoggerFactory.getLogger(HashTagService.class);
+public class TagService {
+	private static final Logger logger = LoggerFactory.getLogger(TagService.class);
+	private final TagRepository tagRepository;
 
 	@Autowired
-	public HashTagService(HashTagRepository hashTagRepository, UserRepository<User> userRepository) {
-		this.hashTagRepository = hashTagRepository;
+	public TagService(TagRepository tagRepository, UserRepository<User> userRepository) {
+		this.tagRepository = tagRepository;
 	}
 
 	public List<String> getAll() {
-		return hashTagRepository.findAll().stream().map(HashTag::getName).collect(Collectors.toList());
+		return tagRepository.findAll().stream().map(Tag::getName).collect(Collectors.toList());
 	}
 
 	public void delete(String name) {
-		HashTag tag = hashTagRepository.findByName(name).orElseThrow(HashTagNotFoundException::new);
-		hashTagRepository.delete(tag);
+		Tag tag = tagRepository.findByName(name).orElseThrow(HashTagNotFoundException::new);
+		tagRepository.delete(tag);
 	}
 
 	public void create(String name) {

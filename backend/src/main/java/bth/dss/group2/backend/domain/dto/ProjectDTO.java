@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import bth.dss.group2.backend.domain.HashTag;
 import bth.dss.group2.backend.domain.Project;
+import bth.dss.group2.backend.domain.Tag;
 import bth.dss.group2.backend.domain.User;
 import bth.dss.group2.backend.util.Util;
 
@@ -19,13 +19,13 @@ public class ProjectDTO {
 	private Set<UserDTO> participants;
 	private Set<UserDTO> follows;
 	private Set<UserDTO> likes;
-	private Set<String> hashTags;
+	private Set<String> tags;
 
 	public ProjectDTO() {
 		participants = new HashSet<>();
 		follows = new HashSet<>();
 		likes = new HashSet<>();
-		hashTags = new HashSet<>();
+		tags = new HashSet<>();
 		location = new LocationDTO();
 	}
 
@@ -34,7 +34,7 @@ public class ProjectDTO {
 		dto.setId(project.getId());
 		dto.setDescription(project.getDescription());
 		dto.setName(project.getName());
-		dto.setHashTags(project.getHashTags().stream().map(HashTag::getName).collect(Collectors.toSet()));
+		dto.setTags(project.getTags().stream().map(Tag::getName).collect(Collectors.toSet()));
 		dto.setLocation(Util.getMapper().map(project.getLocation(), LocationDTO.class));
 		return dto;
 	}
@@ -120,12 +120,12 @@ public class ProjectDTO {
 		return this;
 	}
 
-	public Set<String> getHashTags() {
-		return hashTags;
+	public Set<String> getTags() {
+		return tags;
 	}
 
-	public ProjectDTO setHashTags(Set<String> hashTags) {
-		this.hashTags = hashTags;
+	public ProjectDTO setTags(Set<String> tags) {
+		this.tags = tags;
 		return this;
 	}
 }

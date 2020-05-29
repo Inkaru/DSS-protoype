@@ -1,19 +1,16 @@
 package bth.dss.group2.backend.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import bth.dss.group2.backend.domain.HashTag;
 import bth.dss.group2.backend.domain.Project;
 import bth.dss.group2.backend.domain.User;
 import bth.dss.group2.backend.domain.dto.ProjectDTO;
 import bth.dss.group2.backend.exception.LoginNameNotFoundException;
 import bth.dss.group2.backend.exception.ProjectNameExistsException;
 import bth.dss.group2.backend.exception.ProjectNotFoundException;
-import bth.dss.group2.backend.repository.HashTagRepository;
 import bth.dss.group2.backend.repository.ProjectRepository;
 import bth.dss.group2.backend.repository.UserRepository;
 import org.slf4j.Logger;
@@ -27,15 +24,15 @@ public class ProjectService {
 	private final LocationService locationService;
 	private final ProjectRepository projectRepository;
 	private final UserRepository<User> userRepository;
-	private final HashTagRepository hashTagRepository;
+	private final TagService tagService;
 	private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 
 	@Autowired
-	public ProjectService(LocationService locationService, ProjectRepository projectRepository, UserRepository<User> userRepository, HashTagRepository hashTagRepository) {
+	public ProjectService(LocationService locationService, ProjectRepository projectRepository, UserRepository<User> userRepository, TagService tagService) {
 		this.locationService = locationService;
 		this.projectRepository = projectRepository;
 		this.userRepository = userRepository;
-		this.hashTagRepository = hashTagRepository;
+		this.tagService = tagService;
 	}
 
 	public List<ProjectDTO> getAllProjects() {
@@ -72,7 +69,7 @@ public class ProjectService {
 						.orElseThrow(LoginNameNotFoundException::new))
 				.setDescription(projectDto.getDescription())
 				.setLocation(locationService.getOrCreate(projectDto.getLocation()));
-		projectDto.getHashTags().forEach(h -> addHashTag(project, h));
+		projectDto.getTags().forEach(h -> addHashTag(project, h));
 
 		projectRepository.save(project);
 		logger.info("##### PROJECT SAVED: " + project);
@@ -82,8 +79,8 @@ public class ProjectService {
 		Project project = projectRepository.findById(updatedProjectDto.getId())
 				.orElseThrow(ProjectNotFoundException::new);
 		project.setName(updatedProjectDto.getName()).setDescription(updatedProjectDto.getDescription());
-		project.getHashTags().clear();
-		updatedProjectDto.getHashTags().forEach(h -> addHashTag(project, h));
+		project.getTags().clear();
+		updatedProjectDto.getTags().forEach(h -> addHashTag(project, h));
 		projectRepository.save(project);
 		logger.info("##### PROJECT UPDATED: " + project);
 	}
@@ -114,9 +111,8 @@ public class ProjectService {
 		projectRepository.save(addHashTag(project, tag));
 	}
 
-	private Project addHashTag(Project project, String tag) {
-		HashTag hashTag = hashTagRepository.findByName(tag).orElse(hashTagRepository.save(new HashTag(tag)));
-		project.getHashTags().add(hashTag);
+	private Project addHashTag(Project project, String tagName) {
+		project.getTags().add(tagService.getOrCreate(tagName));
 		return project;
 	}
 
@@ -125,9 +121,8 @@ public class ProjectService {
 		projectRepository.save(removeHashTag(project, tag));
 	}
 
-	private Project removeHashTag(Project project, String tag) {
-		Optional<HashTag> hashTag = hashTagRepository.findByName(tag);
-		hashTag.ifPresent(value -> project.getHashTags().remove(value));
+	private Project removeHashTag(Project project, String tagName) {
+		tagService.get(tagName).ifPresent(tag -> project.getTags().remove(tag));
 		return project;
 	}
 }

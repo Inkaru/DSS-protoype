@@ -75,7 +75,7 @@ public class DataPopulatorService {
 		dto.setName(name)
 				.setLocation(loc)
 				.setDescription(name + name + name + name + name)
-				.setHashTags(getRandomHashTags());
+				.setTags(getRandomHashTags());
 		projectService.createProject(dto, creator);
 	}
 
