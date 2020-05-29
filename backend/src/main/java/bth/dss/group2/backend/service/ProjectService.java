@@ -106,9 +106,9 @@ public class ProjectService {
 		logger.info("##### PROJECT DELETED: " + project.getName());
 	}
 
-	public void addHashTag(String projectId, String tag) {
+	public void addHashTag(String projectId, String tagName) {
 		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
-		projectRepository.save(addHashTag(project, tag));
+		projectRepository.save(addHashTag(project, tagName));
 	}
 
 	private Project addHashTag(Project project, String tagName) {
@@ -116,9 +116,9 @@ public class ProjectService {
 		return project;
 	}
 
-	public void removeHashTag(String projectId, String tag) {
+	public void removeHashTag(String projectId, String tagName) {
 		Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
-		projectRepository.save(removeHashTag(project, tag));
+		projectRepository.save(removeHashTag(project, tagName));
 	}
 
 	private Project removeHashTag(Project project, String tagName) {

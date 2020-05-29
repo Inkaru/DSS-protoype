@@ -16,11 +16,11 @@ public abstract class User {
 	protected String id;
 	@Indexed(unique = true)
 	private String loginName;
+	private String displayName;
 	private String hashedPassword;
 	private String description;
 	@Indexed(unique = true)
-	private
-	String email;
+	private String email;
 	private String phoneNumber;
 	@DBRef(lazy = true)
 	private Location location;
@@ -30,6 +30,8 @@ public abstract class User {
 	private Set<Project> likedProjects;
 	@DBRef(lazy = true)
 	private Set<MarketplaceItem> marketplaceItems;
+	@DBRef(lazy = true)
+	private Set<Tag> fieldOfActivityTags;
 
 	public User() {
 		followedProjects = new HashSet<>();
@@ -48,6 +50,15 @@ public abstract class User {
 	public User setLoginName(String loginName) {
 		this.loginName = loginName;
 		return getThis();
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public User setDisplayName(String displayName) {
+		this.displayName = displayName;
+		return this;
 	}
 
 	public String getHashedPassword() {
@@ -122,6 +133,15 @@ public abstract class User {
 		return marketplaceItems;
 	}
 
+	public Set<Tag> getFieldOfActivityTags() {
+		return fieldOfActivityTags;
+	}
+
+	public User setFieldOfActivityTags(Set<Tag> fieldOfActivityTags) {
+		this.fieldOfActivityTags = fieldOfActivityTags;
+		return this;
+	}
+
 	//Only for testing purposes
 	public void setID(String id) {
 		this.id = id;
@@ -134,6 +154,7 @@ public abstract class User {
 		return "User{" +
 				"id='" + id + '\'' +
 				", loginName='" + loginName + '\'' +
+				", displayName='" + displayName + '\'' +
 				", hashedPassword='" + hashedPassword + '\'' +
 				", description='" + description + '\'' +
 				", email='" + email + '\'' +

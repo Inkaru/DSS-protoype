@@ -15,6 +15,7 @@ import bth.dss.group2.backend.util.Util;
 public class UserDTO {
 
 	private String id;
+	private String displayName;
 	private String loginName;
 	private String description;
 	private String email;
@@ -26,6 +27,7 @@ public class UserDTO {
 	private Set<ProjectDTO> createdProjects;
 	private Set<ProjectDTO> participatedProjects;
 	private Set<MarketplaceItemDTO> marketplaceItems;
+	private Set<String> fieldOfActivityTags;
 
 	//Specific to Person:
 	private String firstName;
@@ -51,6 +53,7 @@ public class UserDTO {
 		UserDTO dto = new UserDTO();
 		dto.setId(user.getId());
 		dto.setLoginName(user.getLoginName());
+		dto.setDisplayName(user.getDisplayName());
 		dto.setDescription(user.getDescription());
 		dto.setEmail(user.getEmail());
 		dto.setPhoneNumber(user.getPhoneNumber());
@@ -233,6 +236,24 @@ public class UserDTO {
 
 	public UserDTO setName(String name) {
 		this.name = name;
+		return this;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public UserDTO setDisplayName(String displayName) {
+		this.displayName = displayName;
+		return this;
+	}
+
+	public Set<String> getFieldOfActivityTags() {
+		return fieldOfActivityTags;
+	}
+
+	public UserDTO setFieldOfActivityTags(Set<String> fieldOfActivityTags) {
+		this.fieldOfActivityTags = fieldOfActivityTags;
 		return this;
 	}
 

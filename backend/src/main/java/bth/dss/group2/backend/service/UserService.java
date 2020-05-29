@@ -33,14 +33,16 @@ public class UserService {
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 	private final UserRepository<User> userRepository;
 	private final LocationService locationService;
+	private final TagService tagService;
 	private final ProjectRepository projectRepository;
 	private final MarketplaceItemRepository marketplaceItemRepository;
 	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserService(UserRepository<User> userRepository, LocationService locationService, ProjectRepository projectRepository, MarketplaceItemRepository marketplaceItemRepository, PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository<User> userRepository, LocationService locationService, TagService tagService, ProjectRepository projectRepository, MarketplaceItemRepository marketplaceItemRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.locationService = locationService;
+		this.tagService = tagService;
 		this.projectRepository = projectRepository;
 		this.marketplaceItemRepository = marketplaceItemRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -91,7 +93,12 @@ public class UserService {
 		User existing = userRepository.findById(updated.getId()).orElseThrow(UserNotFoundException::new);
 		// update only immutable fields (not login name, email, or id)
 		existing.setDescription(updated.getDescription())
+				.setDisplayName(updated.getDisplayName())
 				.setPhoneNumber(updated.getPhoneNumber())
+				.setFieldOfActivityTags(updated.getFieldOfActivityTags()
+						.stream()
+						.map(tagService::getOrCreate)
+						.collect(Collectors.toSet()))
 				.setLocation(locationService.getOrCreate(updated.getLocation()));
 		if (updated.getType() == UserDTO.UserType.PERSON && existing instanceof Person) {
 			((Person) existing).setFirstName(updated.getFirstName())

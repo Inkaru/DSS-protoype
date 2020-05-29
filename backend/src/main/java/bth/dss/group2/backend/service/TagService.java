@@ -1,6 +1,7 @@
 package bth.dss.group2.backend.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -35,9 +36,12 @@ public class TagService {
 		tagRepository.delete(tag);
 	}
 
-	public void create(String name) {
-		hashTagRepository.save(new HashTag(name));
+	public Optional<Tag> get(String name) {
+		return tagRepository.findByName(name);
 	}
 
+	public Tag getOrCreate(String name) {
+		return tagRepository.findByName(name).orElse(tagRepository.save(new Tag(name)));
+	}
 }
 	
