@@ -6,14 +6,19 @@
 - **Get own user object**:      GET `api/login/user` (only works if logged in)
 ## Users
 ### Attributes:
-![alt text](documentation/UserDTO_26_05.png "UserDTO")
+![alt text](documentation/UserDTO.png "UserDTO")
+![alt text](documentation/RegistrationDTO.png "RegistrationDTO")
+![alt text](documentation/LocationDTO.png "RegistrationDTO")
 
-Note that `type` can be one of the following strings for the frontend: `PERSON`,`COMPANY`,`INSTITUTION` 
-(currently not implemented for registration)
+Notes: 
+- `type` can be one of the following strings for the frontend: `PERSON`,`COMPANY`,`INSTITUTION` 
+- `followedProjects`, `likedProjects`, `participatedProjects`, `marketPlaceItems` should not be sent by frontend, but will be returned with get-type methods
+- Location attributes can (but don't have to) be set by frontend, apart from latitude and longitude. Backend will usually succeed to fetch some coordinates, even with an incomplete location object, like no zipcode, no country, or badly formatted street adress, etc.
+- `displayName` and `fieldOfActivityTags` are new and common to all types of users and can be set by frontend
 
 ### REST-API :
 
-- **Create**:                   POST `api/users/registerUser` (form attributes are different here: loginName, email, password, passwordRepeat)
+- **Create**:                   POST `api/users/registerUser`
 - **Get all**:                  GET `api/users/getAllUsers`
 - **Get**:                      GET `api/users/getUser?id={id}` || `api/users/getUser?loginName={loginName}` || `api/users/getUser?email={email}`
 - **Update**:                   POST `api/users/updateUser`(user-id required!)
@@ -24,11 +29,14 @@ Note that `type` can be one of the following strings for the frontend: `PERSON`,
 - **Unfollow Project**:         GET `api/users/unfollowProject?id={id}`
 ## Projects
 ### Attributes:
-![alt text](documentation/ProjectDTO_26_05.png "ProjectDTO")
+![alt text](documentation/ProjectDTO.png "ProjectDTO")
+Notes: 
+- `type` can be one of the following strings for the frontend: `PERSON`,`COMPANY`,`INSTITUTION` 
+- `creator`, `participants`, `follows`, `likes` should not be sent by frontend, but will be returned with get-type methods (some of these are manipulated by frontend over other REST-paths)
+- Location attributes can (but don't have to) be set by frontend, apart from latitude and longitude. Backend will usually succeed to fetch some coordinates, even with an incomplete location object, like no zipcode, no country, or badly formatted street adress, etc.
+- `tags` can be set by frontend
 
 ### REST-API :
-
-
 - **Create**                    POST `api/projects/createProject`
 - **Get all**:                  GET `api/projects/getAllProjects`
 - **Get**:                      GET `api/projects/getProject?id={id}` || `api/projects/getProject?name={name}`
@@ -37,9 +45,12 @@ Note that `type` can be one of the following strings for the frontend: `PERSON`,
 
 ## Marketplace
 ### Attributes:
-![alt text](documentation/MarketplaceItemDTO_26_05.png "MarketplaceItemDTO")
+![alt text](documentation/MarketplaceItemDTO.png "MarketplaceItemDTO")
 
-Note that `type` can be one of the following strings for the frontend: `OFFER`,`REQUEST`
+Notes: 
+- `type` can be one of the following strings for the frontend: `OFFER`,`REQUEST`
+- `creator` should not be sent by frontend, but will be returned with get-type methods
+- Location attributes can (but don't have to) be set by frontend, apart from latitude and longitude. Backend will usually succeed to fetch some coordinates, even with an incomplete location object, like no zipcode, no country, or badly formatted street adress, etc.
 
 ### REST-API :
 - **Create**                   POST `api/marketplace/createItem`
@@ -49,21 +60,6 @@ Note that `type` can be one of the following strings for the frontend: `OFFER`,`
 - **Delete**:                   DELETE `api/marketplace/deleteItem?id={id}`
 
 ## Chat
-### Notes for frontend implementation
-Chats are modelled as ChatChannels, each channel can have 2 to unlimited participants. The ChatChannel objects contain a list of messages.
-Channels are unique by their set of participants, so there can for example be only one channel with the same three participants.
-
-The intended use of the `getMyChannels` REST-call is to display previously existing conversations (the channel object will contain a list of message objects)
-The `establishChannel` call is mainly for initialization of a new chat channel and will return a channel object containing the assigned ID (needed for the WebSocket-functions). 
-Only the participant login names need to be set by the frontend for this. In case of an already existing channel with the same participants, it should return the existing one though, including all previous messages.
-
-After subscribing to the STOMP/Websocket-Channel, the messages will come in automatically (including own messages), without doing rest calls, and they will also be saved by the server automatically.
-Similarly, messages sent over the other path will be distributed and saved without the frontend having to do anything else.
-
-A testing page can be reached under `localhost:8080/testchat/`. It requires to be logged in to work properly. The javascript code of the testpage probably helps with the implementation a lot, since it seems very similar to what has to be done in angular. It can be found under `/backend/resources/static/js/main.js`.
-Together with the js file, this tutorial for angular helps, I think:
-https://grokonez.com/frontend/angular/angular-6/angular-6-websocket-example-with-spring-boot-websocket-server-sockjs-stomp
-
 
 ### Attributes:
 ![alt text](documentation/ChatMessageDTO.png "ChatMessageDTO")
@@ -77,8 +73,14 @@ https://grokonez.com/frontend/angular/angular-6/angular-6-websocket-example-with
 - **Establish Chat-Channel**    POST `api/chat/establishChannel`(only need to post participants list, if logged in user is missing he will be automatically added on server-side)
 - **Get my Chat-Channels**:     GET `api/chat/getMyChannels` (should be sorted by last message timestamp, not sure if ascending or descending :P)
 
+## Tags
+### Attributes:
+name : String
 
-
+### REST-API :
+- **Get all tags (field of activity + project tags)**    GET `api/tags/getAll` (just returns a List of strings)
+- **Create tag**:     GET `api/tags/create?name={name}` (not sure if there is any use for this, since tags are created automatically from project/user updates)
+- **Delete tag**:     DELETE `api/tags/delete?name={name}` (also not sure if there is any use for this)
 
 
 ## Project Setup
