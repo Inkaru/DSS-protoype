@@ -6,5 +6,7 @@ import bth.dss.group2.backend.domain.Tag;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface TagRepository extends MongoRepository<Tag, String> {
-	Optional<Tag> findByName(String name);
+	Optional<Tag> getByName(String name);
+
+	boolean existsByName(String name);
 }

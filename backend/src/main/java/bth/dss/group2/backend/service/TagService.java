@@ -7,10 +7,8 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import bth.dss.group2.backend.domain.Tag;
-import bth.dss.group2.backend.domain.User;
 import bth.dss.group2.backend.exception.HashTagNotFoundException;
 import bth.dss.group2.backend.repository.TagRepository;
-import bth.dss.group2.backend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,7 @@ public class TagService {
 	private final TagRepository tagRepository;
 
 	@Autowired
-	public TagService(TagRepository tagRepository, UserRepository<User> userRepository) {
+	public TagService(TagRepository tagRepository) {
 		this.tagRepository = tagRepository;
 	}
 
@@ -32,16 +30,17 @@ public class TagService {
 	}
 
 	public void delete(String name) {
-		Tag tag = tagRepository.findByName(name).orElseThrow(HashTagNotFoundException::new);
+		Tag tag = tagRepository.getByName(name).orElseThrow(HashTagNotFoundException::new);
 		tagRepository.delete(tag);
 	}
 
 	public Optional<Tag> get(String name) {
-		return tagRepository.findByName(name);
+		return tagRepository.getByName(name);
 	}
 
 	public Tag getOrCreate(String name) {
-		return tagRepository.findByName(name).orElse(tagRepository.save(new Tag(name)));
+		if (tagRepository.existsByName(name)) return get(name).orElseThrow(HashTagNotFoundException::new);
+		return tagRepository.save(new Tag(name));
 	}
 }
 	
