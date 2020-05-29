@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../../services/api.service';
 import {Project} from '../../model/project';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {concat} from 'rxjs';
 
 @Component({
   selector: 'app-projects',
@@ -24,7 +25,14 @@ export class ProjectsComponent implements OnInit {
 
   currentProject: Project = new Project();
   tag = '';
+
+  selectedTag = '';
+  tags: string[] = [];
+  selectedCities = '';
+  cities: string[] = [];
+
   projects: Project[];
+  filteredProjects: Project[];
 
   projectsForm: FormGroup;
 
@@ -41,24 +49,26 @@ export class ProjectsComponent implements OnInit {
     this.apiService.projectsSubject.subscribe(
       (data: any) => {
         this.projects = data;
+        this.filterProjects();
+        this.updateTags();
       }
     );
     this.apiService.getAllProjects();
   }
 
-  addTag(){
-    if (this.tag !== '' ){
+  addTag() {
+    if (this.tag !== '') {
       this.currentProject.hashTags.push('#' + this.tag);
       this.tag = '';
     }
   }
 
   removeTag(tag: string) {
-    if (tag !== '' ){
+    if (tag !== '') {
       const index = this.currentProject.hashTags.indexOf(tag);
       console.log(tag);
       console.log(index);
-      if (index !== -1){
+      if (index !== -1) {
         this.currentProject.hashTags.splice(index, 1);
       }
     }
@@ -77,6 +87,33 @@ export class ProjectsComponent implements OnInit {
         console.log(error);
         this.error = error.error.message;
       });
+  }
+
+  filterProjects() {
+    let tmp = this.projects;
+    if (this.selectedTag !== ''){
+      console.log('filter with tag' + this.selectedTag);
+      tmp = tmp.filter(p => p.hashTags.includes(this.selectedTag));
+    }
+
+    if (this.selectedCities !== ''){
+      console.log('filter with city' + this.selectedCities);
+      tmp = tmp.filter(p => p.location.city === this.selectedCities);
+    }
+
+    this.filteredProjects = tmp;
+  }
+
+  updateTags() {
+    const tmp = new Set<string>();
+    for (const p of this.projects) {
+      for (const tag of p.hashTags) {
+        tmp.add(tag);
+      }
+    }
+    this.tags = Array.from(tmp);
+
+    this.cities = Array.from(this.projects.map(p => p.location.city));
   }
 
   // onSubmitProjectsForm() {

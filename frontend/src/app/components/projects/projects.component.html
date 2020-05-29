@@ -47,36 +47,33 @@
 
 <section id="projects-list">
   <div class="row col-10 offset-1">
-    <div class="container col-3 bg-light p-3">
+    <div class="col-3 bg-light p-3">
 
       <h3>Filter Projects :</h3>
 
       <form class="mt-3">
         <div class="form-group">
-          <button class="btn btn-primary mb-3" type="submit">
-            <i class="fas fa-search"></i>
-            Apply filters
-          </button>
+<!--          <button class="btn btn-primary mb-3" type="submit">-->
+<!--            <i class="fas fa-search"></i>-->
+<!--            Apply filters-->
+<!--          </button>-->
 
           <input type="text" class="form-control mb-2" placeholder="Keywords">
 
-          <label for="field">Field</label>
-          <select id="field" class="form-control mb-2">
-            <option>Field#1</option>
-            <option>Field#2</option>
+          <label for="field">Tag</label>
+          <select id="field" class="form-control mb-2" (change)="filterProjects()" [(ngModel)]="selectedTag" name="selectedTag">
+            <option value="">All tags</option>
+            <ng-container *ngFor="let t of tags">
+              <option value="{{t}}">{{t}}</option>
+            </ng-container>
           </select>
 
-          <label for="country">Country</label>
-          <select id="country" class="form-control mb-2">
-            <option>France</option>
-            <option>Germany</option>
-          </select>
-
-          <label for="size">Size</label>
-          <select id="size" class="form-control mb-2">
-            <option>Small</option>
-            <option>Medium</option>
-            <option>Big</option>
+          <label for="city">City</label>
+          <select id="city" class="form-control mb-2" (change)="filterProjects()" [(ngModel)]="selectedCities" name="selectedCity">
+            <option value="">All Cities</option>
+            <ng-container *ngFor="let t of cities">
+              <option value="{{t}}">{{t}}</option>
+            </ng-container>
           </select>
 
         </div>
@@ -86,7 +83,7 @@
     <div class="container col-9">
       <div class="rounded shadow bg-white p-5">
         <div class="card-columns">
-          <div class="card" *ngFor="let project of projects">
+          <div class="card" *ngFor="let project of filteredProjects">
             <div class="card-header">
               <a class="" routerLink="/project/{{project.id}}">
                 <h5>
