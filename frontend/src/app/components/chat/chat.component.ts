@@ -42,7 +42,6 @@ export class ChatComponent implements OnInit {
 
   establish(){
     const arr = [];
-    arr.push(this.currentUser.loginName);
     arr.push(this.loginname);
     this.chatService.establishChannel({participantLoginNames: arr});
     this.loginname = '';
