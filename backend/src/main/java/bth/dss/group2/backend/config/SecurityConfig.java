@@ -39,7 +39,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.httpBasic()
 				.and()
 				.authorizeRequests()
-				.antMatchers("*.bundle.*", "/index*", "/*", "/home*", "/api/login/authenticate", "/api/users/registerUser")
+				.antMatchers("*.bundle.*", "/assets*", "/index*", "/*", "/home*", "/api/login/authenticate", "/api/users/registerUser")
 				.permitAll()
 				.anyRequest()
 				.authenticated();
