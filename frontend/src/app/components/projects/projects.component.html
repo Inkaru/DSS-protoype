@@ -1,12 +1,13 @@
 <section id="projects-header">
   <div class="container">
     <div class="row">
-      <div class="col text-center py-5">
+      <div class="col text-center pt-5">
         <h1 class="display-4">Take test part in new projects</h1>
         <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis sunt hic asperiores
           dignissimos! Exercitationem vero, vel minima earum mollitia placeat!</p>
         <a href="" class="btn btn-success mr-2" data-toggle="modal" data-target="#projectFormModal">Submit your own</a>
         <a href="" class="btn btn-warning ">Browse existing Projects</a>
+        <hr>
       </div>
     </div>
   </div>
@@ -43,23 +44,15 @@
   </div>
 </section> -->
 
-<hr>
 
-<section id="projects-list">
-  <div class="row col-10 offset-1">
-    <div class="col-3 bg-light p-3">
+<section id="projects-list" class="mx-4">
+  <div class="row">
+    <div class="col-md-3 rounded shadow bg-white p-3" style="height: min-content">
 
       <h3>Filter Projects :</h3>
 
-      <form class="mt-3">
+      <form class="" style="">
         <div class="form-group">
-<!--          <button class="btn btn-primary mb-3" type="submit">-->
-<!--            <i class="fas fa-search"></i>-->
-<!--            Apply filters-->
-<!--          </button>-->
-
-<!--          <input type="text" class="form-control mb-2" placeholder="Keywords">-->
-
           <label for="field">Tag</label>
           <select id="field" class="form-control mb-2" (change)="filterProjects()" [(ngModel)]="selectedTag" name="selectedTag">
             <option value="">All tags</option>

@@ -1,8 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 body {
   padding-top: 40px;
+  background: linear-gradient(rgba(0, 0, 150, 0.5), rgba(0, 0, 50, 0.1)),url('/assets/bg-title.jpeg') no-repeat center;
+  background-size: 100%;
 }
 
 html, body {
   height: 100% !important;
+  color: white;
+}
+
+hr {
+  border: 0;
+  border-top: 3px solid white !important;
+  width: 70% !important;
 }

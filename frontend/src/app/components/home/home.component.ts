@@ -7,10 +7,7 @@ import {Component, OnInit, Renderer2} from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private renderer: Renderer2) {
-    this.renderer.setStyle(document.body, 'background', 'linear-gradient(rgba(0, 0, 150, 0.5), rgba(0, 0, 50, 0.1)),url(\'../../../assets/bg-title.jpeg\') no-repeat center');
-    this.renderer.setStyle(document.body, 'background-size', '100%');
-  }
+  constructor() {}
 
   ngOnInit(): void {
   }

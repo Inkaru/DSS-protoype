@@ -17,14 +17,14 @@
       </div>
     </div>
     <div class="col messages h-100">
-      <div class="name h3 p-3" *ngIf="currentChannel">{{currentChannel.participantLoginNames[0]}}, {{currentChannel.participantLoginNames[1]}}</div>
-      <div class="name h3 p-3" *ngIf="!currentChannel">Public Chat</div>
+      <div class="name h3 p-3 text-white" *ngIf="currentChannel">{{currentChannel.participantLoginNames[0]}}, {{currentChannel.participantLoginNames[1]}}</div>
+      <div class="name h3 p-3 text-white" *ngIf="!currentChannel">Public Chat</div>
       <hr>
       <ng-container *ngFor="let mess of messages">
 <!--        <div [ngClass]="mess.authorLoginName == this.currentUser.loginName ? 'myMessage' : 'otherMessage'">-->
         <div class="message m-1">
           <span class="h5 mr-2">{{mess.authorLoginName}} : </span>
-          <span class="text-body">{{mess.content}}</span>
+          <span class="text-body text-white">{{mess.content}}</span>
         </div>
       </ng-container>
 

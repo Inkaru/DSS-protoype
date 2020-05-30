@@ -1,92 +1,36 @@
 <section id="resource-header" class="mb-4">
   <div class="container">
     <div class="row">
-      <div class="col text-center py-5">
+      <div class="col text-center pt-5">
         <h1 class="display-4">Resources & Events</h1>
         <p class="lead">
           Here you will find a collection of online resources to help you and your enterprise be more competitive and
           innovative
         </p>
+        <hr>
       </div>
     </div>
   </div>
 </section>
 
-<div class="row">
-
+<div class="row mx-4">
 
   <div class="col-md-6">
-    <h4 class="text-center">Online Resources</h4>
-    <section>
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="resource-img">
-              <a href="https://movecreative.eu/training/">
-                <img src="./assets/cctcFormation.png" alt="" class="img-fluid rounded">
-              </a>
-            </div>
-          </div>
-          <div class="col align-self-center text-left">
-            <h3 class="resource-title">CCTC Online Course</h3>
-            <p>
-              An online course about Design for Creativity and Innovation for Small and Medium Enterprises,
-              offered by the Creative Traditional Companies Cooperation, a non-profit project.
-              It is free and opened to everyone.
+    <h4 class="text-center text-white">Resources</h4>
+    <div *ngFor="let res of resources" class="card m-3">
+          <img src="{{res.img}}" class="card-img" alt="">
+          <div class="card-body">
+            <h5 class="card-title">{{res.name}}</h5>
+            <p class="card-text">
+              {{res.description}}
             </p>
-          </div>
-        </div>
+            <a href="{{res.link}}" class="card-link">See more >></a>
       </div>
-    </section>
-
-    <hr>
-
-    <section>
-      <div class="container">
-        <div class="row">
-          <div class="col align-self-center text-right">
-            <h3 class="resource-title">Interactive digital map</h3>
-            <p>
-              A digital map created to identify, integrate and connect stakeholders from five regions.
-            </p>
-          </div>
-          <div class="col">
-            <div class="resource-img">
-              <a href="https://map.movecreative.eu/#/">
-                <img src="./assets/map.png" alt="" class="img-fluid rounded">
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <hr>
-
-    <section class="mb-5">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="resource-img">
-              <a href="">
-                <img src="https://source.unsplash.com/500x200/?business" alt="" class="img-fluid rounded">
-              </a>
-            </div>
-          </div>
-          <div class="col align-self-center text-left">
-            <h3 class="resource-title">Title 3</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores assumenda corporis magnam non
-              omnis perferendis porro qui soluta vel!
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
   </div>
 
   <div class="col-md-6">
-    <h4 class="text-center">Upcoming Events</h4>
+    <h4 class="text-center text-white">Upcoming Events</h4>
     <div *ngFor="let evt of events" class="card m-3">
       <div class="row no-gutters">
         <div class="col-md-3">

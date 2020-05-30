@@ -16,14 +16,12 @@
 
   <row class="col-md-8 offset-md-2 d-flex justify-content-around">
 
-    <div class="">
       <ng-container *ngIf="project.creator.type == 'PERSON'">
         <span class="mr-1">Created by : {{project.creator.firstName}} {{project.creator.lastName}}</span>
       </ng-container>
       <ng-container *ngIf="project.creator.type == 'COMPANY' || project.creator.type == 'INSTITUTION'">
         <span class="mr-1">Created by : {{project.creator.displayName}}</span>
       </ng-container>
-    </div>
 
     <div class="" *ngIf="project.follows.length">
       <span class="mr-2">Followers </span>
@@ -35,24 +33,24 @@
     </div>
 
     <div>
-      <a (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-success mr-1">
+      <button (click)="likeProject(project.id)" [hidden]="liked" class="btn btn-outline-success mr-1">
         Like
-      </a>
-      <a (click)="unlikeProject(project.id)" [hidden]="!liked" class="btn btn-danger mr-1">
+      </button>
+      <button (click)="unlikeProject(project.id)" [hidden]="!liked" class="btn btn-outline-danger mr-1">
         Unlike
-      </a>
+      </button>
 
-      <a (click)="followProject(project.id)" [hidden]="followed" class="btn btn-success">
+      <button (click)="followProject(project.id)" [hidden]="followed" class="btn btn-outline-success">
         Follow
-      </a>
-      <a (click)="unfollowProject(project.id)" [hidden]="!followed" class="btn btn-danger">
+      </button>
+      <button (click)="unfollowProject(project.id)" [hidden]="!followed" class="btn btn-outline-danger">
         Unfollow
-      </a>
+      </button>
     </div>
 
-    <a (click)="createChat()" class="btn btn-secondary">
+    <button (click)="createChat()" class="btn btn-outline-light">
       Chat about this
-    </a>
+    </button>
 
   </row>
 
