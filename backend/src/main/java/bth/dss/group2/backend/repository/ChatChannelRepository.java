@@ -9,7 +9,7 @@ import bth.dss.group2.backend.domain.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ChatChannelRepository extends MongoRepository<ChatChannel, String> {
-	Optional<ChatChannel> findByParticipantsContains(Set<User> participants);
+	Optional<ChatChannel> findByParticipants(Set<User> participants);
 
 	List<ChatChannel> findByParticipantsContains(User participant);
 }

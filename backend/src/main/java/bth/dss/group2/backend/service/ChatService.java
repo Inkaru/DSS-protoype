@@ -45,7 +45,7 @@ public class ChatService {
 		for (String name : chatChannelDTO.getParticipantLoginNames()) {
 			participants.add(userRepository.findByLoginName(name).orElseThrow(LoginNameNotFoundException::new));
 		}
-		ChatChannel channel = chatChannelRepository.findByParticipantsContains(participants)
+		ChatChannel channel = chatChannelRepository.findByParticipants(participants)
 				.orElseGet(() -> createChatChannel(participants));
 		logger.info("CHAT CHANNEL ESTABLISHED:" + channel);
 		return ChatChannelDTO.create(channel);
