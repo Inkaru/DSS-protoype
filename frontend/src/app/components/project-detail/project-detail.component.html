@@ -17,10 +17,10 @@
   <row class="col-md-8 offset-md-2 d-flex justify-content-around">
 
       <ng-container *ngIf="project.creator.type == 'PERSON'">
-        <span class="mr-1">Created by : {{project.creator.firstName}} {{project.creator.lastName}}</span>
+        <span class="mr-1" routerLink="/user/{{project.creator.id}}">Created by : {{project.creator.firstName}} {{project.creator.lastName}}</span>
       </ng-container>
       <ng-container *ngIf="project.creator.type == 'COMPANY' || project.creator.type == 'INSTITUTION'">
-        <span class="mr-1">Created by : {{project.creator.displayName}}</span>
+        <span class="mr-1" routerLink="/user/{{project.creator.id}}">Created by : {{project.creator.displayName}}</span>
       </ng-container>
 
     <div class="" *ngIf="project.follows.length">

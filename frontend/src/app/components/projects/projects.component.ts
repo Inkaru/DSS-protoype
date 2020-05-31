@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../../services/api.service';
 import {Project} from '../../model/project';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {concat} from 'rxjs';
+
 
 @Component({
   selector: 'app-projects',
@@ -34,12 +34,12 @@ export class ProjectsComponent implements OnInit {
   projects: Project[];
   filteredProjects: Project[];
 
-  recommendations: Project[];
+  recommendations: Project[] = [];
 
   projectsForm: FormGroup;
 
   slideConfig = {
-    slidesToShow: 1,
+    slidesToShow: 2,
     slidesToScoll: 1,
     nextArrow: '<div class=\'nav-btn next-slide\'></div>',
     prevArrow: '<div class=\'nav-btn prev-slide\'></div>',
@@ -56,7 +56,11 @@ export class ProjectsComponent implements OnInit {
       }
     );
     this.apiService.getAllProjects();
-    this.recommendations = this.apiService.getProjectRecommandation();
+    this.apiService.getProjectRecommandation().subscribe(response => {
+      this.recommendations = response;
+    }, error => {
+      console.log(error);
+    });
   }
 
   addTag() {

@@ -195,7 +195,7 @@ export class ApiService {
 
   getUserRecommandation() {
     let reco: User[];
-    this.httpClient.get<User[]>('/api/recommend/getProjectRanking').subscribe(
+    this.httpClient.get<User[]>('/api/recommend/getUserRanking').subscribe(
       response => {
         console.log(response);
         reco = response;
@@ -209,18 +209,7 @@ export class ApiService {
   }
 
   getProjectRecommandation() {
-    let reco: Project[];
-    this.httpClient.get<Project[]>('/api/recommend/getUserRanking').subscribe(
-      response => {
-        console.log(response);
-        reco = response;
-      },
-      error => {
-        console.log(error);
-        reco = [];
-      }
-    );
-    return reco;
+    return this.httpClient.get<Project[]>('/api/recommend/getProjectRanking');
   }
 
 }

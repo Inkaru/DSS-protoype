@@ -8,6 +8,7 @@ body {
 html, body {
   height: 100% !important;
   color: white;
+  /*font-size-adjust: 0.5;*/
 }
 
 hr {

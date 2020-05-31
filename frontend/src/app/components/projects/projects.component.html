@@ -11,27 +11,44 @@
   </div>
 </section>
 
-<section>
-  <div class="row py-4">
+<section *ngIf="!recommendations.length">
+  <div class="row pt-4">
     <div class="col offset-2">
-      <h4>Project suggestions for you :</h4>
+      <h4 class="text-muted">Fill your profile to receive project recommendations</h4>
     </div>
   </div>
-  <div class="col-8 offset-2">
+</section>
+
+<section *ngIf="recommendations.length">
+  <div class="row pt-4">
+    <div class="col offset-2">
+      <h4 class="text-white">Based on your profile :</h4>
+    </div>
+  </div>
+
+  <div class="col">
     <ngx-slick-carousel class="carousel" [config]="slideConfig">
       <div ngxSlickItem *ngFor="let project of recommendations">
-        <div class="project">
-          <div class="row bg-light">
-            <div class="col-8 align-self-center text-left">
-              <h3>{{project.name}}</h3>
-              <div *ngIf="project.tags.length">
-                <button *ngFor="let tag of project.tags" class="btn btn-sm btn-outline-info mr-1 disabled">
-                  {{tag}}
-                </button>
+        <div class="project m-2">
+          <div class="card">
+            <div class="card-header">
+              <a class="" routerLink="/project/{{project.id}}">
+                <h5>
+                  <i class="fas fa-caret-right"></i>
+                  {{project.name}}
+                </h5>
+              </a>
+            </div>
+            <div class="card-body">
+              <div class="card-title">
+                <div class="card-title" *ngIf="project.tags.length">
+                  <button *ngFor="let tag of project.tags" class="btn btn-sm btn-outline-info mr-1 disabled">
+                    {{tag}}
+                  </button>
+                </div>
+                <small *ngIf="project.creator" class="text-muted" routerLink="/user/{{project.creator.id}}">Created by {{project.creator.loginName}}</small>
+                <p class="card-text">{{project.description}}</p>
               </div>
-              <p>
-                {{project.description}}
-              </p>
             </div>
           </div>
         </div>
@@ -87,7 +104,7 @@
                   {{tag}}
                 </button>
               </div>
-              <small class="text-muted">Created by {{project.creator.loginName}}</small>
+              <small class="text-muted" routerLink="/user/{{project.creator.id}}">Created by {{project.creator.loginName}}</small>
               <p class="card-text">{{project.description}}</p>
             </div>
           </div>
