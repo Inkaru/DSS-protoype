@@ -114,6 +114,24 @@ export class ProfileComponent {
     }
   }
 
+  addFieldTag(){
+    if (this.tag !== '' ){
+      this.currentUser.fieldOfActivityTags.push('#' + this.tag);
+      this.tag = '';
+    }
+  }
+
+  removeFieldTag(tag: string) {
+    if (tag !== '' ){
+      const index = this.currentUser.fieldOfActivityTags.indexOf(tag);
+      console.log(tag);
+      console.log(index);
+      if (index !== -1){
+        this.currentUser.fieldOfActivityTags.splice(index, 1);
+      }
+    }
+  }
+
   getRandomColor() {
     const color = Math.floor(0x1000000 * Math.random()).toString(16);
     return '#' + ('000000' + color).slice(-6);

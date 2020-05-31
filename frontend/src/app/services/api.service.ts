@@ -194,18 +194,7 @@ export class ApiService {
   }
 
   getUserRecommandation() {
-    let reco: User[];
-    this.httpClient.get<User[]>('/api/recommend/getUserRanking').subscribe(
-      response => {
-        console.log(response);
-        reco = response;
-      },
-      error => {
-        console.log(error);
-        reco = [];
-      }
-    );
-    return reco;
+    return this.httpClient.get<User[]>('/api/recommend/getUserRanking');
   }
 
   getProjectRecommandation() {

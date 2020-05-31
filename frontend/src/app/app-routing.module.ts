@@ -12,6 +12,7 @@ import {MarketplaceComponent} from './components/marketplace/marketplace.compone
 import {MarketplaceDetailComponent} from './components/marketplace-detail/marketplace-detail.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {UserDetailComponent} from './components/user-detail/user-detail.component';
+import {SuggestionsComponent} from './components/suggestions/suggestions.component';
 
 
 const routes: Routes = [
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path: 'marketplace', component: MarketplaceComponent, canActivate: [AuthGuard]},
   {path: 'resources', component: ResourcesComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]}
+  {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]},
+  {path: 'suggestions', component: SuggestionsComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

@@ -19,6 +19,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { MarketplaceDetailComponent } from './components/marketplace-detail/marketplace-detail.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
     MarketplaceComponent,
     MarketplaceDetailComponent,
     ChatComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    SuggestionsComponent
   ],
   imports: [
     BrowserModule,

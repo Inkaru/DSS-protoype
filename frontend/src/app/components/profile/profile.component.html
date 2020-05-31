@@ -148,6 +148,20 @@
           </div>
           </ng-container>
 
+          <div class="card-title" *ngIf="currentUser.fieldOfActivityTags.length">
+            <button *ngFor="let tag of currentUser.fieldOfActivityTags" class="btn btn-sm btn-outline-danger mr-1" (click)="removeFieldTag(tag)">
+              {{tag}}
+            </button>
+          </div>
+          <div class="form-row mb-4">
+            <div class="col input-group">
+              <input type="text" class="form-control" placeholder="Add a new tag" [(ngModel)]="tag" name="tag">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button" (click)="addFieldTag()">Add</button>
+              </div>
+            </div>
+          </div>
+
           <label>Contact</label>
           <div class="form-row mb-4">
             <div class="col">
