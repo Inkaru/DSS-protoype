@@ -63,20 +63,32 @@ public class DataPopulatorService {
 
 	private void generateProjects() {
 		// @formatter:off
-		generateProject("Sustainable Energy Project", "bth", new LocationDTO().setCity("Stockholm"));
-		generateProject("Intercultural Exchange Project", "hswismar", new LocationDTO().setCity("Wismar"));
-		generateProject("French Baguette Project", "frenchie", new LocationDTO().setCity("Marseille"));
-		generateProject("Awesome German Beer Brewing Project", "timo", new LocationDTO().setCity("München").setRegion("Bayern"));
+		Set<String> sustainableTags = new HashSet<>(Arrays.asList("Energy", "Green", "Sustainable"));
+		Set<String> interculturalTags = new HashSet<>(Arrays.asList("Cultural"));
+		Set<String> baguetteTags = new HashSet<>(Arrays.asList("France", "Food"));
+		Set<String> beerTags = new HashSet<>(Arrays.asList("German", "Alcohol", "Delicious"));
+		Set<String> burgerTags = new HashSet<>(Arrays.asList("Vegetarian", "American"));
+		String sustainable= generateProject("Sustainable Energy Project", "bth", new LocationDTO().setCity("Stockholm"), sustainableTags);
+		String intercultural= generateProject("Intercultural Exchange Project", "hswismar", new LocationDTO().setCity("Wismar"), interculturalTags);
+		String baguette= generateProject("French Baguette Baking Project", "frenchie", new LocationDTO().setCity("Marseille"), baguetteTags);
+		String beer= generateProject("Awesome German Beer Brewing Project", "timo", new LocationDTO().setCity("München").setRegion("Bayern"), beerTags);
+		String burger= generateProject("American Meatless Burger Project", "bernie", new LocationDTO().setCity("Atlanta").setCountry("USA"), burgerTags);
+		userService.addFollow("frenchie", beer);
+		userService.addFollow("timo", baguette);
+		userService.addLike("timo", burger);
+		userService.addLike("hswismar", sustainable);
+		userService.addLike("bth", intercultural);
 		// @formatter:on
 	}
 
-	private void generateProject(String name, String creator, LocationDTO loc) {
+	private String generateProject(String name, String creator, LocationDTO loc, Set<String> tags) {
 		ProjectDTO dto = new ProjectDTO();
 		dto.setName(name)
 				.setLocation(loc)
 				.setDescription(name + name + name + name + name)
 				.setTags(getRandomHashTags());
 		projectService.createProject(dto, creator);
+		return projectService.getProjectByName(name).getId();
 	}
 
 	private Set<String> getRandomHashTags() {
@@ -112,6 +124,7 @@ public class DataPopulatorService {
 		generatePerson("antonin", "Antonin", "Fleury", new LocationDTO().setStreetAddress("82 Boulevard de Clichy").setCity("Paris").setCountry("France"));
 		generatePerson("frenchie", "François", "Français", new LocationDTO().setStreetAddress("5 Avenue Anatole").setCity("Paris").setCountry("France"));
 		generatePerson("mcfuckface", "Donald", "Trump", new LocationDTO().setStreetAddress("1600 Pennsylvania Ave NW").setCity("Washington").setCountry("United States"));
+		generatePerson("bernie", "Bernie", "sanders", new LocationDTO().setStreetAddress("1600 Pennsylvania Ave NW").setCity("Washington").setCountry("United States"));
 		// @formatter:on
 	}
 
