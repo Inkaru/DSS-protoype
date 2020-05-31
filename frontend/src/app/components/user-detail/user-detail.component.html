@@ -1,0 +1,86 @@
+<div *ngIf="user">
+  <section id="project-header" class="mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center py-5">
+          <h1 class="display-4" *ngIf="user.type == 'PERSON'">{{user.firstName}} {{user.lastName}}</h1>
+          <h1 class="display-4" *ngIf="user.type !== 'PERSON'">{{user.displayName}}</h1>
+          <div *ngIf="user.fieldOfActivityTags.length">
+            <button *ngFor="let tag of user.fieldOfActivityTags" class="btn btn-outline-light mr-1 disabled">
+              {{tag}}
+            </button>
+          </div>
+          <p>
+            {{user.description}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="col-md-8 offset-md-2 d-flex justify-content-around">
+
+    <div class="" *ngIf="user.location">
+      {{user.location.city}} - {{user.location.country}}
+    </div>
+
+    <button (click)="createChat()" class="btn btn-outline-light">
+      Chat with this user
+    </button>
+
+  </div>
+
+  <hr>
+
+  <div class="row">
+
+    <div class="col-md-6">
+      <h3>Created projects</h3>
+      <div class="card mb-2" *ngFor="let project of user.createdProjects">
+        <div class="card-header">
+          <a class="" routerLink="/project/{{project.id}}">
+            <h5>
+              <i class="fas fa-caret-right"></i>
+              {{project.name}}
+            </h5>
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="card-title" *ngIf="project.tags.length">
+            <button *ngFor="let tag of project.tags" class="btn btn-sm btn-outline-info mr-1 disabled">
+              {{tag}}
+            </button>
+          </div>
+          <p class="card-text">{{project.description}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h3>Followed projects</h3>
+      <div class="card mb-2" *ngFor="let project of user.followedProjects">
+        <div class="card-header">
+          <a class="" routerLink="/project/{{project.id}}">
+            <h5>
+              <i class="fas fa-caret-right"></i>
+              {{project.name}}
+            </h5>
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="card-title" *ngIf="project.tags.length">
+            <button *ngFor="let tag of project.tags" class="btn btn-sm btn-outline-info mr-1 disabled">
+              {{tag}}
+            </button>
+          </div>
+          <small class="text-muted">Created by {{project.creator.loginName}}</small>
+          <p class="card-text">{{project.description}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</div>

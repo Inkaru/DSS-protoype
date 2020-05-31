@@ -23,6 +23,8 @@ export class User {
 
   location: Loc;
 
+  fieldOfActivityTags: string[];
+
   followedProjects: Project[];
   likedProjects: Project[];
   createdProjects: Project[];

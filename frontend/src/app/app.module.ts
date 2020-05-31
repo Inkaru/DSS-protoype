@@ -18,6 +18,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { MarketplaceDetailComponent } from './components/marketplace-detail/marketplace-detail.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ChatComponent } from './components/chat/chat.component';
     ResourcesComponent,
     MarketplaceComponent,
     MarketplaceDetailComponent,
-    ChatComponent
+    ChatComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
