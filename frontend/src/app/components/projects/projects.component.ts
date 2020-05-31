@@ -34,6 +34,8 @@ export class ProjectsComponent implements OnInit {
   projects: Project[];
   filteredProjects: Project[];
 
+  recommendations: Project[];
+
   projectsForm: FormGroup;
 
   slideConfig = {
@@ -54,6 +56,7 @@ export class ProjectsComponent implements OnInit {
       }
     );
     this.apiService.getAllProjects();
+    this.recommendations = this.apiService.getProjectRecommandation();
   }
 
   addTag() {

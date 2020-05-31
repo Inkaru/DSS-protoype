@@ -12,10 +12,10 @@
   <row class="col-md-8 offset-md-2 d-flex justify-content-around text-white">
 
     <div class="">
-      <ng-container *ngIf="item.creator.type == 'PERSON'">
+      <ng-container *ngIf="item.creator.type == 'PERSON'" routerLink="/user/{{item.creator.id}}">
         <span class="mr-1">Submitted by : {{item.creator.firstName}} {{item.creator.lastName}}</span>
       </ng-container>
-      <ng-container *ngIf="item.creator.type == 'COMPANY' || item.creator.type == 'INSTITUTION'">
+      <ng-container *ngIf="item.creator.type == 'COMPANY' || item.creator.type == 'INSTITUTION'" routerLink="/user/{{item.creator.id}}">
         <span class="mr-1">Submitted by : {{item.creator.displayName}}</span>
       </ng-container>
     </div>

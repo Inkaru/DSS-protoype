@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Project} from '../model/project';
 import {User} from '../model/user';
-import { Subject } from 'rxjs';
+import {Subject} from 'rxjs';
 import {MarketplaceItem} from '../model/marketplaceItem';
 
 @Injectable({
@@ -10,7 +10,8 @@ import {MarketplaceItem} from '../model/marketplaceItem';
 })
 export class ApiService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
   projects: Project[] = [];
   projectsSubject = new Subject<Project[]>();
@@ -41,13 +42,13 @@ export class ApiService {
   createProject(project: Project) {
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(project);
-    return this.httpClient.post('/api/projects/createProject', data, {headers: header} );
- }
+    return this.httpClient.post('/api/projects/createProject', data, {headers: header});
+  }
 
-  updateProject(project: Project){
+  updateProject(project: Project) {
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(project);
-    return this.httpClient.post('/api/projects/updateProject', data, {headers: header} );
+    return this.httpClient.post('/api/projects/updateProject', data, {headers: header});
   }
 
 
@@ -56,22 +57,22 @@ export class ApiService {
     return this.httpClient.get<Project>('/api/projects/getProject', {params});
   }
 
-  likeProject(id){
+  likeProject(id) {
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get('/api/users/likeProject', {params});
   }
 
-  unlikeProject(id){
+  unlikeProject(id) {
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get('/api/users/unlikeProject', {params});
   }
 
-  followProject(id){
+  followProject(id) {
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get('/api/users/followProject', {params});
   }
 
-  unfollowProject(id){
+  unfollowProject(id) {
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get('/api/users/unfollowProject', {params});
   }
@@ -83,42 +84,42 @@ export class ApiService {
 
   // User methods
 
-  getAllUsers(){
+  getAllUsers() {
     return this.httpClient.get<Project[]>('/api/users/getAllUsers');
   }
 
-  getUserById(id){
+  getUserById(id) {
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.get<User>('/api/users/getUser', {params});
   }
 
-  getUserByLogin(login: string){
+  getUserByLogin(login: string) {
     const params = new HttpParams().set('loginName', login);
     return this.httpClient.get<User>('/api/users/getUser', {params});
   }
 
-  getUserByEmail(email: string){
+  getUserByEmail(email: string) {
     const params = new HttpParams().set('email', email);
     return this.httpClient.get<User>('/api/users/getUser', {params});
   }
 
-  updateUser(user: User){
+  updateUser(user: User) {
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(user);
-    return this.httpClient.post('/api/users/updateUser', data, {headers: header} );
+    return this.httpClient.post('/api/users/updateUser', data, {headers: header});
   }
 
-  deleteUserById(id){
+  deleteUserById(id) {
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
 
-  deleteUserByLogin(login: string){
+  deleteUserByLogin(login: string) {
     const params = new HttpParams().set('loginName', login);
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
 
-  deleteUserByEmail(email: string){
+  deleteUserByEmail(email: string) {
     const params = new HttpParams().set('email', email);
     return this.httpClient.delete('/api/users/deleteUser', {params});
   }
@@ -128,16 +129,16 @@ export class ApiService {
   createMPItem(item: MarketplaceItem) {
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(item);
-    return this.httpClient.post('/api/marketplace/createItem', data, {headers: header} );
+    return this.httpClient.post('/api/marketplace/createItem', data, {headers: header});
   }
 
-  updateMPItem(item: MarketplaceItem){
+  updateMPItem(item: MarketplaceItem) {
     const header = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const data = JSON.stringify(item);
-    return this.httpClient.post('/api/marketplace/updateItem', data, {headers: header} );
+    return this.httpClient.post('/api/marketplace/updateItem', data, {headers: header});
   }
 
-  deleteMPItemById(id){
+  deleteMPItemById(id) {
     const params = new HttpParams().set('id', String(id));
     return this.httpClient.delete('/api/marketplace/deleteItem', {params});
   }
@@ -190,6 +191,36 @@ export class ApiService {
           console.log(error);
         }
       );
+  }
+
+  getUserRecommandation() {
+    let reco: User[];
+    this.httpClient.get<User[]>('/api/recommend/getProjectRanking').subscribe(
+      response => {
+        console.log(response);
+        reco = response;
+      },
+      error => {
+        console.log(error);
+        reco = [];
+      }
+    );
+    return reco;
+  }
+
+  getProjectRecommandation() {
+    let reco: Project[];
+    this.httpClient.get<Project[]>('/api/recommend/getUserRanking').subscribe(
+      response => {
+        console.log(response);
+        reco = response;
+      },
+      error => {
+        console.log(error);
+        reco = [];
+      }
+    );
+    return reco;
   }
 
 }

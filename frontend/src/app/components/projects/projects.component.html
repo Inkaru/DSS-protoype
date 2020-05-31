@@ -11,7 +11,7 @@
   </div>
 </section>
 
-<!-- <section>
+<section>
   <div class="row py-4">
     <div class="col offset-2">
       <h4>Project suggestions for you :</h4>
@@ -19,18 +19,16 @@
   </div>
   <div class="col-8 offset-2">
     <ngx-slick-carousel class="carousel" [config]="slideConfig">
-      <div ngxSlickItem *ngFor="let project of projects">
+      <div ngxSlickItem *ngFor="let project of recommendations">
         <div class="project">
           <div class="row bg-light">
-            <div class="col-4 align-self-center">
-              <div class="rounded py-1">
-                <a href="" target="_blank">
-                  <img src="https://source.unsplash.com/random/500x400" class="img-fluid" alt=""/>
-                </a>
-              </div>
-            </div>
             <div class="col-8 align-self-center text-left">
               <h3>{{project.name}}</h3>
+              <div *ngIf="project.tags.length">
+                <button *ngFor="let tag of project.tags" class="btn btn-sm btn-outline-info mr-1 disabled">
+                  {{tag}}
+                </button>
+              </div>
               <p>
                 {{project.description}}
               </p>
@@ -40,7 +38,7 @@
       </div>
     </ngx-slick-carousel>
   </div>
-</section> -->
+</section>
 
 
 <section id="projects-list" class="mx-4">
