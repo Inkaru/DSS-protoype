@@ -32,6 +32,8 @@ public abstract class User {
 	private Set<MarketplaceItem> marketplaceItems;
 	@DBRef(lazy = true)
 	private Set<Tag> fieldOfActivityTags;
+	@DBRef(lazy = true)
+	private Similarity similarity;
 
 	public User() {
 		followedProjects = new HashSet<>();
@@ -140,6 +142,15 @@ public abstract class User {
 
 	public User setFieldOfActivityTags(Set<Tag> fieldOfActivityTags) {
 		this.fieldOfActivityTags = fieldOfActivityTags;
+		return this;
+	}
+
+	public Similarity getSimilarity() {
+		return similarity;
+	}
+
+	public User setSimilarity(Similarity similarity) {
+		this.similarity = similarity;
 		return this;
 	}
 

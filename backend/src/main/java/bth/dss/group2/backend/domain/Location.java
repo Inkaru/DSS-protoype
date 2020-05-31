@@ -14,8 +14,8 @@ public class Location {
 	private String region;
 	private String city;
 	private String country;
-	private double latitude;
-	private double longitude;
+	private Double latitude;
+	private Double longitude;
 
 	public String getId() {
 		return id;
@@ -71,20 +71,20 @@ public class Location {
 		return this;
 	}
 
-	public double getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public Location setLatitude(double latitude) {
+	public Location setLatitude(Double latitude) {
 		this.latitude = latitude;
 		return this;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public Location setLongitude(double longitude) {
+	public Location setLongitude(Double longitude) {
 		this.longitude = longitude;
 		return this;
 	}
