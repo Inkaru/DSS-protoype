@@ -44,6 +44,7 @@ public class RecommendationService {
 	private final ProjectRepository projectRepository;
 	private final SimilarityRepository similarityRepository;
 	private Word2Vec word2Vec;
+	private boolean word2VecInitialized = true;
 
 	@Autowired
 	public RecommendationService(UserRepository<User> userRepository, ProjectRepository projectRepository, SimilarityRepository similarityRepository) {
@@ -60,11 +61,15 @@ public class RecommendationService {
 			word2Vec.setSentenceIterator(iterator);
 		}
 		catch (IOException e) {
-			logger.info("Failed to load Word2Vec model: ", e);
+			logger.error("Failed to load Word2Vec model: ", e);
+			word2VecInitialized = false;
 		}
 	}
 
 	public List<ProjectDTO> getProjectRanking(String loginName) {
+		if (!word2VecInitialized) {
+			return projectRepository.findAll().stream().map(ProjectDTO::create).collect(Collectors.toList());
+		}
 		User user = userRepository.findByLoginName(loginName).orElseThrow(UserNotFoundException::new);
 		return getOrCreateUserSimilarity(user).getProjectRanking()
 				.stream()
@@ -73,6 +78,9 @@ public class RecommendationService {
 	}
 
 	public List<UserDTO> getMatchedUserRanking(String loginName) {
+		if (!word2VecInitialized) {
+			return userRepository.findAll().stream().map(UserDTO::create).collect(Collectors.toList());
+		}
 		User user = userRepository.findByLoginName(loginName).orElseThrow(UserNotFoundException::new);
 		return getOrCreateUserSimilarity(user).getUserRanking()
 				.stream()
