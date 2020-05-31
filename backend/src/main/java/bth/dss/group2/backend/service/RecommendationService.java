@@ -67,25 +67,39 @@ public class RecommendationService {
 	}
 
 	public List<ProjectDTO> getProjectRanking(String loginName) {
+		List<ProjectDTO> ranking;
 		if (!word2VecInitialized) {
-			return projectRepository.findAll().stream().map(ProjectDTO::create).collect(Collectors.toList());
+			ranking = projectRepository.findAll()
+					.stream()
+					.map(ProjectDTO::create)
+					.limit(5)
+					.collect(Collectors.toList());
 		}
-		User user = userRepository.findByLoginName(loginName).orElseThrow(UserNotFoundException::new);
-		return getOrCreateUserSimilarity(user).getProjectRanking()
-				.stream()
-				.map(ProjectDTO::create)
-				.collect(Collectors.toList());
+		else {
+			User user = userRepository.findByLoginName(loginName).orElseThrow(UserNotFoundException::new);
+			ranking = getOrCreateUserSimilarity(user).getProjectRanking()
+					.stream()
+					.map(ProjectDTO::create)
+					.limit(5)
+					.collect(Collectors.toList());
+		}
+		return ranking;
 	}
 
 	public List<UserDTO> getMatchedUserRanking(String loginName) {
+		List<UserDTO> ranking;
 		if (!word2VecInitialized) {
-			return userRepository.findAll().stream().map(UserDTO::create).collect(Collectors.toList());
+			ranking = userRepository.findAll().stream().map(UserDTO::create).limit(5).collect(Collectors.toList());
 		}
-		User user = userRepository.findByLoginName(loginName).orElseThrow(UserNotFoundException::new);
-		return getOrCreateUserSimilarity(user).getUserRanking()
-				.stream()
-				.map(UserDTO::create)
-				.collect(Collectors.toList());
+		else {
+			User user = userRepository.findByLoginName(loginName).orElseThrow(UserNotFoundException::new);
+			ranking = getOrCreateUserSimilarity(user).getUserRanking()
+					.stream()
+					.map(UserDTO::create)
+					.limit(5)
+					.collect(Collectors.toList());
+		}
+		return ranking;
 	}
 
 	private Similarity getOrCreateUserSimilarity(User user) {
