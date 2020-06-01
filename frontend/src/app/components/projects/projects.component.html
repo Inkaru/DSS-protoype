@@ -14,7 +14,7 @@
 <section *ngIf="!recommendations.length">
   <div class="row pt-4">
     <div class="col offset-2">
-      <h4 class="text-muted">Fill your profile to receive project recommendations</h4>
+      <h5 class="text-white-50">Fill your profile to receive project recommendations</h5>
     </div>
   </div>
 </section>
@@ -165,11 +165,11 @@
           </div>
           <div class="form-row mb-4">
             <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentProject.location.zipCode" placeholder="City" name="city">
+              <input class="form-control" type="text" [(ngModel)]="currentProject.location.zipCode" placeholder="ZipCode" name="zip">
             </div>
             <div class="col">
-              <input class="form-control" type="text" [(ngModel)]="currentProject.location.city" placeholder="Country"
-                     name="country">
+              <input class="form-control" type="text" [(ngModel)]="currentProject.location.city" placeholder="City"
+                     name="city">
             </div>
             <div class="col">
               <input class="form-control" type="text" [(ngModel)]="currentProject.location.country" placeholder="Country" name="country">
