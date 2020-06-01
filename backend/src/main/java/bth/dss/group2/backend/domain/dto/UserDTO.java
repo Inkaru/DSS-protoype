@@ -9,6 +9,7 @@ import bth.dss.group2.backend.domain.Company;
 import bth.dss.group2.backend.domain.Institution;
 import bth.dss.group2.backend.domain.Person;
 import bth.dss.group2.backend.domain.Project;
+import bth.dss.group2.backend.domain.Tag;
 import bth.dss.group2.backend.domain.User;
 import bth.dss.group2.backend.util.Util;
 
@@ -71,6 +72,10 @@ public class UserDTO {
 			dto.setType(UserType.INSTITUTION);
 			//dto.setName(((Institution) user).getName());
 		}
+		dto.setFieldOfActivityTags(user.getFieldOfActivityTags()
+				.stream()
+				.map(Tag::getName)
+				.collect(Collectors.toSet()));
 		return dto;
 	}
 
