@@ -137,7 +137,7 @@ public class DataPopulatorService {
 				setFirstName(firstName)
 				.setLastName(lastName)
 				.setLocation(location)
-				.setType(UserDTO.UserType.INSTITUTION)
+				.setType(UserDTO.UserType.PERSON)
 				.setPhoneNumber(getRandomPhoneNo());
 		userService.updateUser(dto);
 	}
