@@ -26,7 +26,7 @@
     <div class="" *ngIf="project.follows.length">
       <span class="mr-2">Followers </span>
       <button class="btn-circle mr-1" *ngFor="let user of project.follows"
-              [ngStyle]="{'background-color': getRandomColor()}"
+              [ngStyle]="{'background-color': getRandomColor(user.loginName)}"
               title="{{user.loginName}}">
         {{user.loginName[0]}}
       </button>

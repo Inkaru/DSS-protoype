@@ -21,7 +21,7 @@
             <span class="mr-2">Liked Projects</span>
             <button class="btn-circle mr-1" *ngFor="let project of currentUser.likedProjects"
             routerLink="/project/{{project.id}}"
-            [ngStyle]="{'background-color': getRandomColor()}"
+            [ngStyle]="{'background-color': getRandomColor(project.name)}"
             title="{{project.name}}">
               {{project.name[0]}}
             </button>
@@ -31,7 +31,7 @@
             <span class="mr-2">Followed Projects </span>
             <button class="btn-circle mr-1" *ngFor="let project of currentUser.followedProjects"
                     routerLink="/project/{{project.id}}"
-                    [ngStyle]="{'background-color': getRandomColor()}"
+                    [ngStyle]="{'background-color': getRandomColor(project.name)}"
                     title="{{project.name}}">
               {{project.name[0]}}
             </button>

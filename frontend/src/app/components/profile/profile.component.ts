@@ -34,6 +34,11 @@ export class ProfileComponent {
   error: '';
   tag = '';
 
+  colors = [
+    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
+    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
+  ];
+
   updateProfile() {
     this.apiService.updateUser(this.currentUser).subscribe(response => {
       this.authService.getCurrentUser();
@@ -132,9 +137,15 @@ export class ProfileComponent {
     }
   }
 
-  getRandomColor() {
-    const color = Math.floor(0x1000000 * Math.random()).toString(16);
-    return '#' + ('000000' + color).slice(-6);
+  getRandomColor(text) {
+    // const color = Math.floor(0x1000000 * Math.random()).toString(16);
+    // return '#' + ('000000' + color).slice(-6);
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) {
+      hash = 31 * hash + text.charCodeAt(i);
+    }
+    const index = Math.abs(hash % this.colors.length);
+    return (this.colors)[index];
   }
 
   onSubmitItemForm() {

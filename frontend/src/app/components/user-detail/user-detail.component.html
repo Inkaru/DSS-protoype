@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col text-center py-5 text-white">
-          <h1 class="display-4" *ngIf="user.type == 'PERSON'">{{user.loginName}}</h1>
+          <h1 class="display-4" *ngIf="user.type == 'PERSON'">{{user.firstName}} {{user.lastName}}</h1>
           <h1 class="display-4" *ngIf="user.type !== 'PERSON'">{{user.displayName}}</h1>
           <div *ngIf="user.fieldOfActivityTags.length">
             <button *ngFor="let tag of user.fieldOfActivityTags" class="btn btn-outline-light mr-1 disabled">

@@ -46,7 +46,12 @@
                     {{tag}}
                   </button>
                 </div>
-                <small *ngIf="project.creator" class="text-muted" routerLink="/user/{{project.creator.id}}">Created by {{project.creator.loginName}}</small>
+                <small *ngIf="project.creator && project.creator.type == 'PERSON'" class="text-muted" routerLink="/user/{{project.creator.id}}">
+                  Created by {{project.creator.firstName}} {{project.creator.lastName}}
+                </small>
+                <small *ngIf="project.creator && project.creator.type !== 'PERSON'" class="text-muted" routerLink="/user/{{project.creator.id}}">
+                  Created by {{project.creator.displayName}}
+                </small>
                 <p class="card-text">{{project.description}}</p>
               </div>
             </div>
@@ -104,7 +109,12 @@
                   {{tag}}
                 </button>
               </div>
-              <small class="text-muted" routerLink="/user/{{project.creator.id}}">Created by {{project.creator.loginName}}</small>
+              <small *ngIf="project.creator && project.creator.type == 'PERSON'" class="text-muted" routerLink="/user/{{project.creator.id}}">
+                Created by {{project.creator.firstName}} {{project.creator.lastName}}
+              </small>
+              <small *ngIf="project.creator && project.creator.type !== 'PERSON'" class="text-muted" routerLink="/user/{{project.creator.id}}">
+                Created by {{project.creator.displayName}}
+              </small>
               <p class="card-text">{{project.description}}</p>
             </div>
           </div>

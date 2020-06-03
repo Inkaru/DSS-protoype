@@ -47,7 +47,7 @@
         <a class="" routerLink="/user/{{user.id}}">
           <h5 *ngIf="user.type == 'PERSON'">
             <i class="fas fa-caret-right"></i>
-            {{user.loginName}}
+            {{user.firstName}} {{user.lastName}}
           </h5>
           <h5 *ngIf="user.type !== 'PERSON'">
             <i class="fas fa-caret-right"></i>

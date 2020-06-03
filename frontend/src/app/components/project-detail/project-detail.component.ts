@@ -20,6 +20,11 @@ export class ProjectDetailComponent implements OnInit {
 
   currentUser: User;
 
+  colors = [
+    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
+    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
+  ];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -78,9 +83,13 @@ export class ProjectDetailComponent implements OnInit {
     });
   }
 
-  getRandomColor() {
-    const color = Math.floor(0x1000000 * Math.random()).toString(16);
-    return '#' + ('000000' + color).slice(-6);
+  getRandomColor(text) {
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) {
+      hash = 31 * hash + text.charCodeAt(i);
+    }
+    const index = Math.abs(hash % this.colors.length);
+    return this.colors[index];
   }
 
   createChat() {

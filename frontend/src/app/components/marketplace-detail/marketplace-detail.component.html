@@ -13,7 +13,7 @@
 
     <div class="">
       <ng-container *ngIf="item.creator.type == 'PERSON'" >
-        <span class="mr-1" routerLink="/user/{{item.creator.id}}">Submitted by : {{item.creator.loginName}}</span>
+        <span class="mr-1" routerLink="/user/{{item.creator.id}}">Submitted by : {{item.creator.firstName}} {{item.creator.lastName}}</span>
       </ng-container>
       <ng-container *ngIf="item.creator.type == 'COMPANY' || item.creator.type == 'INSTITUTION'" >
         <span class="mr-1" routerLink="/user/{{item.creator.id}}">Submitted by : {{item.creator.displayName}}</span>
